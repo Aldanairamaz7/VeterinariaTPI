@@ -3,17 +3,17 @@ import { faClock, faPills, faScissors, faStethoscope } from '@fortawesome/free-s
 export const services = [
     {
         title: 'Consultas',
-        description: 'Atencion General para mascotas. Evaluacion clinica y seguimiento',
+        description: 'Atencion General para mascotas. Evaluacion clinica y seguimiento.',
         icon: faStethoscope
     },
     {
         title: 'Castraciones',
-        description: 'Procedimientos quirurgicos seguros para el bienestar de tu mascota',
+        description: 'Procedimientos quirurgicos seguros para el bienestar de tu mascota.',
         icon: faScissors
     },
     {
         title:'Medicamentos',
-        description:'Disponibilidad de medicamentos veterinarios autorizados y asesoramiento profesional',
+        description:'Disponibilidad de medicamentos veterinarios autorizados y asesoramiento profesional.',
         icon: faPills
     },
     {
