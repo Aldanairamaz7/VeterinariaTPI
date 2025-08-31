@@ -1,11 +1,18 @@
+import 'react-bootstrap'
+import CustomNavbar from './components/CustomNavbar/CustomNavbar'
+import BackgroundCarousel from './components/BackgroundCarousel/BackgroundCarousel'
+import Services from './components/CServices/Services'
+
 
 
 function App() {
-  
+
 
   return (
     <>
-      <h2>Veterinaria</h2>
+      <CustomNavbar />
+      <BackgroundCarousel />
+      <Services />
     </>
   )
 }
