@@ -1,0 +1,8 @@
+footer p {
+    margin: 0.5rem, 0;
+    font-size: 0.95rem;
+}
+
+footer svg{
+    color: #4caf50;
+}

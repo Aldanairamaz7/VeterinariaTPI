@@ -1,11 +1,20 @@
 import React from 'react'
 import { Container, Navbar, NavbarBrand, NavbarCollapse, NavbarToggle, NavLink, Nav } from 'react-bootstrap';
+import vetIcon from '../../assets/logo.jpg';
+import '../CustomNavbar/customNavbar.css'
 
 function CustomNavbar() {
     return (
         <Navbar bg="primary" variant="dark" expand="lg" sticky="top">
             <Container>
-                <NavbarBrand>VetCare</NavbarBrand>
+                <NavbarBrand className='d-flex align-items-center'>
+                    <img
+                        className='logo'
+                        src={vetIcon}
+                        alt="veterinary icon"
+                    />
+                    <h1>VetCare</h1>
+                </NavbarBrand>
                 <NavbarToggle aria-controls='basic-navbar-nav' />
                 <NavbarCollapse id='basic-navbar-nav'>
 

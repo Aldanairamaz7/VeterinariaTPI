@@ -11,7 +11,7 @@ function Services() {
                     <div className="services-card" key={index}>
                         <FontAwesomeIcon icon={serv.icon} className="services-icon" />
                         <h3>{serv.title}</h3>
-                        <p>{serv.description}</p>
+                        <p className="services-description">{serv.description}</p>
                     </div>
                 ))}
             </div>
