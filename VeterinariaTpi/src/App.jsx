@@ -1,8 +1,7 @@
 import 'react-bootstrap'
 import CustomNavbar from './components/CustomNavbar/CustomNavbar'
-import BackgroundCarousel from './components/BackgroundCarousel/BackgroundCarousel'
-import Services from './components/CServices/Services'
 import Footer from './components/Footer/Footer'
+import Body from './components/Body/Body'
 
 
 
@@ -12,8 +11,7 @@ function App() {
   return (
     <>
       <CustomNavbar />
-      <BackgroundCarousel />
-      <Services />
+      <Body/>
       <Footer />
     </>
   )
