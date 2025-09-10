@@ -1,0 +1,7 @@
+#RegisterLink {
+  font-weight: bold;
+  color: rgb(151, 151, 151);
+}
+#RegisterLink:hover {
+  color: rgb(108, 189, 189);
+}

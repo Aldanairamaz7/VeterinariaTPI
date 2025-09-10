@@ -1,22 +1,27 @@
-import 'react-bootstrap'
-import CustomNavbar from './components/CustomNavbar/CustomNavbar'
-import Footer from './components/Footer/Footer'
-import UserNavbar from './components/UserNavbar/UserNavbar'
-import UserPanel from './components/UserPanel/UserPanel'
-import Body from './components/Body/Body'
-
-
+import "react-bootstrap";
+import CustomNavbar from "./components/CustomNavbar/CustomNavbar";
+import Footer from "./components/Footer/Footer";
+import UserNavbar from "./components/UserNavbar/UserNavbar";
+import UserPanel from "./components/UserPanel/UserPanel";
+import Body from "./components/Body/Body";
+import { BrowserRouter, Route, Routes } from "react-router";
+import Login from "./components/Auth/Login/Login";
+import Register from "./components/Auth/Register/Register";
 
 function App() {
-
-
   return (
     <>
       <CustomNavbar />
-      <UserPanel />
-
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<Body />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </BrowserRouter>
+      <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

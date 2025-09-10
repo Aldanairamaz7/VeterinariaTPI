@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Navbar, NavbarBrand, NavbarCollapse, NavbarToggle, NavLink, Nav } from 'react-bootstrap';
 import vetIcon from '../../assets/logo.jpg';
-import '../CustomNavbar/customNavbar.css'
+import '../CustomNavbar/customNavbar.css';
 
 function CustomNavbar() {
     return (
@@ -22,7 +22,7 @@ function CustomNavbar() {
                         <NavLink href="#inicio">Inicio</NavLink>
                         <NavLink href="#servicios">Servicios</NavLink>
                         <NavLink href="#contacto">Contacto</NavLink>
-                        <NavLink href="#login">Iniciar Sesión</NavLink>
+                        <NavLink href="/login">Iniciar Sesión</NavLink>
                     </Nav>
 
                 </NavbarCollapse>

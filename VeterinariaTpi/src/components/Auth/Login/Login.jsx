@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Button, Form, Card, Row, Col } from "react-bootstrap";
-
+import { Button, Form, Card, Row, Col, NavLink } from "react-bootstrap";
+import { useNavigate } from "react-router";
+import "../Login/Login.css";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,7 +15,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="d-flex flex-column justify-content-center align-items-center">
       <Card className="w-25">
         <Card.Body>
           <Form>
@@ -50,7 +51,19 @@ const Login = () => {
           </Form>
         </Card.Body>
       </Card>
+      <Row>
+        <p>
+          ¿No tenes cuenta?{" "}
+          <NavLink
+            id="RegisterLink"
+            href="/register"
+            style={{ display: "inline" }}
+          >
+            Registrate
+          </NavLink>
+        </p>
+      </Row>
     </div>
   );
-}
+};
 export default Login;
