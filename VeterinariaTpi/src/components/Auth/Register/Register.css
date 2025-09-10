@@ -1,0 +1,7 @@
+#LogInLink {
+  font-weight: bold;
+  color: rgb(151, 151, 151);
+}
+#LogInLink:hover {
+  color: rgb(108, 189, 189);
+}
