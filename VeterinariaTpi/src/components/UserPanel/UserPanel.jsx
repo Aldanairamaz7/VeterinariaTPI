@@ -4,6 +4,7 @@ import { Col, Container, Row } from 'react-bootstrap'
 import PetCard from '../PetCard/PetCard'
 import UserNavbar from '../UserNavbar/UserNavbar'
 import Footer from '../Footer/Footer'
+import AddPets from '../AddPets/AddPets'
 
 function UserPanel() {
 
@@ -23,7 +24,7 @@ function UserPanel() {
                     ))}
                 </Row>
             </Container>
-            <Footer />
+            <AddPets />
         </>
 
 
