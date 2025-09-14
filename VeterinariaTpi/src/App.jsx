@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import Login from "./components/Auth/Login/Login";
 import Register from "./components/Auth/Register/Register";
 
+
 function App() {
   return (
     <>
@@ -17,6 +18,7 @@ function App() {
           <Route index element={<Body />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/userpanel" element={<UserPanel />}/>
         </Routes>
       </BrowserRouter>
       <Footer />
