@@ -24,7 +24,6 @@ function UserPanel() {
                     ))}
                 </Row>
             </Container>
-            <AddPets />
         </>
 
 
