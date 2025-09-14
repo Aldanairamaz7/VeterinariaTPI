@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import Login from "./components/Auth/Login/Login";
 import Register from "./components/Auth/Register/Register";
 import AddPets from "./components/AddPets/AddPets";
+import RequestShift from "./components/RequestShift/RequestShift";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/userpanel" element={<UserPanel />}/>
           <Route path="/addpets" element={<AddPets/>}/>
+          <Route path="/solicitarturno" element={<RequestShift />}/>
         </Routes>
       </BrowserRouter>
       <Footer />
