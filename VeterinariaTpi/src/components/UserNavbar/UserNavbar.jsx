@@ -1,9 +1,15 @@
 import { faGear, faRightFromBracket } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Button, Container, Nav, Navbar, NavbarCollapse, NavbarText, NavbarToggle } from "react-bootstrap"
+import { useNavigate } from "react-router"
 
 function UserNavbar({ user }) {
 
+    const navigate = useNavigate();
+
+    const handleAddPetClick = () => {
+        navigate("/addpets");
+    }
 
     return (
         <Navbar bg="dark" variant="dark" expand='lg'>
@@ -13,7 +19,7 @@ function UserNavbar({ user }) {
                 <NavbarCollapse id="navbar-nav" className="jstify-content-end mb-1 mt-1" >
                     <Nav className="ms-auto">
 
-                        <Button variant="outline-light" className="me-2">Agregar mascota</Button>
+                        <Button variant="outline-light" className="me-2" onClick={handleAddPetClick}>Agregar mascota</Button>
                         <Button variant="outline-light" className="me-2">
                             <FontAwesomeIcon icon={faGear} className="me-2" />
                             Editar Perfil</Button>

@@ -1,10 +1,13 @@
 import { useState } from "react"
 import { Button, Card, Col, Row, Form } from "react-bootstrap"
+import { useNavigate } from "react-router";
 
 export const AddPets = () => {
     const [petName, setPetName] = useState("");
     const [petAge, setPetAge] = useState("");
     const [petBreed, setPetBreed] = useState("");
+
+    const navigate = useNavigate();
 
     const handleNameInput = (e) => {
         setPetName(e.target.value);
@@ -16,6 +19,10 @@ export const AddPets = () => {
 
     const handleBreedInput = (e) => {
         setPetBreed(e.target.value);
+    }
+
+    const handleBackClick = () => {
+        navigate("/userpanel");
     }
 
   return (
@@ -56,12 +63,12 @@ export const AddPets = () => {
                         </Col>
                     </Row>
                     <Row>
-                        <Col className="d-flex flex-column justify-content-end align-items-end">
+                        <Col className="d-flex justify-content-center align-items-center gap-3">
+                            <Button variant="secondary" onClick={handleBackClick} className="mt-5">Regresar</Button>
                             <Button variant="primary" type="submit" className="mt-5">Agregar mascota</Button>
                         </Col>
                     </Row>
                 </Form>
-                <Button variant="primary" href="/userpanel">Regresar</Button>
             </Card.Body>
         </Card>
     
