@@ -19,7 +19,7 @@ function CustomNavbar() {
                 <NavbarCollapse id='basic-navbar-nav'>
 
                     <Nav className="ms-auto">
-                        <NavLink href="#inicio">Inicio</NavLink>
+                        <NavLink href="/">Inicio</NavLink>
                         <NavLink href="#servicios">Servicios</NavLink>
                         <NavLink href="#contacto">Contacto</NavLink>
                         <NavLink href="/login">Iniciar Sesión</NavLink>

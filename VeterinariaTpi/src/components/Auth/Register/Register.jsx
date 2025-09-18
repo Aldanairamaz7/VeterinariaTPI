@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import "../Register/Register.css";
 
 const Register = () => {
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [dni, setDni] = useState("");
   const [email, setEmail] = useState("");
@@ -14,8 +14,8 @@ const Register = () => {
     setLastName(event.target.value);
   };
 
-  const handleChangeName = (event) => {
-    setName(event.target.value);
+  const handleChangeFirstName = (event) => {
+    setFirstName(event.target.value);
   };
 
   const handleChangeDni = (event) => {
@@ -30,11 +30,32 @@ const Register = () => {
     setPassword(event.target.value);
   };
 
+  const handleRegister = (event) => {
+    event.preventDefault();
+
+    fetch("http://localhost:3000/register", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        dni,
+        email,
+        password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className="d-flex flex-column justify-content-center align-items-center m-5">
       <Card className="w-25">
         <Card.Body>
-          <Form>
+          <Form onSubmit={handleRegister}>
             <Row>
               <Col>
                 <Form.Group className="mb-5">
@@ -42,8 +63,8 @@ const Register = () => {
                   <Form.Control
                     type="text"
                     placeholder="Ingresar su/s nombre/s"
-                    value={name}
-                    onChange={handleChangeName}
+                    value={firstName}
+                    onChange={handleChangeFirstName}
                   />
                 </Form.Group>
                 <Form.Group className="mb-5">
