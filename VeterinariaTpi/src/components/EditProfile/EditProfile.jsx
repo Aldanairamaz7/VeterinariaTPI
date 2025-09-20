@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Button, Card, Col, Form, Row } from "react-bootstrap"
 import { useNavigate } from "react-router";
 import { validateFirstName, validateLastName, validateDni, validateEmail, validatePassword } from "../shared/validations.js";
-import { errorToast } from "../shared/notifications/notifications";
+import { errorToast } from "../shared/notifications/notifications.js";
 
 
 const EditProfile = () => {
@@ -75,7 +75,7 @@ const EditProfile = () => {
         const hasErrors = Object.values(formErrors).some(err => err !== "");
 
         if(hasErrors){
-            errorToast("No funca pa")
+            errorToast("Hay algunos campos incorrectos, revisalos.")
             return;
         }
 
