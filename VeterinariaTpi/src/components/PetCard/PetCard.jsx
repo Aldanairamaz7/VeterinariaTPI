@@ -11,6 +11,10 @@ function PetCard({ pet }) {
         navigate("/solicitarturno");
     }
 
+    const handleEditPet = () => {
+        navigate("/editarmascota")
+    }
+
     return (
         <Card className='pet-card'>
             <CardImg
@@ -28,7 +32,7 @@ function PetCard({ pet }) {
                         <Button variant="primary" size="sm" className="me-2" onClick={handleRequestShiftClick}>
                             Solicitar Turno
                         </Button>
-                        <Button variant="secondary" size="sm">
+                        <Button variant="secondary" size="sm" onClick={handleEditPet}>
                             Editar
                         </Button>
                     </div>

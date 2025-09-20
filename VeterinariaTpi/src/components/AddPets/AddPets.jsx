@@ -27,7 +27,7 @@ export const AddPets = () => {
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center">
-        <Card className="w-25">
+        <Card>
             <Card.Body>
                 <h2>Añade a tu mascota</h2>
                 <Form>
