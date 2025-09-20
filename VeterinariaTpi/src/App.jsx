@@ -9,13 +9,14 @@ import Login from "./components/Auth/Login/Login";
 import Register from "./components/Auth/Register/Register";
 import AddPets from "./components/AddPets/AddPets";
 import RequestShift from "./components/RequestShift/RequestShift";
+import { ToastContainer } from "react-toastify";
 
 
 function App() {
   return (
     <>
-      <CustomNavbar />
       <BrowserRouter>
+      <CustomNavbar />
         <Routes>
           <Route index element={<Body />} />
           <Route path="/login" element={<Login />} />
@@ -24,8 +25,9 @@ function App() {
           <Route path="/addpets" element={<AddPets/>}/>
           <Route path="/solicitarturno" element={<RequestShift />}/>
         </Routes>
-      </BrowserRouter>
+      <ToastContainer />
       <Footer />
+      </BrowserRouter>
     </>
   );
 }
