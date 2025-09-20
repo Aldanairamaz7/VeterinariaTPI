@@ -41,7 +41,7 @@ const Login = () => {
         localStorage.setItem("vetCare-token", data)
         navigate('/userpanel')
       }))
-      .catch(err => console.log(err))
+      .catch(err => {console.log(err), errorToast(err.message)})
   }
 
   return (
