@@ -11,6 +11,10 @@ function UserNavbar({ user }) {
         navigate("/addpets");
     }
 
+    const handleEditProfile = () => {
+        navigate("/editarperfil")
+    }
+
     return (
         <Navbar bg="dark" variant="dark" expand='lg'>
             <Container>
@@ -20,7 +24,7 @@ function UserNavbar({ user }) {
                     <Nav className="ms-auto">
 
                         <Button variant="outline-light" className="me-2" onClick={handleAddPetClick}>Agregar mascota</Button>
-                        <Button variant="outline-light" className="me-2">
+                        <Button variant="outline-light" className="me-2" onClick={handleEditProfile}>
                             <FontAwesomeIcon icon={faGear} className="me-2" />
                             Editar Perfil</Button>
                         <Button variant="outline-light" className="me-2">
