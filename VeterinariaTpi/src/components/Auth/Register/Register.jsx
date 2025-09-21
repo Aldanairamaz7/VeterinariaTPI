@@ -10,6 +10,8 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate()
+
   const handleChangeLastName = (event) => {
     setLastName(event.target.value);
   };
@@ -47,7 +49,10 @@ const Register = () => {
       })
     })
       .then(res => res.json())
-      .then(data => console.log(data))
+      .then(data => {
+        console.log(data)
+        navigate('/login')
+      })
       .catch(err => console.log(err))
 
   }

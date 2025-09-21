@@ -3,8 +3,11 @@ import { Button, Form, Card, Row, Col, NavLink } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import "../Login/Login.css";
 import { errorToast } from "../../shared/notifications/notifications";
+import { useAuth } from "../../../Services/authContext/AuthContext";
 
 const Login = () => {
+
+  const { userLogin } = useAuth()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -18,7 +21,7 @@ const Login = () => {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (e) => {
+  /* const handleSubmit = (e) => {
     e.preventDefault()
 
     fetch("http://localhost:3000/login", {
@@ -42,6 +45,16 @@ const Login = () => {
         navigate('/userpanel')
       }))
       .catch(err => {console.log(err), errorToast(err.message)})
+  } */
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await userLogin(email, password)
+      navigate('/userpanel')
+    } catch (err) {
+      errorToast(err)
+    }
   }
 
   return (

@@ -6,12 +6,14 @@ export const AddPets = () => {
     const [petName, setPetName] = useState("");
     const [petAge, setPetAge] = useState("");
     const [petBreed, setPetBreed] = useState("");
+    const [imageURL, setImageURL] = useState("")
+
 
     const navigate = useNavigate();
 
     const handleNameInput = (e) => {
         setPetName(e.target.value);
-    } 
+    }
 
     const handleAgeInput = (e) => {
         setPetAge(e.target.value);
@@ -21,59 +23,93 @@ export const AddPets = () => {
         setPetBreed(e.target.value);
     }
 
+    const handleImageURL = (e) => {
+        setImageURL(e.target.value)
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const petData = {
+            name: petName,
+            age: Number(petAge),
+            breed: petBreed,
+            imageURL,
+        }
+
+        try {
+            await AddPets(petData),
+                navigate('/userpanel')
+        } catch (err) {
+            console.log(err)
+        }
+
+
+
+    }
+
     const handleBackClick = () => {
         navigate("/userpanel");
     }
 
-  return (
-    <div className="d-flex flex-column justify-content-center align-items-center">
-        <Card>
-            <Card.Body>
-                <h2>Añade a tu mascota</h2>
-                <Form>
-                    <Row>
-                        <Col>
-                        <Form.Group className="mb-5">
-                            <Form.Label>Nombre:</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Ingrese el nombre"
-                                onChange={handleNameInput}
-                                value={petName}
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-5">
-                            <Form.Label>Edad:</Form.Label>
-                            <Form.Control
-                                type="number"
-                                placeholder="Ingrese su edad"
-                                onChange={handleAgeInput}
-                                value={petAge}
-                            />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Raza:</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Ingrese su raza:"
-                                onChange={handleBreedInput}
-                                value={petBreed}
-                            />
-                        </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col className="d-flex justify-content-center align-items-center gap-3">
-                            <Button variant="secondary" onClick={handleBackClick} className="mt-5">Regresar</Button>
-                            <Button variant="primary" type="submit" className="mt-5">Agregar mascota</Button>
-                        </Col>
-                    </Row>
-                </Form>
-            </Card.Body>
-        </Card>
-    
-    </div>
-  )
+    return (
+        <div className="d-flex flex-column justify-content-center align-items-center">
+            <Card>
+                <Card.Body>
+                    <h2>Añade a tu mascota</h2>
+                    <Form onSubmit={handleSubmit}>
+                        <Row>
+                            <Col>
+                                <Form.Group className="mb-5">
+                                    <Form.Label>Nombre:</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Ingrese el nombre"
+                                        onChange={handleNameInput}
+                                        value={petName}
+                                    />
+                                </Form.Group>
+                                <Form.Group className="mb-5">
+                                    <Form.Label>Edad:</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        placeholder="Ingrese su edad"
+                                        onChange={handleAgeInput}
+                                        value={petAge}
+                                    />
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Label>Raza:</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Ingrese su raza:"
+                                        onChange={handleBreedInput}
+                                        value={petBreed}
+                                    />
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Label>Imagen de la mascota:</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Ingresar URL"
+                                        onChange={handleImageURL}
+                                        value={imageURL}
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col className="d-flex justify-content-center align-items-center gap-3">
+                                <Button variant="secondary" onClick={handleBackClick} className="mt-5">Regresar</Button>
+                                <Button variant="primary" type="submit" className="mt-5">Agregar mascota</Button>
+                            </Col>
+                        </Row>
+                    </Form>
+                </Card.Body>
+            </Card>
+
+        </div>
+    )
 }
 
 export default AddPets
