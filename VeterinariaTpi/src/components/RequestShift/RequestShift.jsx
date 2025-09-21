@@ -38,7 +38,7 @@ const RequestShift = () => {
     return (
     <>
         <div className="d-flex flex-column justify-content-center align-items-center">
-            <Card className="w-25">
+            <Card>
                 <Card.Body>
                     <Form>
                         <h2>Solicite un turno:</h2>

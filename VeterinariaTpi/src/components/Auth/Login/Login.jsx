@@ -3,8 +3,15 @@ import { Button, Form, Card, Row, Col, NavLink } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import "../Login/Login.css";
 import { errorToast } from "../../shared/notifications/notifications";
+import { useAuth } from "../../../Services/authContext/AuthContext";
+import {
+  regexEmail,
+  regexPassword,
+  validateLogin,
+} from "../../shared/validations";
 
 const Login = () => {
+  const { userLogin } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginErrors, setLoginErrors] = useState({
@@ -14,75 +21,48 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const regexPassword = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{7,20}$/;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setLoginErrors(() => ({ passwordError: false, emailError: 0 }));
-
-    if (!email.length) {
-      setLoginErrors((prevErrors) => ({ ...prevErrors, emailError: 1 }));
-    } else if (!emailRegex.test(email.trim())) {
-      setLoginErrors((prevErrors) => ({ ...prevErrors, emailError: 2 }));
-    }
-    if (!password.length) {
-      setLoginErrors((prevErrors) => ({ ...prevErrors, passwordError: 1 }));
-    } else if (!regexPassword.test(password)) {
-      setLoginErrors((prevErrors) => ({ ...prevErrors, passwordError: 2 }));
-    }
-
-    if (loginErrors.passwordError > 0 || loginErrors.emailError > 0) {
+    const valMail = validateLogin(
+      email,
+      setLoginErrors,
+      "emailError",
+      regexEmail
+    );
+    const valPass = validateLogin(
+      password,
+      setLoginErrors,
+      "passwordError",
+      regexPassword
+    );
+    if (!valMail || !valPass) {
       return false;
     }
 
-    fetch("http://localhost:3000/login", {
-      headers: {
-        "content-type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    })
-      .then((res) =>
-        res.json().then((data) => {
-          if (!res.ok) {
-            errorToast(data.message);
-            return;
-          }
-
-          localStorage.setItem("vetCare-token", data);
-          navigate("/userpanel");
-        })
-      )
-      .catch((err) => console.log(err));
+    try {
+      await userLogin(email, password);
+      navigate("/userpanel");
+    } catch (err) {
+      errorToast(err);
+    }
   };
 
   const handleEmailInput = (event) => {
     setEmail(event.target.value);
     setLoginErrors((prevErrors) => ({ ...prevErrors, emailError: 0 }));
-    if (!event.target.value.length) {
-      setLoginErrors((prevErrors) => ({ ...prevErrors, emailError: 1 }));
-      return;
-    } else if (!emailRegex.test(event.target.value.trim())) {
-      setLoginErrors((prevErrors) => ({ ...prevErrors, emailError: 2 }));
-      return;
-    }
+    validateLogin(event.target.value, setLoginErrors, "emailError", regexEmail);
   };
 
   const handlePasswordInput = (event) => {
     setPassword(event.target.value);
-    if (!event.target.value.length) {
-      setLoginErrors((prevErrors) => ({ ...prevErrors, passwordError: 1 }));
-      return false;
-    }
-    if (!regexPassword.test(event.target.value)) {
-      setLoginErrors((prevErrors) => ({ ...prevErrors, passwordError: 2 }));
-      return false;
-    }
     setLoginErrors((prevErrors) => ({ ...prevErrors, passwordError: 0 }));
+    validateLogin(
+      event.target.value,
+      setLoginErrors,
+      "passwordError",
+      regexPassword
+    );
   };
 
   return (

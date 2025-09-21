@@ -2,6 +2,14 @@ import { useState } from "react";
 import { Button, Form, Card, Row, Col, NavLink } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import "../Register/Register.css";
+import {
+  validateRegisterNames,
+  validateRegisterDni,
+  regexEmail,
+  regexPassword,
+  regexNames,
+  validateLogin,
+} from "../../shared/validations";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -9,6 +17,8 @@ const Register = () => {
   const [dni, setDni] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const [errors, setErrors] = useState({
     firstNameError: 0,
@@ -18,23 +28,6 @@ const Register = () => {
     passwordError: 0,
   });
 
-  const regexName = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
-  const regexDni = /^\d*$/;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const regexPassword = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{7,20}$/;
-
-  const valNames = (name, errorSel) => {
-    if (name.length < 3 || name.length > 50) {
-      setErrors((prevErrors) => ({ ...prevErrors, [errorSel]: 1 }));
-      return false;
-    } else if (!regexName.test(name.trim())) {
-      setErrors((prevErrors) => ({ ...prevErrors, [errorSel]: 2 }));
-      return false;
-    }
-
-    setErrors((prevErrors) => ({ ...prevErrors, [errorSel]: 0 }));
-  };
-
   const handleKeyDown = (e) => {
     if (["e", "E", "+", "-"].includes(e.key)) {
       e.preventDefault();
@@ -43,49 +36,71 @@ const Register = () => {
 
   const handleChangeFirstName = (event) => {
     setFirstName(event.target.value);
-    valNames(event.target.value, "firstNameError");
+    validateRegisterNames(
+      event.target.value,
+      setErrors,
+      "firstNameError",
+      regexNames
+    );
   };
 
   const handleChangeLastName = (event) => {
     setLastName(event.target.value);
-    valNames(event.target.value, "lastNameError");
+    validateRegisterNames(
+      event.target.value,
+      setErrors,
+      "lastNameError",
+      regexNames
+    );
   };
 
   const handleChangeDni = (event) => {
     setDni(event.target.value);
-    setErrors((prevErrors) => ({ ...prevErrors, dniError: 0 }));
-    if (event.target.value < 10000000 || event.target.value > 99999999) {
-      setErrors((prevErrors) => ({ ...prevErrors, dniError: 1 }));
-      return false;
-    }
+    validateRegisterDni(event.target.value, setErrors, "dniError");
   };
 
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
-    setErrors((prevErrors) => ({ ...prevErrors, emailError: 0 }));
-    if (!event.target.value.length) {
-      setErrors((prevErrors) => ({ ...prevErrors, emailError: 1 }));
-      return;
-    } else if (!emailRegex.test(event.target.value.trim())) {
-      setErrors((prevErrors) => ({ ...prevErrors, emailError: 2 }));
-      return;
-    }
+    validateLogin(event.target.value, setErrors, "emailError", regexEmail);
   };
 
   const handleChangePassword = (event) => {
     setPassword(event.target.value);
-    setErrors((prevErrors) => ({ ...prevErrors, passwordError: 0 }));
-    if (!event.target.value.length) {
-      setErrors((prevErrors) => ({ ...prevErrors, passwordError: 1 }));
-      return;
-    } else if (!regexPassword.test(event.target.value)) {
-      setErrors((prevErrors) => ({ ...prevErrors, passwordError: 2 }));
-      return;
-    }
+    validateLogin(
+      event.target.value,
+      setErrors,
+      "passwordError",
+      regexPassword
+    );
   };
 
   const handleRegister = (event) => {
     event.preventDefault();
+
+    const valFirstName = validateRegisterNames(
+      firstName,
+      setErrors,
+      "firstNameError",
+      regexNames
+    );
+    const valLastName = validateRegisterNames(
+      lastName,
+      setErrors,
+      "lastNameError",
+      regexNames
+    );
+    const valDni = validateRegisterDni(dni, setErrors, "dniError");
+    const valEmail = validateLogin(email, setErrors, "emailError", regexEmail);
+    const valPassword = validateLogin(
+      password,
+      setErrors,
+      "passwordError",
+      regexPassword
+    );
+
+    if (!valFirstName || !valLastName || !valDni || !valEmail || !valPassword) {
+      return false;
+    }
 
     fetch("http://localhost:3000/register", {
       headers: {
@@ -101,7 +116,10 @@ const Register = () => {
       }),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        console.log(data);
+        navigate("/login");
+      })
       .catch((err) => console.log(err));
   };
 
@@ -119,7 +137,6 @@ const Register = () => {
                     placeholder="Ingresar su/s nombre/s"
                     value={firstName}
                     onChange={handleChangeFirstName}
-                    required
                   />
                   <p className="text-danger">
                     {errors.firstNameError === 1
@@ -137,7 +154,6 @@ const Register = () => {
                     placeholder="Ingresar su/s apellido/s"
                     value={lastName}
                     onChange={handleChangeLastName}
-                    required
                   />
                   <p className="text-danger">
                     {errors.lastNameError === 1
@@ -156,10 +172,10 @@ const Register = () => {
                     value={dni}
                     onChange={handleChangeDni}
                     onKeyDown={handleKeyDown}
-                    required
                   />
                   <p className="text-danger">
-                    {errors.dniError === 1
+                    {errors.dniError === 1 ? "Ingrese un DNI" : "\u00A0"}
+                    {errors.dniError === 2
                       ? "Su DNI debe contener 8 caracteres"
                       : "\u00A0"}
                   </p>
@@ -171,7 +187,6 @@ const Register = () => {
                     placeholder="Ingresa su Mail"
                     value={email}
                     onChange={handleChangeEmail}
-                    required
                   />
                   <p className="text-danger">
                     {errors.emailError === 1 ? "Ingrese un Email" : "\u00A0"}
@@ -187,7 +202,6 @@ const Register = () => {
                     placeholder="Ingresar Contraseña"
                     value={password}
                     onChange={handleChangePassword}
-                    required
                   />
                   <p className="text-danger">
                     {errors.passwordError === 1
