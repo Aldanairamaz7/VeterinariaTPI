@@ -2,18 +2,22 @@ import { useState } from "react";
 import { Button, Form, Card, Row, Col, NavLink } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import "../Login/Login.css";
+import { errorToast } from "../../shared/notifications/notifications";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginErrors, setLoginErrors] = useState({
     emailError: 0,
-    passwordError: false,
+    passwordError: 0,
   });
 
+  const navigate = useNavigate();
+
+  const regexPassword = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{7,20}$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const handleValErrors = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     setLoginErrors(() => ({ passwordError: false, emailError: 0 }));
 
@@ -23,15 +27,42 @@ const Login = () => {
       setLoginErrors((prevErrors) => ({ ...prevErrors, emailError: 2 }));
     }
     if (!password.length) {
-      setLoginErrors((prevErrors) => ({ ...prevErrors, passwordError: true }));
+      setLoginErrors((prevErrors) => ({ ...prevErrors, passwordError: 1 }));
+    } else if (!regexPassword.test(password)) {
+      setLoginErrors((prevErrors) => ({ ...prevErrors, passwordError: 2 }));
     }
-    if (loginErrors.passwordError || loginErrors.emailError > 0) {
-      return;
+
+    if (loginErrors.passwordError > 0 || loginErrors.emailError > 0) {
+      return false;
     }
+
+    fetch("http://localhost:3000/login", {
+      headers: {
+        "content-type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    })
+      .then((res) =>
+        res.json().then((data) => {
+          if (!res.ok) {
+            errorToast(data.message);
+            return;
+          }
+
+          localStorage.setItem("vetCare-token", data);
+          navigate("/userpanel");
+        })
+      )
+      .catch((err) => console.log(err));
   };
 
   const handleEmailInput = (event) => {
     setEmail(event.target.value);
+    setLoginErrors((prevErrors) => ({ ...prevErrors, emailError: 0 }));
     if (!event.target.value.length) {
       setLoginErrors((prevErrors) => ({ ...prevErrors, emailError: 1 }));
       return;
@@ -39,23 +70,26 @@ const Login = () => {
       setLoginErrors((prevErrors) => ({ ...prevErrors, emailError: 2 }));
       return;
     }
-    setLoginErrors((prevErrors) => ({ ...prevErrors, emailError: 0 }));
   };
 
   const handlePasswordInput = (event) => {
     setPassword(event.target.value);
-    if (!event.target.value) {
-      setLoginErrors((prevErrors) => ({ ...prevErrors, passwordError: true }));
-      return;
+    if (!event.target.value.length) {
+      setLoginErrors((prevErrors) => ({ ...prevErrors, passwordError: 1 }));
+      return false;
     }
-    setLoginErrors((prevErrors) => ({ ...prevErrors, passwordError: false }));
+    if (!regexPassword.test(event.target.value)) {
+      setLoginErrors((prevErrors) => ({ ...prevErrors, passwordError: 2 }));
+      return false;
+    }
+    setLoginErrors((prevErrors) => ({ ...prevErrors, passwordError: 0 }));
   };
 
   return (
-    <div className="d-flex flex-column justify-content-center align-items-center">
-      <Card className="w-25">
+    <div className="d-flex flex-column justify-content-center align-items-center w-100 h-100">
+      <Card id="cardForm" className="w-25">
         <Card.Body>
-          <Form onSubmit={handleValErrors}>
+          <Form onSubmit={handleSubmit}>
             <Row>
               <Col>
                 <Form.Group className="mb-3">
@@ -87,8 +121,11 @@ const Login = () => {
                     className="mb-2"
                   />
                   <p className="text-danger">
-                    {loginErrors.passwordError == true
+                    {loginErrors.passwordError === 1
                       ? "Ingrese una contraseña"
+                      : "\u00A0"}
+                    {loginErrors.passwordError === 2
+                      ? "La contraseña debe tener minimo: una mayuscula y un numero"
                       : "\u00A0"}
                   </p>
                 </Form.Group>

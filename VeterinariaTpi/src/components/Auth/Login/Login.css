@@ -1,3 +1,7 @@
+#cardForm {
+  min-width: 16rem;
+}
+
 #RegisterLink {
   font-weight: bold;
   color: rgb(151, 151, 151);
