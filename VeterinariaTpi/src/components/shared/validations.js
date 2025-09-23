@@ -73,11 +73,14 @@ export const validateLogin = (value, setter, error, regex) => {
 /* Register Validations */
 
 export const validateRegisterNames = (value, setter, error, regex) => {
-  if (value.length < 3 || value.length > 50) {
+  if (!value.length) {
     setter((prevErrors) => ({ ...prevErrors, [error]: 1 }));
     return false;
-  } else if (!regex.test(value.trim())) {
+  } else if (value.length < 3 || value.length > 50) {
     setter((prevErrors) => ({ ...prevErrors, [error]: 2 }));
+    return false;
+  } else if (!regex.test(value.trim())) {
+    setter((prevErrors) => ({ ...prevErrors, [error]: 3 }));
     return false;
   }
   setter((prevErrors) => ({ ...prevErrors, [error]: 0 }));
@@ -87,6 +90,9 @@ export const validateRegisterNames = (value, setter, error, regex) => {
 export const validateRegisterDni = (value, setter, error) => {
   if (!value.length) {
     setter((prevErrors) => ({ ...prevErrors, [error]: 1 }));
+    return false;
+  } else if (value < 0) {
+    setter((prevErrors) => ({ ...prevErrors, [error]: 3 }));
     return false;
   } else if (value < 10000000 || value > 99999999) {
     setter((prevErrors) => ({ ...prevErrors, [error]: 2 }));
