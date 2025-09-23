@@ -3,6 +3,7 @@
 }
 
 #RegisterLink {
+  display: inline;
   font-weight: bold;
   color: rgb(151, 151, 151);
 }

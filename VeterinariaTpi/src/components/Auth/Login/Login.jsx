@@ -21,6 +21,10 @@ const Login = () => {
 
   const navigate = useNavigate();
 
+  const handleGoRegister = () => {
+    navigate("/register");
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoginErrors(() => ({ passwordError: false, emailError: 0 }));
@@ -50,19 +54,10 @@ const Login = () => {
 
   const handleEmailInput = (event) => {
     setEmail(event.target.value);
-    setLoginErrors((prevErrors) => ({ ...prevErrors, emailError: 0 }));
-    validateLogin(event.target.value, setLoginErrors, "emailError", regexEmail);
   };
 
   const handlePasswordInput = (event) => {
     setPassword(event.target.value);
-    setLoginErrors((prevErrors) => ({ ...prevErrors, passwordError: 0 }));
-    validateLogin(
-      event.target.value,
-      setLoginErrors,
-      "passwordError",
-      regexPassword
-    );
   };
 
   return (
@@ -81,13 +76,20 @@ const Login = () => {
                     value={email}
                     className="mb-2"
                   />
-                  <p className="text-danger">
-                    {loginErrors.emailError == 1
-                      ? "Ingrese un Email"
-                      : "\u00A0"}
-                    {loginErrors.emailError == 2
-                      ? "Email ingresado invalido"
-                      : "\u00A0"}
+                  <p>
+                    {loginErrors.emailError === 1 && (
+                      <span className="text-danger">
+                        -Este campo es obligatorio
+                      </span>
+                    )}
+                    {loginErrors.emailError === 2 && (
+                      <span className="text-danger">
+                        -El email ingresado no es valido
+                      </span>
+                    )}
+                    {loginErrors.emailError === 0 && (
+                      <>-Su email debe contener el dominio [@ y .com]</>
+                    )}
                   </p>
                 </Form.Group>
 
@@ -100,13 +102,24 @@ const Login = () => {
                     value={password}
                     className="mb-2"
                   />
-                  <p className="text-danger">
-                    {loginErrors.passwordError === 1
-                      ? "Ingrese una contraseña"
-                      : "\u00A0"}
-                    {loginErrors.passwordError === 2
-                      ? "La contraseña debe tener minimo: una mayuscula y un numero"
-                      : "\u00A0"}
+                  <p>
+                    {loginErrors.passwordError === 0 && (
+                      <>
+                        -Su contrasea debe tener entre [7-20] caracteres
+                        <br />
+                        -Su contraseña debe tener una mayuscula y una letra
+                      </>
+                    )}
+                    {loginErrors.passwordError === 1 && (
+                      <span className="text-danger">
+                        -Este campo es obligatorio
+                      </span>
+                    )}
+                    {loginErrors.passwordError === 2 && (
+                      <span className="text-danger">
+                        -Su contraseña no es valida
+                      </span>
+                    )}
                   </p>
                 </Form.Group>
               </Col>
@@ -124,13 +137,9 @@ const Login = () => {
       <Row>
         <p>
           ¿No tenes cuenta?{" "}
-          <NavLink
-            id="RegisterLink"
-            href="/register"
-            style={{ display: "inline" }}
-          >
+          <p id="RegisterLink" onClick={handleGoRegister}>
             Registrate
-          </NavLink>
+          </p>
         </p>
       </Row>
     </div>

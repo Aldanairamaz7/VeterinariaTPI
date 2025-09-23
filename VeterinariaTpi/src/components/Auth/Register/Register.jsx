@@ -34,44 +34,28 @@ const Register = () => {
     }
   };
 
+  const handleGoLogin = () => {
+    navigate("/login");
+  };
+
   const handleChangeFirstName = (event) => {
     setFirstName(event.target.value);
-    validateRegisterNames(
-      event.target.value,
-      setErrors,
-      "firstNameError",
-      regexNames
-    );
   };
 
   const handleChangeLastName = (event) => {
     setLastName(event.target.value);
-    validateRegisterNames(
-      event.target.value,
-      setErrors,
-      "lastNameError",
-      regexNames
-    );
   };
 
   const handleChangeDni = (event) => {
     setDni(event.target.value);
-    validateRegisterDni(event.target.value, setErrors, "dniError");
   };
 
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
-    validateLogin(event.target.value, setErrors, "emailError", regexEmail);
   };
 
   const handleChangePassword = (event) => {
     setPassword(event.target.value);
-    validateLogin(
-      event.target.value,
-      setErrors,
-      "passwordError",
-      regexPassword
-    );
   };
 
   const handleRegister = (event) => {
@@ -131,85 +115,157 @@ const Register = () => {
             <Row>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label>Nombre</Form.Label>
+                  <Form.Label>*Nombre</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Ingresar su/s nombre/s"
                     value={firstName}
                     onChange={handleChangeFirstName}
                   />
-                  <p className="text-danger">
-                    {errors.firstNameError === 1
-                      ? "Ingrese entre [3-50] caracteres"
-                      : "\u00A0"}
-                    {errors.firstNameError === 2
-                      ? "Nombre/s ingresado/s invalido/s"
-                      : "\u00A0"}
+                  <p>
+                    {errors.firstNameError === 0 && (
+                      <>
+                        -Debe tener entre [3-50] caracteres
+                        <br />
+                        -No debe contener caracteres especiales y/o numeros
+                      </>
+                    )}
+                    {errors.firstNameError === 1 && (
+                      <span className="text-danger">
+                        -Este campo es obligatorio
+                      </span>
+                    )}
+                    {errors.firstNameError === 2 && (
+                      <span className="text-danger">
+                        -Ingrese entre [3-50] caracteres
+                      </span>
+                    )}
+                    {errors.firstNameError === 3 && (
+                      <span className="text-danger">
+                        -El/los nombre/s no debe/n contener caracteres
+                        especiales o numeros
+                      </span>
+                    )}
                   </p>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>Apellido</Form.Label>
+                  <Form.Label>*Apellido</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Ingresar su/s apellido/s"
                     value={lastName}
                     onChange={handleChangeLastName}
                   />
-                  <p className="text-danger">
-                    {errors.lastNameError === 1
-                      ? "Ingrese entre [3-50] caracteres"
-                      : "\u00A0"}
-                    {errors.lastNameError === 2
-                      ? "Apellido/s ingresado/s invalido/s"
-                      : "\u00A0"}
+                  <p>
+                    {errors.lastNameError === 0 && (
+                      <>
+                        -Debe tener entre [3-50] caracteres
+                        <br />
+                        -No debe contener caracteres especiales y/o numeros
+                      </>
+                    )}
+                    {errors.lastNameError === 1 && (
+                      <span className="text-danger">
+                        -Este campo es obligatorio
+                      </span>
+                    )}
+                    {errors.lastNameError === 2 && (
+                      <span className="text-danger">
+                        -Ingrese entre [3-50] caracteres
+                      </span>
+                    )}
+                    {errors.lastNameError === 3 && (
+                      <span className="text-danger">
+                        -El/los apellido/s no debe/n contener caracteres
+                        especiales o numeros
+                      </span>
+                    )}
                   </p>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>Dni</Form.Label>
+                  <Form.Label>*Dni</Form.Label>
                   <Form.Control
                     type="number"
                     placeholder="Ingresa su Dni"
                     value={dni}
                     onChange={handleChangeDni}
                     onKeyDown={handleKeyDown}
+                    min="0"
                   />
-                  <p className="text-danger">
-                    {errors.dniError === 1 ? "Ingrese un DNI" : "\u00A0"}
-                    {errors.dniError === 2
-                      ? "Su DNI debe contener 8 caracteres"
-                      : "\u00A0"}
+                  <p>
+                    {errors.dniError === 1 && (
+                      <span className="text-danger">
+                        -Este campo es obligatorio
+                      </span>
+                    )}
+                    {errors.dniError === 2 && (
+                      <span className="text-danger">
+                        -Su DNI debe contener 8 caracteres
+                      </span>
+                    )}
+                    {errors.dniError === 3 && (
+                      <span className="text-danger">
+                        -Su DNI no puede ser negativo
+                      </span>
+                    )}
+                    {errors.dniError === 0 && (
+                      <>
+                        -Su dni debe contener 8 <br />
+                        -Su dni no puede ser negativo
+                      </>
+                    )}
                   </p>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>Email</Form.Label>
+                  <Form.Label>*Email</Form.Label>
                   <Form.Control
                     type="email"
                     placeholder="Ingresa su Mail"
                     value={email}
                     onChange={handleChangeEmail}
                   />
-                  <p className="text-danger">
-                    {errors.emailError === 1 ? "Ingrese un Email" : "\u00A0"}
-                    {errors.emailError === 2
-                      ? "Email ingresado invalido"
-                      : "\u00A0"}
+                  <p>
+                    {errors.emailError === 1 && (
+                      <span className="text-danger">
+                        -Este campo es obligatorio
+                      </span>
+                    )}
+                    {errors.emailError === 2 && (
+                      <span className="text-danger">
+                        -El email ingresado no es valido
+                      </span>
+                    )}
+                    {errors.emailError === 0 && (
+                      <>-Su email debe contener el dominio [@ y .com]</>
+                    )}
                   </p>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>Contraseña</Form.Label>
+                  <Form.Label>*Contraseña</Form.Label>
                   <Form.Control
                     type="password"
                     placeholder="Ingresar Contraseña"
                     value={password}
                     onChange={handleChangePassword}
                   />
-                  <p className="text-danger">
-                    {errors.passwordError === 1
-                      ? "Ingrese una contraseña"
-                      : "\u00A0"}
-                    {errors.passwordError === 2
-                      ? "La contraseña debe tener minimo: una mayuscula y un numero"
-                      : "\u00A0"}
+                  <p>
+                    {errors.passwordError === 0 && (
+                      <>
+                        -Su contrasea debe tener entre [7-20] caracteres
+                        <br />
+                        -Su contraseña debe tener una mayuscula y una letra
+                      </>
+                    )}
+                    {errors.passwordError === 1 && (
+                      <span className="text-danger">
+                        -Este campo es obligatorio
+                      </span>
+                    )}
+                    {errors.passwordError === 2 && (
+                      <span className="text-danger">
+                        -Su contraseña no es valida
+                      </span>
+                    )}
                   </p>
                 </Form.Group>
               </Col>
@@ -227,9 +283,9 @@ const Register = () => {
       <Row>
         <p>
           ¿Ya tenes cuenta?{" "}
-          <NavLink id="LogInLink" href="/login" style={{ display: "inline" }}>
+          <p id="LogInLink" onClick={handleGoLogin}>
             Inicia Sesion
-          </NavLink>
+          </p>
         </p>
       </Row>
     </div>
