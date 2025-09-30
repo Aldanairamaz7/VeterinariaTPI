@@ -74,8 +74,13 @@ const Login = () => {
                     placeholder="Ingresar Mail"
                     onChange={handleEmailInput}
                     value={email}
+                    isInvalid={loginErrors.emailError > 0}
                     className="mb-2"
                   />
+                  <Form.Control.Feedback
+                    type="invalid"
+                    style={{ whiteSpace: "pre-line" }}
+                  ></Form.Control.Feedback>
                   <p>
                     {loginErrors.emailError === 1 && (
                       <span className="text-danger">
@@ -87,9 +92,6 @@ const Login = () => {
                         -El email ingresado no es valido
                       </span>
                     )}
-                    {loginErrors.emailError === 0 && (
-                      <>-Su email debe contener el dominio [@ y .com]</>
-                    )}
                   </p>
                 </Form.Group>
 
@@ -100,16 +102,14 @@ const Login = () => {
                     placeholder="Ingresar Contraseña"
                     onChange={handlePasswordInput}
                     value={password}
+                    isInvalid={loginErrors.passwordError > 0}
                     className="mb-2"
                   />
+                  <Form.Control.Feedback
+                    type="invalid"
+                    style={{ whiteSpace: "pre-line" }}
+                  ></Form.Control.Feedback>
                   <p>
-                    {loginErrors.passwordError === 0 && (
-                      <>
-                        -Su contrasea debe tener entre [7-20] caracteres
-                        <br />
-                        -Su contraseña debe tener una mayuscula y una letra
-                      </>
-                    )}
                     {loginErrors.passwordError === 1 && (
                       <span className="text-danger">
                         -Este campo es obligatorio

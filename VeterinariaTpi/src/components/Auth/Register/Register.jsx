@@ -115,26 +115,19 @@ const Register = () => {
             <Row>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label>*Nombre</Form.Label>
+                  <Form.Label>Nombre*</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Ingresar su/s nombre/s"
                     value={firstName}
+                    isInvalid={errors.firstNameError > 0}
                     onChange={handleChangeFirstName}
                   />
+                  <Form.Control.Feedback
+                    type="invalid"
+                    style={{ whiteSpace: "pre-line" }}
+                  ></Form.Control.Feedback>
                   <p>
-                    {errors.firstNameError === 0 && (
-                      <>
-                        -Debe tener entre [3-50] caracteres
-                        <br />
-                        -No debe contener caracteres especiales y/o numeros
-                      </>
-                    )}
-                    {errors.firstNameError === 1 && (
-                      <span className="text-danger">
-                        -Este campo es obligatorio
-                      </span>
-                    )}
                     {errors.firstNameError === 2 && (
                       <span className="text-danger">
                         -Ingrese entre [3-50] caracteres
@@ -149,26 +142,19 @@ const Register = () => {
                   </p>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>*Apellido</Form.Label>
+                  <Form.Label>Apellido*</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Ingresar su/s apellido/s"
                     value={lastName}
+                    isInvalid={errors.lastNameError > 0}
                     onChange={handleChangeLastName}
                   />
+                  <Form.Control.Feedback
+                    type="invalid"
+                    style={{ whiteSpace: "pre-line" }}
+                  ></Form.Control.Feedback>
                   <p>
-                    {errors.lastNameError === 0 && (
-                      <>
-                        -Debe tener entre [3-50] caracteres
-                        <br />
-                        -No debe contener caracteres especiales y/o numeros
-                      </>
-                    )}
-                    {errors.lastNameError === 1 && (
-                      <span className="text-danger">
-                        -Este campo es obligatorio
-                      </span>
-                    )}
                     {errors.lastNameError === 2 && (
                       <span className="text-danger">
                         -Ingrese entre [3-50] caracteres
@@ -183,7 +169,7 @@ const Register = () => {
                   </p>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>*Dni</Form.Label>
+                  <Form.Label>Dni*</Form.Label>
                   <Form.Control
                     type="number"
                     placeholder="Ingresa su Dni"
@@ -191,13 +177,13 @@ const Register = () => {
                     onChange={handleChangeDni}
                     onKeyDown={handleKeyDown}
                     min="0"
+                    isInvalid={errors.dniError > 0}
                   />
+                  <Form.Control.Feedback
+                    type="invalid"
+                    style={{ whiteSpace: "pre-line" }}
+                  ></Form.Control.Feedback>
                   <p>
-                    {errors.dniError === 1 && (
-                      <span className="text-danger">
-                        -Este campo es obligatorio
-                      </span>
-                    )}
                     {errors.dniError === 2 && (
                       <span className="text-danger">
                         -Su DNI debe contener 8 caracteres
@@ -208,59 +194,43 @@ const Register = () => {
                         -Su DNI no puede ser negativo
                       </span>
                     )}
-                    {errors.dniError === 0 && (
-                      <>
-                        -Su dni debe contener 8 <br />
-                        -Su dni no puede ser negativo
-                      </>
-                    )}
                   </p>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>*Email</Form.Label>
+                  <Form.Label>Email*</Form.Label>
                   <Form.Control
                     type="email"
                     placeholder="Ingresa su Mail"
                     value={email}
                     onChange={handleChangeEmail}
+                    isInvalid={errors.emailError > 0}
                   />
+                  <Form.Control.Feedback
+                    type="invalid"
+                    style={{ whiteSpace: "pre-line" }}
+                  ></Form.Control.Feedback>
                   <p>
-                    {errors.emailError === 1 && (
-                      <span className="text-danger">
-                        -Este campo es obligatorio
-                      </span>
-                    )}
                     {errors.emailError === 2 && (
                       <span className="text-danger">
                         -El email ingresado no es valido
                       </span>
                     )}
-                    {errors.emailError === 0 && (
-                      <>-Su email debe contener el dominio [@ y .com]</>
-                    )}
                   </p>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>*Contraseña</Form.Label>
+                  <Form.Label>Contraseña*</Form.Label>
                   <Form.Control
                     type="password"
                     placeholder="Ingresar Contraseña"
                     value={password}
                     onChange={handleChangePassword}
+                    isInvalid={errors.passwordError > 0}
                   />
+                  <Form.Control.Feedback
+                    type="invalid"
+                    style={{ whiteSpace: "pre-line" }}
+                  ></Form.Control.Feedback>
                   <p>
-                    {errors.passwordError === 0 && (
-                      <>
-                        -Su contrasea debe tener entre [7-20] caracteres
-                        <br />
-                        -Su contraseña debe tener una mayuscula y una letra
-                      </>
-                    )}
-                    {errors.passwordError === 1 && (
-                      <span className="text-danger">
-                        -Este campo es obligatorio
-                      </span>
-                    )}
                     {errors.passwordError === 2 && (
                       <span className="text-danger">
                         -Su contraseña no es valida
@@ -271,7 +241,8 @@ const Register = () => {
               </Col>
             </Row>
             <Row>
-              <Col className="d-flex flex-column justify-content-end align-items-end">
+              <Col className="d-flex flex-row justify-content-between align-items-center">
+                <p>(*) Campos obligatorios</p>
                 <Button variant="primary" type="submit">
                   Registrarse
                 </Button>
