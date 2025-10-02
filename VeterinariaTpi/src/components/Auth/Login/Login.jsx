@@ -135,12 +135,12 @@ const Login = () => {
         </Card.Body>
       </Card>
       <Row>
-        <p>
+        <div>
           ¿No tenes cuenta?{" "}
           <p id="RegisterLink" onClick={handleGoRegister}>
             Registrate
           </p>
-        </p>
+        </div>
       </Row>
     </div>
   );

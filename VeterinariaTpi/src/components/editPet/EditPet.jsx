@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, Col, Form, Row, Button, FormGroup } from "react-bootstrap";
 import { useNavigate } from "react-router";
 
+
 const EditPet = () => {
   const [petName, setPetName] = useState("");
   const [petAge, setPetAge] = useState("");
@@ -28,7 +29,7 @@ const EditPet = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:3000/editPets", {
+    /* fetch("http://localhost:3000/editPets", {
       headers: {
         "Content-Type": "application/json",
       },
@@ -41,8 +42,12 @@ const EditPet = () => {
     })
       .then((res) => res.json())
       .then((data) => console.log(data))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err)); 
+      
+      Esto lo vamos a manejar desde authContext
+      */
   };
+
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center">
