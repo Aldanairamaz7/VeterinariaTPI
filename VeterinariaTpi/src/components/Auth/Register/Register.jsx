@@ -252,12 +252,12 @@ const Register = () => {
         </Card.Body>
       </Card>
       <Row>
-        <p>
+        <div>
           ¿Ya tenes cuenta?{" "}
           <p id="LogInLink" onClick={handleGoLogin}>
             Inicia Sesion
           </p>
-        </p>
+        </div>
       </Row>
     </div>
   );

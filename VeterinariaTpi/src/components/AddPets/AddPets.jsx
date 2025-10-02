@@ -7,12 +7,16 @@ import {
   validateBreed,
 } from "../shared/validations.js";
 import { errorToast } from "../shared/notifications/notifications.js";
+import { useAuth } from "../../Services/authContext/AuthContext.jsx";
 
 export const AddPets = () => {
   const [petName, setPetName] = useState("");
   const [petAge, setPetAge] = useState("");
   const [petBreed, setPetBreed] = useState("");
+  const [petImageURL, setPetImageURL] = useState('')
   const [errors, setErrors] = useState({});
+
+  const { addPet } = useAuth()
 
   const navigate = useNavigate();
 
@@ -43,11 +47,16 @@ export const AddPets = () => {
     });
   };
 
+  const handleImageURLInput = (e) => {
+    const value = e.target.value
+    setPetImageURL(value)
+  }
+
   const handleBackClick = () => {
     navigate("/userpanel");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formErrors = {
@@ -65,20 +74,23 @@ export const AddPets = () => {
       return;
     }
 
-    fetch("http://localhost:3000/addpet", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({
-        petName,
-        petAge,
-        petBreed,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.log(err));
+    const petData = {
+      name: petName,
+      age: parseInt(petAge),
+      breed: petBreed,
+      imageURL: petImageURL
+    }
+
+    try {
+      await addPet(petData);
+      setPetName('')
+      setPetAge('')
+      setPetBreed('')
+      setPetImageURL('')
+      navigate('/userpanel')
+    } catch (err) {
+      errorToast(err.message || 'No se pudo agregar mascota.')
+    }
   };
 
   return (
@@ -133,6 +145,15 @@ export const AddPets = () => {
                   >
                     {errors.petBreed}
                   </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Imagen:</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Ingresar URL.."
+                    onChange={handleImageURLInput}
+                    value={petImageURL}
+                  />
                 </Form.Group>
               </Col>
             </Row>
