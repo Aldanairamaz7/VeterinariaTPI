@@ -4,6 +4,7 @@ import { AuthContext } from "./AuthContext";
 export const AuthContextProvider = ({ children }) => {
     const [token, setToken] = useState(null);
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true)
 
     const userLogin = async (email, password) => {
         const res = await fetch("http://localhost:3000/login", {
@@ -29,23 +30,33 @@ export const AuthContextProvider = ({ children }) => {
 
     const fetchUser = async () => {
         const storedToken = localStorage.getItem("vetCare-token");
-        if (!storedToken) return;
+        if (!storedToken) {
+            setLoading(false)
+            return;
+        }
 
         setToken(storedToken);
+        try {
+            const res = await fetch("http://localhost:3000/user/me", {
+                headers: {
+                    Authorization: `Bearer ${storedToken}`,
+                },
+            });
 
-        const res = await fetch("http://localhost:3000/user/me", {
-            headers: {
-                Authorization: `Bearer ${storedToken}`,
-            },
-        });
+            const data = await res.json();
 
-        const data = await res.json();
-
-        if (res.ok) {
-            setUser(data.user);
-        } else {
+            if (res.ok) {
+                setUser(data.user);
+            } else {
+                userLogout();
+            }
+        } catch (error) {
+            console.error(error)
             userLogout();
+        } finally {
+            setLoading(false)
         }
+
     };
 
     const addPet = async (petData) => {
@@ -101,6 +112,7 @@ export const AuthContextProvider = ({ children }) => {
             value={{
                 token,
                 user,
+                loading,
                 setUser,
                 userLogin,
                 userLogout,
