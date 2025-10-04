@@ -48,7 +48,7 @@ const Login = () => {
       await userLogin(email, password);
       navigate("/userpanel");
     } catch (err) {
-      errorToast(err);
+      errorToast(err.message);
     }
   };
 
