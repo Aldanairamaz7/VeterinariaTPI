@@ -74,17 +74,19 @@ const Login = () => {
                     placeholder="Ingresar Mail"
                     onChange={handleEmailInput}
                     value={email}
+                    isInvalid={loginErrors.emailError > 0}
                     className="mb-2"
-                    isInvalid={loginErrors.emailError}
                   />
                   <Form.Control.Feedback
                     type="invalid"
                     style={{ whiteSpace: "pre-line" }}
-                  >
-                    {loginErrors.emailError}
-                  </Form.Control.Feedback>
-
+                  ></Form.Control.Feedback>
                   <p>
+                    {loginErrors.emailError === 1 && (
+                      <span className="text-danger">
+                        -Este campo es obligatorio
+                      </span>
+                    )}
                     {loginErrors.emailError === 2 && (
                       <span className="text-danger">
                         -El email ingresado no es valido
@@ -100,9 +102,19 @@ const Login = () => {
                     placeholder="Ingresar Contraseña"
                     onChange={handlePasswordInput}
                     value={password}
+                    isInvalid={loginErrors.passwordError > 0}
                     className="mb-2"
                   />
+                  <Form.Control.Feedback
+                    type="invalid"
+                    style={{ whiteSpace: "pre-line" }}
+                  ></Form.Control.Feedback>
                   <p>
+                    {loginErrors.passwordError === 1 && (
+                      <span className="text-danger">
+                        -Este campo es obligatorio
+                      </span>
+                    )}
                     {loginErrors.passwordError === 2 && (
                       <span className="text-danger">
                         -Su contraseña no es valida

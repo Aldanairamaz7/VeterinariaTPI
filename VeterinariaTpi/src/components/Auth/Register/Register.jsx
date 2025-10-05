@@ -120,8 +120,13 @@ const Register = () => {
                     type="text"
                     placeholder="Ingresar su/s nombre/s"
                     value={firstName}
+                    isInvalid={errors.firstNameError > 0}
                     onChange={handleChangeFirstName}
                   />
+                  <Form.Control.Feedback
+                    type="invalid"
+                    style={{ whiteSpace: "pre-line" }}
+                  ></Form.Control.Feedback>
                   <p>
                     {errors.firstNameError === 2 && (
                       <span className="text-danger">
@@ -142,8 +147,13 @@ const Register = () => {
                     type="text"
                     placeholder="Ingresar su/s apellido/s"
                     value={lastName}
+                    isInvalid={errors.lastNameError > 0}
                     onChange={handleChangeLastName}
                   />
+                  <Form.Control.Feedback
+                    type="invalid"
+                    style={{ whiteSpace: "pre-line" }}
+                  ></Form.Control.Feedback>
                   <p>
                     {errors.lastNameError === 2 && (
                       <span className="text-danger">
@@ -167,7 +177,12 @@ const Register = () => {
                     onChange={handleChangeDni}
                     onKeyDown={handleKeyDown}
                     min="0"
+                    isInvalid={errors.dniError > 0}
                   />
+                  <Form.Control.Feedback
+                    type="invalid"
+                    style={{ whiteSpace: "pre-line" }}
+                  ></Form.Control.Feedback>
                   <p>
                     {errors.dniError === 2 && (
                       <span className="text-danger">
@@ -188,7 +203,12 @@ const Register = () => {
                     placeholder="Ingresa su Mail"
                     value={email}
                     onChange={handleChangeEmail}
+                    isInvalid={errors.emailError > 0}
                   />
+                  <Form.Control.Feedback
+                    type="invalid"
+                    style={{ whiteSpace: "pre-line" }}
+                  ></Form.Control.Feedback>
                   <p>
                     {errors.emailError === 2 && (
                       <span className="text-danger">
@@ -204,7 +224,12 @@ const Register = () => {
                     placeholder="Ingresar Contraseña"
                     value={password}
                     onChange={handleChangePassword}
+                    isInvalid={errors.passwordError > 0}
                   />
+                  <Form.Control.Feedback
+                    type="invalid"
+                    style={{ whiteSpace: "pre-line" }}
+                  ></Form.Control.Feedback>
                   <p>
                     {errors.passwordError === 2 && (
                       <span className="text-danger">
@@ -216,10 +241,7 @@ const Register = () => {
               </Col>
             </Row>
             <Row>
-              <Col
-                id="Sector"
-                className="d-flex justify-content-between align-items-end"
-              >
+              <Col className="d-flex flex-row justify-content-between align-items-center">
                 <p>(*) Campos obligatorios</p>
                 <Button variant="primary" type="submit">
                   Registrarse
