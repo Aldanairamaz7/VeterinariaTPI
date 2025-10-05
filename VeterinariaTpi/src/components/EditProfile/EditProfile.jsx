@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import {
@@ -8,7 +8,8 @@ import {
   validateEmail,
   validatePassword,
 } from "../shared/validations.js";
-import { errorToast } from "../shared/notifications/notifications.js";
+import { errorToast, successToast } from "../shared/notifications/notifications.js";
+import { useAuth } from "../../Services/authContext/AuthContext.jsx";
 
 const EditProfile = () => {
   const [firstName, setFirstName] = useState("");
@@ -17,6 +18,19 @@ const EditProfile = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+
+  const { user, token, setUser} = useAuth();
+
+  useEffect(() => {
+    
+    if(user){
+      setFirstName(user.firstName || "");
+      setLastName(user.lastName || "");
+      setDni(user.dni || "");
+      setEmail(user.email || "");
+    }
+  }, [user])
+
 
   const navigate = useNavigate();
 
@@ -74,9 +88,10 @@ const EditProfile = () => {
       return;
     }
 
-    fetch("http://localhost:3000/editProfile", {
+    fetch("http://localhost:3000/editprofile", {
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
       method: "PUT",
       body: JSON.stringify({
@@ -88,8 +103,17 @@ const EditProfile = () => {
       }),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        setUser(data.user),
+        
+        console.log(data),
+        
+        successToast(data.message)
+      })
       .catch((err) => console.log(err));
+      
+      navigate("/userpanel")
+      
   };
 
   return (
@@ -100,7 +124,7 @@ const EditProfile = () => {
             <Row>
               <Col>
                 <Form.Group className="mb-1">
-                  <Form.Label>Primer nombre:</Form.Label>
+                  <Form.Label>Primer nombre *</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Ingrese su nombre"
@@ -113,7 +137,7 @@ const EditProfile = () => {
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-1">
-                  <Form.Label>Apellido:</Form.Label>
+                  <Form.Label>Apellido *</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Ingrese su apellido"
@@ -126,7 +150,7 @@ const EditProfile = () => {
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-1">
-                  <Form.Label>DNI:</Form.Label>
+                  <Form.Label>DNI *</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Ingrese su DNI"
@@ -139,7 +163,7 @@ const EditProfile = () => {
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-1">
-                  <Form.Label>Email:</Form.Label>
+                  <Form.Label>Email *</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Ingrese el email"
@@ -152,7 +176,7 @@ const EditProfile = () => {
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-1">
-                  <Form.Label>Contraseña:</Form.Label>
+                  <Form.Label>Contraseña *</Form.Label>
                   <Form.Control
                     type="password"
                     placeholder="Ingrese su contraseña"
