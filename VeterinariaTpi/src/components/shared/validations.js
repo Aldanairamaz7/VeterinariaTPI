@@ -68,6 +68,12 @@ export const validateBreed = (value) => {
   return "";
 };
 
+export const validateImgUrl = (value) => {
+  if (!value) 
+    return "La raza es obligatoria.";
+  return "";
+}
+
 /* Login Validation */
 
 export const validateLogin = (value, setter, error, regex) => {
