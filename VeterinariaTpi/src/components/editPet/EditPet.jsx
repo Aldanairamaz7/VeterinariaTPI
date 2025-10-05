@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Col, Form, Row, Button, FormGroup } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { validateAddPetName, validatePetAge, validateBreed } from "../shared/validations.js";
+import { errorToast, successToast } from "../shared/notifications/notifications.js";
+import { useAuth } from "../../Services/authContext/AuthContext.jsx";
 
 
 const EditPet = () => {
@@ -10,6 +12,25 @@ const EditPet = () => {
   const [petBreed, setPetBreed] = useState("");
   const [petImg, setPetImg] = useState("");
   const [errors, setErrors] = useState({});
+
+  const {petId} = useParams();
+  
+  const { user, token, setUser } = useAuth();
+  
+  useEffect(() => {
+    if (user && Array.isArray(user.pets)) {
+      
+      console.log(user.pets)
+      const pet = user.pets.find(p => p._id == petId);
+      
+      if (pet) {
+        setPetName(p.petName || "");
+        setPetAge(p.petAge || "");
+        setPetBreed(p.petBreed || "");
+        setPetImg(p.petImg || "");
+      }
+  }
+}, [user, petId]);
 
   const navigate = useNavigate();
 
@@ -54,23 +75,44 @@ const EditPet = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    /* fetch("http://localhost:3000/editPets", {
+    const formErrors = {
+      petName: validateAddPetName(petName),
+      petAge: validatePetAge(petAge),
+      petBreed: validateBreed(petBreed)
+    };
+
+    setErrors(formErrors)
+
+    const hasErrors = Object.values(formErrors).some((err) => err !== "");
+
+    if(hasErrors){
+      errorToast("Hay alugunos campos incorrectos, revisalos.");
+      return;
+    }
+
+
+    fetch("http://localhost:3000/editPets", {
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
       method: "PUT",
       body: JSON.stringify({
         name,
         age,
         breed,
+        imageURL
       }),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        setUser(data.user)
+        console.log(data)
+        successToast(data.message)
+      })
       .catch((err) => console.log(err)); 
       
-      Esto lo vamos a manejar desde authContext
-      */
+      navigate("/userpanel")
   };
 
 
@@ -81,7 +123,7 @@ const EditPet = () => {
           Regresar
         </Button>
       </div>
-      <div className="d-flex flex-column justify-content-center align-items-center">
+      <div className="d-flex flex-column justify-content-center align-items-center mb-2">
         <Card>
           
           <Card.Body>
@@ -89,46 +131,48 @@ const EditPet = () => {
             <Form onSubmit={handleSubmit}>
               <Row>
                 <Col>
-                  <FormGroup className="mb-5">
+                  <Form.Group className="mb-5">
                     <Form.Label>Nombre:</Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="Ingrese el nombre"
                       onChange={handleNameInput}
                       value={petName}
-                      onInvalid={errors.petName}
+                      isInvalid={errors.petName}
                     />
-                  </FormGroup>
                   <Form.Control.Feedback type="invalid">
                     {errors.petName}
                   </Form.Control.Feedback>
-                  <FormGroup className="mb-5">
+                  </Form.Group>
+
+                  <Form.Group className="mb-5">
                     <Form.Label>Edad:</Form.Label>
                     <Form.Control
                       type="number"
                       placeholder="Ingrese la edad"
                       onChange={handleAgeInput}
                       value={petAge}
-                      onInvalid={errors.petAge}
+                      isInvalid={errors.petAge}
                     />
-                  <Form.Control.Feedback type="invalid" style={{ whiteSpace: "pre-line" }}>
-                    {errors.petAge}
-                  </Form.Control.Feedback>
-                  </FormGroup>
-                  <FormGroup className="mb-5">
+                    <Form.Control.Feedback type="invalid" style={{ whiteSpace: "pre-line" }}>
+                      {errors.petAge}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                  <Form.Group className="mb-5">
                     <Form.Label>Raza:</Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="Ingrese la raza"
                       onChange={handleBreedInput}
                       value={petBreed}
-                      onInvalid={errors.petBreed}
+                      isInvalid={errors.petBreed}
                     />
-                  </FormGroup>
-                  <Form.Control.Feedback type="invalid" style={{ whiteSpace: "pre-line" }}> 
-                  {errors.petBreed}
-                  </Form.Control.Feedback>
-                  <FormGroup className="mb-5"> 
+                    <Form.Control.Feedback type="invalid" style={{ whiteSpace: "pre-line" }}> 
+                      {errors.petBreed}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+
+                  <Form.Group className="mb-5"> 
                     <Form.Label>Imagen: </Form.Label>
                     <Form.Control
                       type="text"
@@ -136,7 +180,7 @@ const EditPet = () => {
                       onChange={handlePetImg}
                       value={petImg}
                     />
-                  </FormGroup>
+                  </Form.Group>
                 </Col>
               </Row>
               <Row>

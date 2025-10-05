@@ -29,7 +29,7 @@ function App() {
             <Route path="/userpanel" element={<UserPanel />} />
             <Route path="/addpets" element={<AddPets />} />
             <Route path="/solicitarturno" element={<RequestShift />} />
-            <Route path="/editarmascota" element={<EditPet />} />
+            <Route path="/editarmascota/:petId" element={<EditPet />} />
             <Route path="/editarperfil" element={<EditProfile />} />
           </Route>
           <Route path="*" element={<ErrorNotFound />} />
