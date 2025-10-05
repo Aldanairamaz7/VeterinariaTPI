@@ -115,7 +115,7 @@ const Register = () => {
             <Row>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label>*Nombre</Form.Label>
+                  <Form.Label>Nombre*</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Ingresar su/s nombre/s"
@@ -123,18 +123,6 @@ const Register = () => {
                     onChange={handleChangeFirstName}
                   />
                   <p>
-                    {errors.firstNameError === 0 && (
-                      <>
-                        -Debe tener entre [3-50] caracteres
-                        <br />
-                        -No debe contener caracteres especiales y/o numeros
-                      </>
-                    )}
-                    {errors.firstNameError === 1 && (
-                      <span className="text-danger">
-                        -Este campo es obligatorio
-                      </span>
-                    )}
                     {errors.firstNameError === 2 && (
                       <span className="text-danger">
                         -Ingrese entre [3-50] caracteres
@@ -149,7 +137,7 @@ const Register = () => {
                   </p>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>*Apellido</Form.Label>
+                  <Form.Label>Apellido*</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Ingresar su/s apellido/s"
@@ -157,18 +145,6 @@ const Register = () => {
                     onChange={handleChangeLastName}
                   />
                   <p>
-                    {errors.lastNameError === 0 && (
-                      <>
-                        -Debe tener entre [3-50] caracteres
-                        <br />
-                        -No debe contener caracteres especiales y/o numeros
-                      </>
-                    )}
-                    {errors.lastNameError === 1 && (
-                      <span className="text-danger">
-                        -Este campo es obligatorio
-                      </span>
-                    )}
                     {errors.lastNameError === 2 && (
                       <span className="text-danger">
                         -Ingrese entre [3-50] caracteres
@@ -183,7 +159,7 @@ const Register = () => {
                   </p>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>*Dni</Form.Label>
+                  <Form.Label>Dni*</Form.Label>
                   <Form.Control
                     type="number"
                     placeholder="Ingresa su Dni"
@@ -193,11 +169,6 @@ const Register = () => {
                     min="0"
                   />
                   <p>
-                    {errors.dniError === 1 && (
-                      <span className="text-danger">
-                        -Este campo es obligatorio
-                      </span>
-                    )}
                     {errors.dniError === 2 && (
                       <span className="text-danger">
                         -Su DNI debe contener 8 caracteres
@@ -208,16 +179,10 @@ const Register = () => {
                         -Su DNI no puede ser negativo
                       </span>
                     )}
-                    {errors.dniError === 0 && (
-                      <>
-                        -Su dni debe contener 8 <br />
-                        -Su dni no puede ser negativo
-                      </>
-                    )}
                   </p>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>*Email</Form.Label>
+                  <Form.Label>Email*</Form.Label>
                   <Form.Control
                     type="email"
                     placeholder="Ingresa su Mail"
@@ -225,23 +190,15 @@ const Register = () => {
                     onChange={handleChangeEmail}
                   />
                   <p>
-                    {errors.emailError === 1 && (
-                      <span className="text-danger">
-                        -Este campo es obligatorio
-                      </span>
-                    )}
                     {errors.emailError === 2 && (
                       <span className="text-danger">
                         -El email ingresado no es valido
                       </span>
                     )}
-                    {errors.emailError === 0 && (
-                      <>-Su email debe contener el dominio [@ y .com]</>
-                    )}
                   </p>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>*Contraseña</Form.Label>
+                  <Form.Label>Contraseña*</Form.Label>
                   <Form.Control
                     type="password"
                     placeholder="Ingresar Contraseña"
@@ -249,18 +206,6 @@ const Register = () => {
                     onChange={handleChangePassword}
                   />
                   <p>
-                    {errors.passwordError === 0 && (
-                      <>
-                        -Su contrasea debe tener entre [7-20] caracteres
-                        <br />
-                        -Su contraseña debe tener una mayuscula y una letra
-                      </>
-                    )}
-                    {errors.passwordError === 1 && (
-                      <span className="text-danger">
-                        -Este campo es obligatorio
-                      </span>
-                    )}
                     {errors.passwordError === 2 && (
                       <span className="text-danger">
                         -Su contraseña no es valida
@@ -271,7 +216,11 @@ const Register = () => {
               </Col>
             </Row>
             <Row>
-              <Col className="d-flex flex-column justify-content-end align-items-end">
+              <Col
+                id="Sector"
+                className="d-flex justify-content-between align-items-end"
+              >
+                <p>(*) Campos obligatorios</p>
                 <Button variant="primary" type="submit">
                   Registrarse
                 </Button>

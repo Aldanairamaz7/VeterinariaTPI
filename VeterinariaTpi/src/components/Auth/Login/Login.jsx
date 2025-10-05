@@ -75,20 +75,20 @@ const Login = () => {
                     onChange={handleEmailInput}
                     value={email}
                     className="mb-2"
+                    isInvalid={loginErrors.emailError}
                   />
+                  <Form.Control.Feedback
+                    type="invalid"
+                    style={{ whiteSpace: "pre-line" }}
+                  >
+                    {loginErrors.emailError}
+                  </Form.Control.Feedback>
+
                   <p>
-                    {loginErrors.emailError === 1 && (
-                      <span className="text-danger">
-                        -Este campo es obligatorio
-                      </span>
-                    )}
                     {loginErrors.emailError === 2 && (
                       <span className="text-danger">
                         -El email ingresado no es valido
                       </span>
-                    )}
-                    {loginErrors.emailError === 0 && (
-                      <>-Su email debe contener el dominio [@ y .com]</>
                     )}
                   </p>
                 </Form.Group>
@@ -103,18 +103,6 @@ const Login = () => {
                     className="mb-2"
                   />
                   <p>
-                    {loginErrors.passwordError === 0 && (
-                      <>
-                        -Su contrasea debe tener entre [7-20] caracteres
-                        <br />
-                        -Su contraseña debe tener una mayuscula y una letra
-                      </>
-                    )}
-                    {loginErrors.passwordError === 1 && (
-                      <span className="text-danger">
-                        -Este campo es obligatorio
-                      </span>
-                    )}
                     {loginErrors.passwordError === 2 && (
                       <span className="text-danger">
                         -Su contraseña no es valida
