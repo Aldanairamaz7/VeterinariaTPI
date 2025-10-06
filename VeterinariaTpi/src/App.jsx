@@ -12,6 +12,7 @@ import RequestShift from "./components/RequestShift/RequestShift";
 import { ToastContainer } from "react-toastify";
 import EditPet from "./components/editPet/EditPet";
 import EditProfile from "./components/EditProfile/EditProfile";
+import AdminPanel from "./components/AdminPanel/AdminPanel";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/solicitarturno" element={<RequestShift />} />
           <Route path="/editarmascota" element={<EditPet />} />
           <Route path="/editarperfil" element={<EditProfile />} />
+          <Route path="/adminpanel" element={<AdminPanel />} />
         </Routes>
         <ToastContainer />
         <Footer />
