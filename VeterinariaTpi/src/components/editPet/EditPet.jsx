@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import { Card, Col, Form, Row, Button, FormGroup } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router";
-import { validateAddPetName, validatePetAge, validateBreed } from "../shared/validations.js";
-import { errorToast, successToast } from "../shared/notifications/notifications.js";
+import {
+  validateAddPetName,
+  validatePetAge,
+  validateBreed,
+} from "../shared/validations.js";
+import {
+  errorToast,
+  successToast,
+} from "../shared/notifications/notifications.js";
 import { useAuth } from "../../Services/authContext/AuthContext.jsx";
-
 
 const EditPet = () => {
   const [petName, setPetName] = useState("");
@@ -13,24 +19,25 @@ const EditPet = () => {
   const [petImg, setPetImg] = useState("");
   const [errors, setErrors] = useState({});
 
-  const {petId} = useParams();
-  
+  const { petId } = useParams();
+  const idMascota = parseInt(petId);
+
   const { user, token, setUser } = useAuth();
-  
+
   useEffect(() => {
     if (user && Array.isArray(user.pets)) {
-      
-      console.log(user.pets)
-      const pet = user.pets.find(p => p._id == petId);
-      
+      console.log(user);
+      const pet = user.pets.find((pett) => pett.id == idMascota);
+      console.log(pet);
+
       if (pet) {
-        setPetName(p.petName || "");
-        setPetAge(p.petAge || "");
-        setPetBreed(p.petBreed || "");
-        setPetImg(p.petImg || "");
+        setPetName(pet.name || "");
+        setPetAge(pet.age || "");
+        setPetBreed(pet.breed || "");
+        setPetImg(pet.imageURL || "");
       }
-  }
-}, [user, petId]);
+    }
+  }, [user, petId]);
 
   const navigate = useNavigate();
 
@@ -42,7 +49,6 @@ const EditPet = () => {
       petName: validateAddPetName(value),
     });
   };
-
 
   const handleAgeInput = (e) => {
     const value = e.target.value;
@@ -63,58 +69,56 @@ const EditPet = () => {
   };
 
   const handlePetImg = (e) => {
-    const value = e.target.value
-    setPetImg(value)
-  }
+    const value = e.target.value;
+    setPetImg(value);
+  };
 
   const handleBackClick = () => {
     navigate("/userpanel");
   };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    
     const formErrors = {
       petName: validateAddPetName(petName),
       petAge: validatePetAge(petAge),
-      petBreed: validateBreed(petBreed)
+      petBreed: validateBreed(petBreed),
     };
 
-    setErrors(formErrors)
+    setErrors(formErrors);
 
     const hasErrors = Object.values(formErrors).some((err) => err !== "");
 
-    if(hasErrors){
+    if (hasErrors) {
       errorToast("Hay alugunos campos incorrectos, revisalos.");
       return;
     }
 
-
     fetch("http://localhost:3000/editPets", {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${token}`,
       },
       method: "PUT",
       body: JSON.stringify({
-        name,
-        age,
-        breed,
-        imageURL
+        id: idMascota,
+        name: petName,
+        age: petAge,
+        breed: petBreed,
+        imageURL: petImg,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
-        setUser(data.user)
-        console.log(data)
-        successToast(data.message)
+        setUser(data.user);
+        console.log(data);
+        successToast(data.message);
+        
       })
-      .catch((err) => console.log(err)); 
-      
-      navigate("/userpanel")
+      .catch((err) => console.log(err));
+    debugger;
   };
-
 
   return (
     <div>
@@ -125,7 +129,6 @@ const EditPet = () => {
       </div>
       <div className="d-flex flex-column justify-content-center align-items-center mb-2">
         <Card>
-          
           <Card.Body>
             <h2>Editar mascota</h2>
             <Form onSubmit={handleSubmit}>
@@ -140,9 +143,9 @@ const EditPet = () => {
                       value={petName}
                       isInvalid={errors.petName}
                     />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.petName}
-                  </Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">
+                      {errors.petName}
+                    </Form.Control.Feedback>
                   </Form.Group>
 
                   <Form.Group className="mb-5">
@@ -154,7 +157,10 @@ const EditPet = () => {
                       value={petAge}
                       isInvalid={errors.petAge}
                     />
-                    <Form.Control.Feedback type="invalid" style={{ whiteSpace: "pre-line" }}>
+                    <Form.Control.Feedback
+                      type="invalid"
+                      style={{ whiteSpace: "pre-line" }}
+                    >
                       {errors.petAge}
                     </Form.Control.Feedback>
                   </Form.Group>
@@ -167,12 +173,15 @@ const EditPet = () => {
                       value={petBreed}
                       isInvalid={errors.petBreed}
                     />
-                    <Form.Control.Feedback type="invalid" style={{ whiteSpace: "pre-line" }}> 
+                    <Form.Control.Feedback
+                      type="invalid"
+                      style={{ whiteSpace: "pre-line" }}
+                    >
                       {errors.petBreed}
                     </Form.Control.Feedback>
                   </Form.Group>
 
-                  <Form.Group className="mb-5"> 
+                  <Form.Group className="mb-5">
                     <Form.Label>Imagen: </Form.Label>
                     <Form.Control
                       type="text"
@@ -188,9 +197,7 @@ const EditPet = () => {
                   <Button variant="primary" type="submit">
                     Confirmar
                   </Button>
-                  <Button variant="danger">
-                    Eliminar mascota
-                  </Button>
+                  <Button variant="danger">Eliminar mascota</Button>
                 </Col>
               </Row>
             </Form>
