@@ -1,7 +1,6 @@
 import "react-bootstrap";
 import CustomNavbar from "./components/CustomNavbar/CustomNavbar";
 import Footer from "./components/Footer/Footer";
-import UserNavbar from "./components/UserNavbar/UserNavbar";
 import UserPanel from "./components/UserPanel/UserPanel";
 import Body from "./components/Body/Body";
 import { BrowserRouter, Route, Routes } from "react-router";
@@ -12,7 +11,14 @@ import RequestShift from "./components/RequestShift/RequestShift";
 import { ToastContainer } from "react-toastify";
 import EditPet from "./components/editPet/EditPet";
 import EditProfile from "./components/EditProfile/EditProfile";
+<<<<<<< HEAD
 import AdminPanel from "./components/AdminPanel/AdminPanel";
+=======
+import Protected from "./components/protected/Protected";
+import ErrorNotFound from "./components/error/ErrorNotFound";
+import ErrorUnauthorized from "./components/error/ErrorUnauthorized";
+
+>>>>>>> origin
 
 function App() {
   return (
@@ -23,12 +29,24 @@ function App() {
           <Route index element={<Body />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+<<<<<<< HEAD
           <Route path="/userpanel" element={<UserPanel />} />
           <Route path="/addpets" element={<AddPets />} />
           <Route path="/solicitarturno" element={<RequestShift />} />
           <Route path="/editarmascota" element={<EditPet />} />
           <Route path="/editarperfil" element={<EditProfile />} />
           <Route path="/adminpanel" element={<AdminPanel />} />
+=======
+          <Route element={<Protected />}>
+            <Route path="/userpanel" element={<UserPanel />} />
+            <Route path="/addpets" element={<AddPets />} />
+            <Route path="/solicitarturno" element={<RequestShift />} />
+            <Route path="/editarmascota/:petId" element={<EditPet />} />
+            <Route path="/editarperfil" element={<EditProfile />} />
+          </Route>
+          <Route path="*" element={<ErrorNotFound />} />
+          <Route path="/unauthorized" element={<ErrorUnauthorized />} />
+>>>>>>> origin
         </Routes>
         <ToastContainer />
         <Footer />

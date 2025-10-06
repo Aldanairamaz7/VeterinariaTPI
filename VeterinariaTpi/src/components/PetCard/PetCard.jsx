@@ -12,16 +12,17 @@ function PetCard({ pet }) {
     }
 
     const handleEditPet = () => {
-        navigate("/editarmascota")
+        navigate(`/editarmascota/${pet.id}`)
     }
 
     return (
         <Card className='pet-card'>
-            <CardImg
-                variant='top'
-                src={pet.imageURL}
-                className='pet-image'
-            />
+            <div className='pet-image-container'>
+                <img
+                    src={pet.imageURL}
+                    className='pet-image'
+                />
+            </div>
             <CardBody>
                 <CardTitle>{pet.name}</CardTitle>
                 <div className='pet-info-hidden'>
