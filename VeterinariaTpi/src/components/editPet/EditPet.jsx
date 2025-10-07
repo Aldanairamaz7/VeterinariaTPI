@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, Col, Form, Row, Button, FormGroup } from "react-bootstrap";
+import { Card, Col, Form, Row, Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router";
 import {
   validateAddPetName,
@@ -10,6 +10,7 @@ import {
   errorToast,
   successToast,
 } from "../shared/notifications/notifications.js";
+import ConfirmDeleteModal from "../confirmDeleteModal/ConfirmDeleteModal.jsx";
 import { useAuth } from "../../Services/authContext/AuthContext.jsx";
 
 const EditPet = () => {
@@ -17,12 +18,13 @@ const EditPet = () => {
   const [petAge, setPetAge] = useState("");
   const [petBreed, setPetBreed] = useState("");
   const [petImg, setPetImg] = useState("");
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [errors, setErrors] = useState({});
 
   const { petId } = useParams();
   const idMascota = parseInt(petId);
 
-  const { user, token, setUser } = useAuth();
+  const { user, token, setUser, removePet } = useAuth();
 
   useEffect(() => {
     if (user && Array.isArray(user.pets)) {
@@ -72,6 +74,18 @@ const EditPet = () => {
     const value = e.target.value;
     setPetImg(value);
   };
+
+  const handleDeletePet = async () => {
+    try{
+      await removePet(idMascota);
+      successToast("Mascota eliminada con exito.")
+      setShowDeleteModal(false);
+      navigate("/userpanel")
+    } catch (err){
+      console.log(err);
+      errorToast("Nose pudo eliminar la mascota")
+    }
+  }
 
   const handleBackClick = () => {
     navigate("/userpanel");
@@ -198,13 +212,21 @@ const EditPet = () => {
                   <Button variant="primary" type="submit">
                     Confirmar
                   </Button>
-                  <Button variant="danger">Eliminar mascota</Button>
+                  <Button variant="danger" onClick={ () => setShowDeleteModal(true) }>
+                    Eliminar mascota
+                  </Button>
                 </Col>
               </Row>
             </Form>
           </Card.Body>
         </Card>
       </div>
+      <ConfirmDeleteModal
+        show={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={handleDeletePet}
+        petName={petName}
+      />
     </div>
   );
 };
