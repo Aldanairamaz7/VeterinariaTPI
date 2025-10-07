@@ -5,7 +5,7 @@ const APCard = ({ typeCard, summaryFunc, pathFunc }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(pathFunc);
+    navigate(`${pathFunc}`);
   };
 
   return (
