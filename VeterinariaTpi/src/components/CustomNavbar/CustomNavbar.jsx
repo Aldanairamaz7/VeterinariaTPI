@@ -1,10 +1,31 @@
-import React from 'react'
-import { Container, Navbar, NavbarBrand, NavbarCollapse, NavbarToggle, NavLink, Nav } from 'react-bootstrap';
+import React, { useState } from 'react'
+import { Container, Navbar, NavbarBrand, NavbarCollapse, NavbarToggle, Nav,Button } from 'react-bootstrap';
 import vetIcon from '../../assets/logo.jpg';
 import '../CustomNavbar/customNavbar.css';
+import { href, Navigate, useNavigate } from 'react-router';
+import ContactModal from '../ContactModal/ContactModal';
+
 
 function CustomNavbar() {
+    const [showContact, setShowContact] = useState(false);
+
+    const openContact = () => setShowContact(true);
+    const closeContact = () => setShowContact(false);
+
+    const navigate = useNavigate();
+    const handleGoToRoot= () => {
+        navigate("/");
+    }
+    const HandleScrollToServices = () => {
+    const el = document.getElementById('services');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+     };
+    const handleLogin = () => {
+        navigate("/login");
+    }
+
     return (
+    
         <Navbar bg="primary" variant="dark" expand="lg" sticky="top">
             <Container>
                 <NavbarBrand className='d-flex align-items-center'>
@@ -19,15 +40,16 @@ function CustomNavbar() {
                 <NavbarCollapse id='basic-navbar-nav'>
 
                     <Nav className="ms-auto">
-                        <NavLink href="/">Inicio</NavLink>
-                        <NavLink href="#servicios">Servicios</NavLink>
-                        <NavLink href="#contacto">Contacto</NavLink>
-                        <NavLink href="/login">Iniciar Sesión</NavLink>
+                        <Button onClick={handleGoToRoot}>Inicio</Button>
+                        <Button onClick={HandleScrollToServices}>Servicios</Button>
+                        <Button onClick={openContact}>Contacto</Button>
+                        <Button onClick={handleLogin}>Iniciar Sesion</Button>
                     </Nav>
 
                 </NavbarCollapse>
             </Container>
-        </Navbar>
+            <ContactModal show={showContact} onHide={closeContact} />
+        </Navbar> 
     )
 }
 
