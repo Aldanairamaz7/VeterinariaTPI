@@ -16,6 +16,7 @@ import Protected from "./components/protected/Protected";
 import ErrorNotFound from "./components/error/ErrorNotFound";
 import ErrorUnauthorized from "./components/error/ErrorUnauthorized";
 import AdminUserView from "./components/AdminUserView/AdminUserView";
+import AdminUserPetView from "./components/AdminUserPetView/AdminUserPetView";
 
 function App() {
   return (
@@ -33,7 +34,11 @@ function App() {
             <Route path="/editarmascota/:petId" element={<EditPet />} />
             <Route path="/editarperfil" element={<EditProfile />} />
             <Route path="/adminpanel" element={<AdminPanel />} />
-            <Route path='/users' element={<AdminUserView/>}/>
+            <Route path="/adminpanel/users" element={<AdminUserView />} />
+            <Route
+              path="/adminpanel/users/pets"
+              element={<AdminUserPetView />}
+            />
           </Route>
           <Route path="*" element={<ErrorNotFound />} />
           <Route path="/unauthorized" element={<ErrorUnauthorized />} />

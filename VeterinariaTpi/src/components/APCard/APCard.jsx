@@ -1,11 +1,11 @@
 import { Button, Card, Col, Row } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import { replace, useNavigate } from "react-router";
 
 const APCard = ({ typeCard, summaryFunc, pathFunc }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`${pathFunc}`);
+    navigate(`/adminpanel${pathFunc}`, { replace: true });
   };
 
   return (

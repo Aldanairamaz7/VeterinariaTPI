@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card, Col, Form, Row, Button } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import {
   validateAddPetName,
   validatePetAge,
@@ -18,28 +18,23 @@ const EditPet = () => {
   const [petAge, setPetAge] = useState("");
   const [petBreed, setPetBreed] = useState("");
   const [petImg, setPetImg] = useState("");
-  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [errors, setErrors] = useState({});
-
-  const { petId } = useParams();
-  const idMascota = parseInt(petId);
+  const location = useLocation();
+  const { id, name, breed, age, imageURL } = location.state.pet;
+  const idPet = id;
+  console.log(idPet);
 
   const { user, token, setUser, removePet } = useAuth();
 
   useEffect(() => {
-    if (user && Array.isArray(user.pets)) {
-      
-      const pet = user.pets.find((pett) => pett.id == idMascota);
-
-
-      if (pet) {
-        setPetName(pet.name || "");
-        setPetAge(pet.age || "");
-        setPetBreed(pet.breed || "");
-        setPetImg(pet.imageURL || "");
-      }
+    if (id) {
+      setPetName(name || "");
+      setPetAge(age || "");
+      setPetBreed(breed || "");
+      setPetImg(imageURL || "");
     }
-  }, [user, petId]);
+  }, []);
 
   const navigate = useNavigate();
 
@@ -76,16 +71,16 @@ const EditPet = () => {
   };
 
   const handleDeletePet = async () => {
-    try{
+    try {
       await removePet(idMascota);
-      successToast("Mascota eliminada con exito.")
+      successToast("Mascota eliminada con exito.");
       setShowDeleteModal(false);
-      navigate("/userpanel")
-    } catch (err){
+      navigate("/userpanel");
+    } catch (err) {
       console.log(err);
-      errorToast("Nose pudo eliminar la mascota")
+      errorToast("Nose pudo eliminar la mascota");
     }
-  }
+  };
 
   const handleBackClick = () => {
     navigate("/userpanel");
@@ -93,7 +88,7 @@ const EditPet = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     const formErrors = {
       petName: validateAddPetName(petName),
       petAge: validatePetAge(petAge),
@@ -112,11 +107,11 @@ const EditPet = () => {
     fetch("http://localhost:3000/editPets", {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       method: "PUT",
       body: JSON.stringify({
-        id: idMascota,
+        id: idPet,
         name: petName,
         age: petAge,
         breed: petBreed,
@@ -128,12 +123,10 @@ const EditPet = () => {
         setUser(data.user);
         console.log(data);
         successToast(data.message);
-        
       })
       .catch((err) => console.log(err));
-      navigate("/userpanel")
+    navigate("/userpanel");
   };
-
 
   return (
     <div>
@@ -212,7 +205,10 @@ const EditPet = () => {
                   <Button variant="primary" type="submit">
                     Confirmar
                   </Button>
-                  <Button variant="danger" onClick={ () => setShowDeleteModal(true) }>
+                  <Button
+                    variant="danger"
+                    onClick={() => setShowDeleteModal(true)}
+                  >
                     Eliminar mascota
                   </Button>
                 </Col>
