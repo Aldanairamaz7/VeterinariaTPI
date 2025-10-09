@@ -4,6 +4,7 @@ import "./services.css";
 
 function Services() {
   return (
+  <section id="services">
     <div className="services-container">
       <h2 className="services-title">Nuestros servicios</h2>
       <div className="services-grid">
@@ -16,6 +17,7 @@ function Services() {
         ))}
       </div>
     </div>
+  </section>
   );
 }
 
