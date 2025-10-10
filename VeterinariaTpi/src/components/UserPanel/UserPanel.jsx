@@ -5,9 +5,6 @@ import { useAuth } from "../../Services/authContext/AuthContext";
 
 function UserPanel() {
   const { user } = useAuth();
-
-  if (!user) return <p>Cargando usuario...</p>;
-
   const pets = user.pets || [];
 
   return (

@@ -32,9 +32,9 @@ function UserNavbar({ user }) {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
-        <NavbarText className="text-white">
-          Bienvenido {user.firstName}.
-        </NavbarText>
+        {/* <NavbarText className="text-white">
+          Bienvenido/a {user.firstName}
+        </NavbarText> */}
         <NavbarToggle aria-controls="navbar-nav" className="mb-3 mt-1" />
         <NavbarCollapse
           id="navbar-nav"
