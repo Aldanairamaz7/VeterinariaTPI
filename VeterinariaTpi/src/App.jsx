@@ -14,13 +14,15 @@ import EditProfile from "./components/EditProfile/EditProfile";
 import Protected from "./components/protected/Protected";
 import ErrorNotFound from "./components/error/ErrorNotFound";
 import ErrorUnauthorized from "./components/error/ErrorUnauthorized";
+import { useAuth } from "./Services/authContext/AuthContext";
 
 
 function App() {
+
   return (
     <>
       <BrowserRouter>
-        <CustomNavbar />
+        <CustomNavbar/>
         <Routes>
           <Route index element={<Body />} />
           <Route path="/login" element={<Login />} />
