@@ -17,7 +17,7 @@ function Profile() {
         <Button onClick={handleGoToUserPanel} >
             <FontAwesomeIcon icon={faUser} />
             <br/>
-            {user.firstName} {user.lastName}
+            {user?.firstName} {user?.lastName}
 
         </Button>
     
