@@ -28,13 +28,12 @@ function UserNavbar({ user }) {
     userLogout();
     navigate("/login");
   };
-
+  const handleVeterinarianPanel = () => {
+    navigate("/veterinarian");
+  }
   return (
-    <Navbar bg="dark" variant="dark" expand="lg">
+    <Navbar bg="success" variant="dark" expand="lg">
       <Container>
-        <NavbarText className="text-white">
-          Bienvenido {user.firstName}.
-        </NavbarText>
         <NavbarToggle aria-controls="navbar-nav" className="mb-3 mt-1" />
         <NavbarCollapse
           id="navbar-nav"
@@ -63,6 +62,13 @@ function UserNavbar({ user }) {
             >
               <FontAwesomeIcon icon={faRightFromBracket} className="me-2" />
               Cerrar Sesion
+            </Button>
+            <Button
+              variant="outline-light"
+              className="me-2"
+              onClick={handleVeterinarianPanel}
+            > 
+              Admin
             </Button>
           </Nav>
         </NavbarCollapse>

@@ -17,6 +17,8 @@ import ErrorNotFound from "./components/error/ErrorNotFound";
 import ErrorUnauthorized from "./components/error/ErrorUnauthorized";
 import AdminUserView from "./components/AdminUserView/AdminUserView";
 import AdminUserPetView from "./components/AdminUserPetView/AdminUserPetView";
+import { useAuth } from "./Services/authContext/AuthContext";
+import VeterinarianPanel from "./components/VeterinarianPanel/VeterinarianPanel";
 
 function App() {
   return (
@@ -39,6 +41,7 @@ function App() {
               path="/adminpanel/users/pets"
               element={<AdminUserPetView />}
             />
+            <Route path="/veterinarian" element={<VeterinarianPanel />} />
           </Route>
           <Route path="*" element={<ErrorNotFound />} />
           <Route path="/unauthorized" element={<ErrorUnauthorized />} />
