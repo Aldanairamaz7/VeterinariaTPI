@@ -11,19 +11,20 @@ import RequestShift from "./components/RequestShift/RequestShift";
 import { ToastContainer } from "react-toastify";
 import EditPet from "./components/editPet/EditPet";
 import EditProfile from "./components/EditProfile/EditProfile";
+import AdminPanel from "./components/AdminPanel/AdminPanel";
 import Protected from "./components/protected/Protected";
 import ErrorNotFound from "./components/error/ErrorNotFound";
 import ErrorUnauthorized from "./components/error/ErrorUnauthorized";
+import AdminUserView from "./components/AdminUserView/AdminUserView";
+import AdminUserPetView from "./components/AdminUserPetView/AdminUserPetView";
 import { useAuth } from "./Services/authContext/AuthContext";
 import VeterinarianPanel from "./components/VeterinarianPanel/VeterinarianPanel";
 
-
 function App() {
-
   return (
     <>
       <BrowserRouter>
-        <CustomNavbar/>
+        <CustomNavbar />
         <Routes>
           <Route index element={<Body />} />
           <Route path="/login" element={<Login />} />
@@ -33,8 +34,14 @@ function App() {
             <Route path="/addpets" element={<AddPets />} />
             <Route path="/solicitarturno" element={<RequestShift />} />
             <Route path="/editarmascota/:petId" element={<EditPet />} />
-            <Route path="/editarperfil" element={<EditProfile />} />
-            <Route path="/veterinarian" element={<VeterinarianPanel/>}/>
+            <Route path="/editarperfil/:userId" element={<EditProfile />} />
+            <Route path="/adminpanel" element={<AdminPanel />} />
+            <Route path="/adminpanel/users" element={<AdminUserView />} />
+            <Route
+              path="/adminpanel/users/pets"
+              element={<AdminUserPetView />}
+            />
+            <Route path="/veterinarian" element={<VeterinarianPanel />} />
           </Route>
           <Route path="*" element={<ErrorNotFound />} />
           <Route path="/unauthorized" element={<ErrorUnauthorized />} />
