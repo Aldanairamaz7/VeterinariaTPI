@@ -15,6 +15,7 @@ import Protected from "./components/protected/Protected";
 import ErrorNotFound from "./components/error/ErrorNotFound";
 import ErrorUnauthorized from "./components/error/ErrorUnauthorized";
 import { useAuth } from "./Services/authContext/AuthContext";
+import VeterinarianPanel from "./components/VeterinarianPanel/VeterinarianPanel";
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
             <Route path="/solicitarturno" element={<RequestShift />} />
             <Route path="/editarmascota/:petId" element={<EditPet />} />
             <Route path="/editarperfil" element={<EditProfile />} />
+            <Route path="/veterinarian" element={<VeterinarianPanel/>}/>
           </Route>
           <Route path="*" element={<ErrorNotFound />} />
           <Route path="/unauthorized" element={<ErrorUnauthorized />} />
