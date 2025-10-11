@@ -34,7 +34,7 @@ function App() {
             <Route path="/addpets" element={<AddPets />} />
             <Route path="/solicitarturno" element={<RequestShift />} />
             <Route path="/editarmascota/:petId" element={<EditPet />} />
-            <Route path="/editarperfil" element={<EditProfile />} />
+            <Route path="/editarperfil/:userId" element={<EditProfile />} />
             <Route path="/adminpanel" element={<AdminPanel />} />
             <Route path="/adminpanel/users" element={<AdminUserView />} />
             <Route

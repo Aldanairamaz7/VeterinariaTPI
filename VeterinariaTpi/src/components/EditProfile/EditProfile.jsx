@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import {
   validateFirstName,
   validateLastName,
@@ -8,7 +8,10 @@ import {
   validateEmail,
   validatePassword,
 } from "../shared/validations.js";
-import { errorToast, successToast } from "../shared/notifications/notifications.js";
+import {
+  errorToast,
+  successToast,
+} from "../shared/notifications/notifications.js";
 import { useAuth } from "../../Services/authContext/AuthContext.jsx";
 
 const EditProfile = () => {
@@ -17,22 +20,27 @@ const EditProfile = () => {
   const [dni, setDni] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isVeterinarian, setIsVeterinarian] = useState(false);
   const [errors, setErrors] = useState({});
 
-  const { user, token, setUser} = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { user, token, setUser } = useAuth();
+  const adminPerm = location.state === null ? false : true;
+
+  const userEdit = !adminPerm ? user : location.state.user;
 
   useEffect(() => {
-    
-    if(user){
-      setFirstName(user.firstName || "");
-      setLastName(user.lastName || "");
-      setDni(user.dni || "");
-      setEmail(user.email || "");
+    if (userEdit) {
+      setFirstName(userEdit.firstName || "");
+      setLastName(userEdit.lastName || "");
+      setDni(userEdit.dni || "");
+      setEmail(userEdit.email || "");
+      setIsAdmin(userEdit.isAdmin || false);
+      setIsVeterinarian(userEdit.isVeterinarian || false);
     }
-  }, [user])
-
-
-  const navigate = useNavigate();
+  }, [user]);
 
   const handleChangeFirstName = (e) => {
     const value = e.target.value;
@@ -88,10 +96,10 @@ const EditProfile = () => {
       return;
     }
 
-    fetch("http://localhost:3000/editprofile", {
+    fetch("http://localhost:3000/editprofile/:id", {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       method: "PUT",
       body: JSON.stringify({
@@ -100,20 +108,27 @@ const EditProfile = () => {
         dni,
         email,
         password,
+        isAdmin,
+        isVeterinarian,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
-        setUser(data.user),
-        
-        console.log(data),
-        
-        successToast(data.message)
+        setUser(data.user), console.log(data), successToast(data.message);
       })
       .catch((err) => console.log(err));
-      
-      navigate("/userpanel")
-      
+
+    navigate("/userpanel");
+  };
+
+  const handleChangeSwitch = (permissions) => {
+    if (permissions === "admin") {
+      setIsAdmin(!isAdmin ? true : false);
+    } else {
+      setIsVeterinarian(!isVeterinarian ? true : false);
+    }
+    console.log(`isAdmin: ${isAdmin}`);
+    console.log(`isVet ${isVeterinarian}`);
   };
 
   return (
@@ -175,22 +190,47 @@ const EditProfile = () => {
                     {errors.email}
                   </Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group className="mb-1">
-                  <Form.Label>Contraseña *</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Ingrese su contraseña"
-                    onChange={handleChangePassword}
-                    value={password}
-                    isInvalid={errors.password}
-                  />
-                  <Form.Control.Feedback
-                    type="invalid"
-                    style={{ whiteSpace: "pre-line" }}
-                  >
-                    {errors.password}
-                  </Form.Control.Feedback>
-                </Form.Group>
+                {!adminPerm ? (
+                  <Form.Group className="mb-1">
+                    <Form.Label>Contraseña *</Form.Label>
+                    <Form.Control
+                      type="password"
+                      placeholder="Ingrese su contraseña"
+                      onChange={handleChangePassword}
+                      value={password}
+                      isInvalid={errors.password}
+                    />
+                    <Form.Control.Feedback
+                      type="invalid"
+                      style={{ whiteSpace: "pre-line" }}
+                    >
+                      {errors.password}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                ) : (
+                  <>
+                    <Form.Group className="mb-1 d-flex justify-content-between">
+                      <Form.Label>¿Es administrador?</Form.Label>
+                      <Form.Check
+                        type="switch"
+                        onChange={() => {
+                          handleChangeSwitch("admin");
+                        }}
+                        checked={isAdmin}
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-1 d-flex justify-content-between">
+                      <Form.Label>¿Es veterinario?</Form.Label>
+                      <Form.Check
+                        type="switch"
+                        onChange={() => {
+                          handleChangeSwitch("veterinario");
+                        }}
+                        checked={isVeterinarian}
+                      />
+                    </Form.Group>
+                  </>
+                )}
               </Col>
             </Row>
             <Row>

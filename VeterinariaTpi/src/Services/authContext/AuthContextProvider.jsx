@@ -20,7 +20,7 @@ export const AuthContextProvider = ({ children }) => {
 
     localStorage.setItem("vetCare-token", data.token);
     setToken(data.token);
-    console.log(data);
+    console.log(data.user);
     await fetchUser();
   };
 

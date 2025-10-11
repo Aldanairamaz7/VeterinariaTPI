@@ -12,8 +12,8 @@ import {
 import { useNavigate } from "react-router";
 import { useAuth } from "../../Services/authContext/AuthContext";
 
-function UserNavbar({ user }) {
-  const { userLogout } = useAuth();
+function UserNavbar() {
+  const { userLogout, user } = useAuth();
   const navigate = useNavigate();
 
   const handleAddPetClick = () => {
@@ -21,7 +21,7 @@ function UserNavbar({ user }) {
   };
 
   const handleEditProfile = () => {
-    navigate("/editarperfil");
+    navigate(`/editarperfil/${user.id}`);
   };
 
   const handleLogout = () => {
@@ -30,7 +30,7 @@ function UserNavbar({ user }) {
   };
   const handleVeterinarianPanel = () => {
     navigate("/veterinarian");
-  }
+  };
   return (
     <Navbar bg="success" variant="dark" expand="lg">
       <Container>
@@ -67,7 +67,7 @@ function UserNavbar({ user }) {
               variant="outline-light"
               className="me-2"
               onClick={handleVeterinarianPanel}
-            > 
+            >
               Admin
             </Button>
           </Nav>

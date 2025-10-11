@@ -5,7 +5,16 @@ import { useAuth } from "../../Services/authContext/AuthContext";
 import "../UserCard/UserCard.css";
 import { useNavigate } from "react-router";
 
-const UserCard = ({ firstname, lastname, dni, email, id, pets }) => {
+const UserCard = ({
+  firstname,
+  lastname,
+  dni,
+  email,
+  id,
+  pets,
+  isAdmin,
+  isVeterinarian,
+}) => {
   const [showModal, setShowModal] = useState(false);
   const { token } = useAuth();
   const navigate = useNavigate();
@@ -35,6 +44,22 @@ const UserCard = ({ firstname, lastname, dni, email, id, pets }) => {
       },
     });
   };
+
+  const handleModifyUser = () => {
+    navigate(`/editarperfil/${id}`, {
+      state: {
+        user: {
+          firstName: firstname,
+          lastName: lastname,
+          dni,
+          email,
+          id,
+          isAdmin,
+          isVeterinarian,
+        },
+      },
+    });
+  };
   return (
     <>
       <Card className="d-flex flex-row m-3">
@@ -52,7 +77,7 @@ const UserCard = ({ firstname, lastname, dni, email, id, pets }) => {
           <Button variant="success" onClick={handleGoUserPets}>
             Ver Mascotas
           </Button>
-          <Button>Modificar usuario</Button>
+          <Button onClick={handleModifyUser}>Modificar usuario</Button>
           <Button variant="danger" onClick={handleConfirmDelete}>
             Elimitar usuario
           </Button>
