@@ -4,10 +4,11 @@ import { useNavigate } from "react-router";
 
 const RequestShift = () => {
     const [userName, setUserName] = useState("");
-    const [pet, setPet] = useState("");
+    const [petName, setPetName] = useState("");
     const [typeRequest, setTypeRequest] = useState("");
     const [dateShift, setDateShift] = useState("");
     const [description, setDescription] = useState("");
+    const [errors, setErrors] = useState({});
 
     const navigate = useNavigate();
 
@@ -15,7 +16,7 @@ const RequestShift = () => {
         setUserName(e.target.value);
     }
 
-    const handlePet = (e) => {
+    const handlePetName = (e) => {
         setPet(e.target.value);
     }
 
@@ -55,13 +56,12 @@ const RequestShift = () => {
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label>Mascota:</Form.Label>
-                                    <Form.Select
-                                        aria-label="Seleccione a su mascota"
-                                        onChange={handlePet}
-                                        value={pet}
-                                    >
-                                        <option value="">Seleccione a su mascota</option>
-                                    </Form.Select>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Ingrese el nombre de la mascota"
+                                        onChange={handlePetName}
+                                        value={petName}
+                                    />
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label>Tipo de consulta:</Form.Label>
@@ -73,7 +73,7 @@ const RequestShift = () => {
                                         <option value="">Seleccione una opcion</option>
                                         <option value="query">Consulta</option>
                                         <option value="check">Control</option>
-                                        <option value="surgery">cirugia</option>
+                                        <option value="surgery">Cirugia</option>
                                         <option value="stylist">Estilista</option>
                                     </Form.Select>
                                 </Form.Group>
