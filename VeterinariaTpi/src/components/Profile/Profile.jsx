@@ -1,4 +1,4 @@
-import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { faCircleUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import { Button } from 'react-bootstrap'
@@ -15,9 +15,11 @@ function Profile() {
 
   return (
     <>
-      <Button onClick={handleGoToUserPanel}>
-        <FontAwesomeIcon icon={faUser} />
-        <br />
+      
+      <Button className='h-auto p-2' size='lg' 
+        onClick={handleGoToUserPanel} > 
+         <FontAwesomeIcon icon={faCircleUser} />
+         <br />
         {user?.firstName} {user?.lastName}
       </Button>
 
