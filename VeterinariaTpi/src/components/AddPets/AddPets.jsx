@@ -98,10 +98,10 @@ export const AddPets = () => {
       <Card className="mt-1 mb-1">
         <Card.Body>
           <h2>Añade a tu mascota</h2>
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit} >
             <Row>
               <Col>
-                <Form.Group className="mb-5">
+                <Form.Group className="mb-5 mt-4">
                   <Form.Label>Nombre:</Form.Label>
                   <Form.Control
                     type="text"
@@ -130,7 +130,7 @@ export const AddPets = () => {
                     {errors.petAge}
                   </Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group>
+                <Form.Group className="mb-5">
                   <Form.Label>Raza:</Form.Label>
                   <Form.Control
                     type="text"

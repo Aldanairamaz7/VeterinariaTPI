@@ -3,7 +3,7 @@ import { useAuth } from '../../Services/authContext/AuthContext'
 import { isTokenValid } from './Protected.helpers.js'
 import { Navigate, Outlet } from 'react-router'
 
-function Protected() {
+function Protected({ requireAdmin = false }) {
 
     const { token, user, loading } = useAuth()
 
@@ -13,7 +13,16 @@ function Protected() {
         return <Navigate to='/login' replace />
     }
 
-    return user ? <Outlet /> : <Navigate to='/unauthorized' />
+    if (!user) {
+        console.log(user);
+        return <Navigate to='/unauthorized' />
+    }
+    if (requireAdmin && !user.isAdmin) {
+        console.log(user);
+        return <Navigate to='/unauthorized' />
+    }
+
+    return <Outlet />
 }
 
 export default Protected

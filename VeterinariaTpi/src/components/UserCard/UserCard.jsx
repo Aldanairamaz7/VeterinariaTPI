@@ -46,6 +46,10 @@ const UserCard = ({
   };
 
   const handleModifyUser = () => {
+
+    console.log("isAdmin:", isAdmin, typeof isAdmin);
+    console.log("isVeterinarian:", isVeterinarian, typeof isVeterinarian);
+
     navigate(`/editarperfil/${id}`, {
       state: {
         user: {
@@ -55,7 +59,7 @@ const UserCard = ({
           email,
           id,
           isAdmin,
-          isVeterinarian,
+          isVeterinarian
         },
       },
     });

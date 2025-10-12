@@ -17,7 +17,6 @@ import ErrorNotFound from "./components/error/ErrorNotFound";
 import ErrorUnauthorized from "./components/error/ErrorUnauthorized";
 import AdminUserView from "./components/AdminUserView/AdminUserView";
 import AdminUserPetView from "./components/AdminUserPetView/AdminUserPetView";
-import { useAuth } from "./Services/authContext/AuthContext";
 import VeterinarianPanel from "./components/VeterinarianPanel/VeterinarianPanel";
 
 function App() {
@@ -29,18 +28,19 @@ function App() {
           <Route index element={<Body />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+
           <Route element={<Protected />}>
             <Route path="/userpanel" element={<UserPanel />} />
             <Route path="/addpets" element={<AddPets />} />
             <Route path="/solicitarturno" element={<RequestShift />} />
             <Route path="/editarmascota/:petId" element={<EditPet />} />
             <Route path="/editarperfil/:userId" element={<EditProfile />} />
-            <Route path="/adminpanel" element={<AdminPanel />} />
-            <Route path="/adminpanel/users" element={<AdminUserView />} />
-            <Route
-              path="/adminpanel/users/pets"
-              element={<AdminUserPetView />}
-            />
+
+            <Route element={<Protected requireAdmin={true} />}>
+              <Route path="/adminpanel" element={<AdminPanel />} />
+              <Route path="/adminpanel/users" element={<AdminUserView />} />
+              <Route path="/adminpanel/users/pets" element={<AdminUserPetView />} />
+            </Route>
             <Route path="/veterinarian" element={<VeterinarianPanel />} />
           </Route>
           <Route path="*" element={<ErrorNotFound />} />

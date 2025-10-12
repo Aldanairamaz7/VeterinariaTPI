@@ -8,7 +8,7 @@ function Footer() {
     return (
         <footer className="bg-dark text-light py-4 mt-1">
             <Container>
-                <Row className="text-center text-md-start">
+                <Row className="text-center text-md-center">
                     <Col md={4}>
                         <p>
                             <FontAwesomeIcon icon={faMapMarkerAlt} className="me-2" />
