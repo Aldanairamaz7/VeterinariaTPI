@@ -7,6 +7,7 @@ export const regexPassword = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{7,20}$/;
 const regexPetName = /^[a-zA-ZÀ-ÿ]+$/;
 const regexAge = /^[1-9]\d?$/;
 const regexBreed = /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,20}$/;
+const regexDescription = /[^a-zA-ZÀ-ÿ0-9\s.,;]/;
 
 export const validateFirstName = (value) => {
   if (!value.trim()) return "Este campo es obligatorio.";
@@ -61,7 +62,29 @@ export const validateBreed = (value) => {
   return "";
 };
 
+export const validateDateShift = (value) => {
+  if(!value.trim()){
+    return "Este campo es obligatorio"
+  }
+  return ""
+}
 
+export const validateShiftDescription = (value) => {
+  if(value.trim().length > 200){
+    return "Como maximo 200 caracteres"
+  }
+  if(regexDescription.test(value)){
+    return "Este campo no permite caracteres especiales. Ej(/, ?, %)"
+  }
+  return ""
+}
+
+export const validateTypeConsult = (value) => {
+  if(!value.trim()){
+    return "Este campo es obligatorio."
+  }
+  return ""
+}
 /* Login Validation */
 
 export const validateLogin = (value, setter, error, regex) => {
