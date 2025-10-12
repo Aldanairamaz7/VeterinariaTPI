@@ -27,6 +27,7 @@ const EditProfile = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, token, setUser } = useAuth();
+
   const adminPerm = location.state === null ? false : true;
 
   const userEdit = !adminPerm ? user : location.state.user;
@@ -37,10 +38,10 @@ const EditProfile = () => {
       setLastName(userEdit.lastName || "");
       setDni(userEdit.dni || "");
       setEmail(userEdit.email || "");
-      setIsAdmin(userEdit.isAdmin || false);
-      setIsVeterinarian(userEdit.isVeterinarian || false);
+      setIsAdmin(!!userEdit.isAdmin);
+      setIsVeterinarian(!!userEdit.isVeterinarian);
     }
-  }, [user]);
+  }, [userEdit]);
 
   const handleChangeFirstName = (e) => {
     const value = e.target.value;
@@ -96,7 +97,7 @@ const EditProfile = () => {
       return;
     }
 
-    fetch("http://localhost:3000/editprofile/:id", {
+    fetch(`http://localhost:3000/editprofile/${userEdit.id}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -114,21 +115,26 @@ const EditProfile = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setUser(data.user), console.log(data), successToast(data.message);
+        if (!adminPerm) {
+          setUser(data.user)
+        }
+        console.log(data),
+          successToast(data.message);
       })
       .catch((err) => console.log(err));
 
-    navigate("/userpanel");
+    navigate(adminPerm ? '/adminpanel/users' : '/userpanel');
   };
 
   const handleChangeSwitch = (permissions) => {
     if (permissions === "admin") {
-      setIsAdmin(!isAdmin ? true : false);
+
+      console.log(isAdmin);
+      setIsAdmin((prev) => !prev);
+
     } else {
-      setIsVeterinarian(!isVeterinarian ? true : false);
+      setIsVeterinarian((prev) => !prev);
     }
-    console.log(`isAdmin: ${isAdmin}`);
-    console.log(`isVet ${isVeterinarian}`);
   };
 
   return (

@@ -1,5 +1,5 @@
 import { Button, Card, Col, Row } from "react-bootstrap";
-import { replace, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 const APCard = ({ typeCard, summaryFunc, pathFunc }) => {
   const navigate = useNavigate();

@@ -4,24 +4,24 @@ import React from 'react'
 import { Button } from 'react-bootstrap'
 import { useAuth } from '../../Services/authContext/AuthContext'
 import { useNavigate } from 'react-router'
+import '../Profile/profile.css'
 
 function Profile() {
-    const {user} = useAuth();
-    const navigate = useNavigate();
-    const handleGoToUserPanel = () => {
-        navigate('/userpanel');
-    } 
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const handleGoToUserPanel = () => {
+    navigate('/userpanel');
+  }
 
   return (
-    <> 
-        <Button onClick={handleGoToUserPanel} >
-            <FontAwesomeIcon icon={faUser} />
-            <br/>
-            {user?.firstName} {user?.lastName}
+    <>
+      <Button onClick={handleGoToUserPanel}>
+        <FontAwesomeIcon icon={faUser} />
+        <br />
+        {user?.firstName} {user?.lastName}
+      </Button>
 
-        </Button>
-    
-    
+
     </>
   )
 }

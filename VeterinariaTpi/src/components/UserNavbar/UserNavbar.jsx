@@ -6,7 +6,6 @@ import {
   Nav,
   Navbar,
   NavbarCollapse,
-  NavbarText,
   NavbarToggle,
 } from "react-bootstrap";
 import { useNavigate } from "react-router";
@@ -29,10 +28,10 @@ function UserNavbar() {
     navigate("/login");
   };
   const handleVeterinarianPanel = () => {
-    navigate("/veterinarian");
+    navigate("/adminpanel/users");
   };
   return (
-    <Navbar bg="success" variant="dark" expand="lg">
+    <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
         <NavbarToggle aria-controls="navbar-nav" className="mb-3 mt-1" />
         <NavbarCollapse
@@ -63,13 +62,17 @@ function UserNavbar() {
               <FontAwesomeIcon icon={faRightFromBracket} className="me-2" />
               Cerrar Sesion
             </Button>
-            <Button
-              variant="outline-light"
-              className="me-2"
-              onClick={handleVeterinarianPanel}
-            >
-              Admin
-            </Button>
+            {
+              user.isAdmin ?
+                <Button
+                  variant="outline-light"
+                  className="me-2"
+                  onClick={handleVeterinarianPanel}
+                >
+                  Admin
+                </Button> :
+                <></>
+            }
           </Nav>
         </NavbarCollapse>
       </Container>

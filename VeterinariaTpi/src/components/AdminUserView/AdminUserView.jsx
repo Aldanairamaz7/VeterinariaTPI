@@ -33,6 +33,8 @@ const AdminUserView = () => {
           password={el.password}
           id={el.id}
           pets={el.pets}
+          isAdmin={!!el.isAdmin}
+          isVeterinarian={!!el.isVeterinarian}
         />
       ))}
     </div>
