@@ -12,6 +12,7 @@ import {
 } from "../shared/notifications/notifications.js";
 import ConfirmDeleteModal from "../confirmDeleteModal/ConfirmDeleteModal.jsx";
 import { useAuth } from "../../Services/authContext/AuthContext.jsx";
+import { useAdmin } from "../../Services/adminContext/AdminContext.jsx";
 
 const EditPet = () => {
   const [petName, setPetName] = useState("");
@@ -21,10 +22,9 @@ const EditPet = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [errors, setErrors] = useState({});
   const location = useLocation();
+  const navigate = useNavigate();
   const { id, name, breed, age, imageURL } = location.state.pet;
-  const idPet = id;
-  console.log(idPet);
-
+  const { pets, setPets } = useAdmin();
   const { user, token, setUser, removePet } = useAuth();
 
   useEffect(() => {
@@ -35,8 +35,6 @@ const EditPet = () => {
       setPetImg(imageURL || "");
     }
   }, []);
-
-  const navigate = useNavigate();
 
   const handleNameInput = (e) => {
     const value = e.target.value;
@@ -72,7 +70,7 @@ const EditPet = () => {
 
   const handleDeletePet = async () => {
     try {
-      await removePet(idMascota);
+      await removePet(id);
       successToast("Mascota eliminada con exito.");
       setShowDeleteModal(false);
       navigate("/userpanel");
@@ -83,7 +81,7 @@ const EditPet = () => {
   };
 
   const handleBackClick = () => {
-    navigate("/userpanel");
+    navigate(-1);
   };
 
   const handleSubmit = (e) => {
@@ -111,7 +109,7 @@ const EditPet = () => {
       },
       method: "PUT",
       body: JSON.stringify({
-        id: idPet,
+        id: id,
         name: petName,
         age: petAge,
         breed: petBreed,
@@ -121,11 +119,12 @@ const EditPet = () => {
       .then((res) => res.json())
       .then((data) => {
         setUser(data.user);
+        setPets([data.pet]);
         console.log(data);
         successToast(data.message);
+        navigate(-1);
       })
       .catch((err) => console.log(err));
-    navigate("/userpanel");
   };
 
   return (

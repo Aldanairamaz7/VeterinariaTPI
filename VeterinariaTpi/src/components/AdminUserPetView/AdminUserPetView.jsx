@@ -2,13 +2,16 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import PetCard from "../PetCard/PetCard";
 import { Col, Container, Row } from "react-bootstrap";
+import { useAdmin } from "../../Services/adminContext/AdminContext";
 
 const AdminUserPetView = () => {
-  const [pets, setPets] = useState([]);
+  const { pets, setPets } = useAdmin();
   const location = useLocation();
 
   useEffect(() => {
-    setPets(location.state.pets);
+    console.log(location.state);
+
+    setPets([...location.state.pets]);
   }, []);
 
   return (
