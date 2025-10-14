@@ -74,7 +74,7 @@ const EditProfile = () => {
   };
 
   const handleBackClick = () => {
-    navigate("/userpanel");
+    navigate(-1);
   };
 
   const handleSubmit = (e) => {
@@ -116,22 +116,19 @@ const EditProfile = () => {
       .then((res) => res.json())
       .then((data) => {
         if (!adminPerm) {
-          setUser(data.user)
+          setUser(data.user);
         }
-        console.log(data),
-          successToast(data.message);
+        console.log(data), successToast(data.message);
       })
       .catch((err) => console.log(err));
 
-    navigate(adminPerm ? '/adminpanel/users' : '/userpanel');
+    navigate(adminPerm ? "/adminpanel/users" : "/userpanel");
   };
 
   const handleChangeSwitch = (permissions) => {
     if (permissions === "admin") {
-
       console.log(isAdmin);
       setIsAdmin((prev) => !prev);
-
     } else {
       setIsVeterinarian((prev) => !prev);
     }
