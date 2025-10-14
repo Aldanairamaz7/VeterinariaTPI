@@ -26,16 +26,31 @@ const EditPet = () => {
   const { pets, setPets } = useAdmin();
   const { user, token, setUser, removePet } = useAuth();
 
+  const { petId } = useParams();
   useEffect(() => {
-    if (id) {
-      const { id } = useParams();
-      fetch(`http://localhost:3000/editarmascota/${id}`, {});
-      setPetName(name || "");
-      setPetAge(age || "");
-      setPetBreed(breed || "");
-      setPetImg(imageURL || "");
+    console.log("id mascota", petId);
+    if (petId) {
+     
+    fetch(`http://localhost:3000/editarmascota/${petId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (!adminPerm) {
+      setPetName(data.name || "");
+      setPetAge(data.age || "");
+      setPetBreed(data.breed || "");
+      setPetImg(data.imageURL || "");
+        }
+      })
+      .catch((err) => console.log(err));
+      
     }
-  }, []);
+  }, [petId]);
 
   const handleNameInput = (e) => {
     const value = e.target.value;
