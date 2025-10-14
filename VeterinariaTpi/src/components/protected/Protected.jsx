@@ -1,28 +1,26 @@
-
-import { useAuth } from '../../Services/authContext/AuthContext'
-import { isTokenValid } from './Protected.helpers.js'
-import { Navigate, Outlet } from 'react-router'
+import { useAuth } from "../../Services/authContext/AuthContext";
+import { isTokenValid } from "./Protected.helpers.js";
+import { Navigate, Outlet } from "react-router";
 
 function Protected({ requireAdmin = false }) {
+  const { token, user, loading } = useAuth();
 
-    const { token, user, loading } = useAuth()
+  if (loading) return <div>Cargando...</div>;
 
-    if (loading) return <div>Cargando...</div>
+  if (!isTokenValid(token)) {
+    return <Navigate to="/login" replace />;
+  }
 
-    if (!isTokenValid(token)) {
-        return <Navigate to='/login' replace />
-    }
+  if (!user) {
+    console.log(user);
+    return <Navigate to="/unauthorized" />;
+  }
+  if (requireAdmin && !user.isAdmin) {
+    console.log(user);
+    return <Navigate to="/unauthorized" />;
+  }
 
-    if (!user) {
-        console.log(user);
-        return <Navigate to='/unauthorized' />
-    }
-    if (requireAdmin && !user.isAdmin) {
-        console.log(user);
-        return <Navigate to='/unauthorized' />
-    }
-
-    return <Outlet />
+  return <Outlet />;
 }
 
-export default Protected
+export default Protected;

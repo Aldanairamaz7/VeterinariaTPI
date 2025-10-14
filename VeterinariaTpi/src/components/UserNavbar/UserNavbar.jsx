@@ -27,8 +27,8 @@ function UserNavbar() {
     userLogout();
     navigate("/login");
   };
-  const handleVeterinarianPanel = () => {
-    navigate("/adminpanel/users");
+  const handleAdminPanel = () => {
+    navigate("/adminpanel");
   };
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
@@ -62,17 +62,15 @@ function UserNavbar() {
               <FontAwesomeIcon icon={faRightFromBracket} className="me-2" />
               Cerrar Sesion
             </Button>
-            {
-              user.isAdmin ?
-                <Button
-                  variant="outline-light"
-                  className="me-2"
-                  onClick={handleVeterinarianPanel}
-                >
-                  Admin
-                </Button> :
-                <></>
-            }
+            {user.isAdmin && (
+              <Button
+                variant="outline-light"
+                className="me-2"
+                onClick={handleAdminPanel}
+              >
+                Admin
+              </Button>
+            )}
           </Nav>
         </NavbarCollapse>
       </Container>

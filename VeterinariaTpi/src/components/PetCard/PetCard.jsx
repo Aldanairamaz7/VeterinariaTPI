@@ -17,17 +17,22 @@ function PetCard({ pet }) {
   };
 
   const handleEditPet = () => {
-    navigate(`/editarmascota/${pet.id}`, {
-      state: {
-        pet,
-      },
-    });
+    navigate(`/editarmascota/${pet.id}`);
   };
 
   return (
     <Card className="pet-card">
       <div className="pet-image-container">
-        {pet.imageURL ? <img src={pet.imageURL} className="pet-image" /> : <img src={"https://thumbs.dreamstime.com/b/icono-amistoso-del-animal-dom%C3%A9stico-verde-vector-147853354.jpg"} className="pet-image"/>}
+        {pet.imageURL ? (
+          <img src={pet.imageURL} className="pet-image" />
+        ) : (
+          <img
+            src={
+              "https://thumbs.dreamstime.com/b/icono-amistoso-del-animal-dom%C3%A9stico-verde-vector-147853354.jpg"
+            }
+            className="pet-image"
+          />
+        )}
       </div>
       <CardBody>
         <CardTitle>{pet.name}</CardTitle>

@@ -39,7 +39,10 @@ function App() {
             <Route element={<Protected requireAdmin={true} />}>
               <Route path="/adminpanel" element={<AdminPanel />} />
               <Route path="/adminpanel/users" element={<AdminUserView />} />
-              <Route path="/adminpanel/users/pets" element={<AdminUserPetView />} />
+              <Route
+                path="/adminpanel/users/:id/pets"
+                element={<AdminUserPetView />}
+              />
             </Route>
             <Route path="/veterinarian" element={<VeterinarianPanel />} />
           </Route>
