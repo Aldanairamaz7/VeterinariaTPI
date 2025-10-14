@@ -123,9 +123,9 @@ const EditPet = () => {
         setUser(data.user);
         console.log(data);
         successToast(data.message);
+        navigate(-1);
       })
       .catch((err) => console.log(err));
-    navigate("/userpanel");
   };
 
   return (

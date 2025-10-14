@@ -1,9 +1,9 @@
-import { useContext, useState } from "react"
+import { useState } from "react"
 import { Button, Card, Col, Form, Row } from "react-bootstrap"
-import { useNavigate } from "react-router";
+import { data, useNavigate } from "react-router";
 import { validateFirstName, validateAddPetName, validateTypeConsult, validateDateShift, validateShiftDescription } from "../shared/validations";
 import { errorToast } from "../shared/notifications/notifications";
-import { AuthContext } from "../../Services/authContext/AuthContext";
+import { useAuth } from "../../Services/authContext/AuthContext";
 
 const RequestShift = () => {
     const [userName, setUserName] = useState("");
@@ -12,8 +12,8 @@ const RequestShift = () => {
     const [dateShift, setDateShift] = useState("");
     const [description, setDescription] = useState("");
     const [errors, setErrors] = useState({});
+    const {token} = useAuth();
 
-   const {user} = useContext(AuthContext);
 
     const navigate = useNavigate();
     //mejorar y guardar todos los datos en un objeto.
@@ -65,6 +65,24 @@ const RequestShift = () => {
             errorToast("Hay algunos campos incorrectos, revisalos.")
             return;
         }
+        fetch("http://localhost:3000/shift", {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+      },
+            method: "POST",
+            body: JSON.stringify({
+                userName,
+                petName,
+            })
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((err) => console.log(err));
+
+
         navigate("/userpanel")
     }
 
@@ -81,10 +99,8 @@ const RequestShift = () => {
                         <h1>Solicite un turno:</h1>
                         <Row> 
                             <Col>
-                                {/* AHORRAR DOS INPUT Y PONER NOMBRES POR DEFAULT*/}
-                                <h3> {user?.firstName} {user?.lastName}</h3>
                                 
-                               {/* <Form.Group>
+                               <Form.Group>
                                     
                                     <Form.Control
                                         type="text"
@@ -96,8 +112,8 @@ const RequestShift = () => {
                                     <Form.Control.Feedback type="invalid">
                                         {errors.userName}
                                     </Form.Control.Feedback>
-                                </Form.Group> */}
-                                {/* <Form.Group>
+                                </Form.Group>
+                                 <Form.Group>
                                     <h1>{}</h1>
                                    <Form.Label>Mascota:</Form.Label>
                                     <Form.Control
@@ -110,9 +126,7 @@ const RequestShift = () => {
                                     <Form.Control.Feedback type="invalid">
                                         {errors.petName}
                                     </Form.Control.Feedback>
-                                </Form.Group>*/}
-                                {/* PARA PODER MOSTAR NOMBRE DE PET, TRAER EL OBJ CON EL ID*/}
-                            
+                                </Form.Group>
                                 <Form.Group>
                                     <Form.Label>Tipo de consulta:</Form.Label>
                                     <Form.Select
