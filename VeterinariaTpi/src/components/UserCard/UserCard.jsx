@@ -38,15 +38,10 @@ const UserCard = ({
   };
 
   const handleGoUserPets = () => {
-    navigate("/adminpanel/users/pets", {
-      state: {
-        pets,
-      },
-    });
+    navigate(`/adminpanel/users/${id}/pets`);
   };
 
   const handleModifyUser = () => {
-
     console.log("isAdmin:", isAdmin, typeof isAdmin);
     console.log("isVeterinarian:", isVeterinarian, typeof isVeterinarian);
 
@@ -59,7 +54,7 @@ const UserCard = ({
           email,
           id,
           isAdmin,
-          isVeterinarian
+          isVeterinarian,
         },
       },
     });

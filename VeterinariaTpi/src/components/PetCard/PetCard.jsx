@@ -17,11 +17,7 @@ function PetCard({ pet }) {
   };
 
   const handleEditPet = () => {
-    navigate(`/editarmascota/${pet.id}`, {
-      state: {
-        pet,
-      },
-    });
+    navigate(`/editarmascota/${pet.id}`);
   };
 
   return (

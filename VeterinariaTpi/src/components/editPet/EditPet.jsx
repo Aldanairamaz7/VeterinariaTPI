@@ -23,12 +23,13 @@ const EditPet = () => {
   const [errors, setErrors] = useState({});
   const location = useLocation();
   const navigate = useNavigate();
-  const { id, name, breed, age, imageURL } = location.state.pet;
   const { pets, setPets } = useAdmin();
   const { user, token, setUser, removePet } = useAuth();
 
   useEffect(() => {
     if (id) {
+      const { id } = useParams();
+      fetch(`http://localhost:3000/editarmascota/${id}`, {});
       setPetName(name || "");
       setPetAge(age || "");
       setPetBreed(breed || "");
@@ -119,7 +120,6 @@ const EditPet = () => {
       .then((res) => res.json())
       .then((data) => {
         setUser(data.user);
-        setPets([data.pet]);
         console.log(data);
         successToast(data.message);
         navigate(-1);

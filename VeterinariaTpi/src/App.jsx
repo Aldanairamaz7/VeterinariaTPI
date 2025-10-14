@@ -40,7 +40,7 @@ function App() {
               <Route path="/adminpanel" element={<AdminPanel />} />
               <Route path="/adminpanel/users" element={<AdminUserView />} />
               <Route
-                path="/adminpanel/users/pets"
+                path="/adminpanel/users/:id/pets"
                 element={<AdminUserPetView />}
               />
             </Route>
