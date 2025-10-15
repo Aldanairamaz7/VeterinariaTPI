@@ -25,30 +25,26 @@ const EditPet = () => {
   const navigate = useNavigate();
   const { pets, setPets } = useAdmin();
   const { user, token, setUser, removePet } = useAuth();
-
+  const adminPerm = user.isAdmin;
   const { petId } = useParams();
+
   useEffect(() => {
-    console.log("id mascota", petId);
     if (petId) {
-     
-    fetch(`http://localhost:3000/editarmascota/${petId}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      method: "GET",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (!adminPerm) {
-      setPetName(data.name || "");
-      setPetAge(data.age || "");
-      setPetBreed(data.breed || "");
-      setPetImg(data.imageURL || "");
-        }
+      fetch(`http://localhost:3000/editpet/${petId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        method: "GET",
       })
-      .catch((err) => console.log(err));
-      
+        .then((res) => res.json())
+        .then((data) => {
+          setPetName(data.pet.name || "");
+          setPetAge(data.pet.age || "");
+          setPetBreed(data.pet.breed || "");
+          setPetImg(data.imageURL || "");
+        })
+        .catch((err) => console.log(err));
     }
   }, [petId]);
 
@@ -86,10 +82,10 @@ const EditPet = () => {
 
   const handleDeletePet = async () => {
     try {
-      await removePet(id);
+      removePet(petId);
       successToast("Mascota eliminada con exito.");
       setShowDeleteModal(false);
-      navigate("/userpanel");
+      navigate(-1);
     } catch (err) {
       console.log(err);
       errorToast("Nose pudo eliminar la mascota");
@@ -118,14 +114,14 @@ const EditPet = () => {
       return;
     }
 
-    fetch("http://localhost:3000/editPets", {
+    fetch(`http://localhost:3000/editpet/${petId}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       method: "PUT",
       body: JSON.stringify({
-        id: id,
+        id: petId,
         name: petName,
         age: petAge,
         breed: petBreed,

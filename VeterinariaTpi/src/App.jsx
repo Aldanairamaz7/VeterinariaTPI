@@ -33,7 +33,7 @@ function App() {
             <Route path="/userpanel" element={<UserPanel />} />
             <Route path="/addpets" element={<AddPets />} />
             <Route path="/solicitarturno" element={<RequestShift />} />
-            <Route path="/editarmascota/:petId" element={<EditPet />} />
+            <Route path="/editpet/:petId" element={<EditPet />} />
             <Route path="/editarperfil/:userId" element={<EditProfile />} />
 
             <Route element={<Protected requireAdmin={true} />}>
