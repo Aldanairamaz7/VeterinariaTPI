@@ -8,16 +8,19 @@ import {
 } from "react-bootstrap";
 import "../PetCard/petCard.css";
 import { useNavigate } from "react-router";
+import { useAuth } from "../../Services/authContext/AuthContext";
 
 function PetCard({ pet }) {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const adminPerm = user.idRole === 3 ? true : false;
 
   const handleRequestShiftClick = () => {
     navigate("/solicitarturno");
   };
 
   const handleEditPet = () => {
-    navigate(`/editarmascota/${pet.id}`);
+    navigate(`/editpet/${pet.id}`);
   };
 
   return (

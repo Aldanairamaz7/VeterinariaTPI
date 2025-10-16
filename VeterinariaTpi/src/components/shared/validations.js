@@ -63,28 +63,28 @@ export const validateBreed = (value) => {
 };
 
 export const validateDateShift = (value) => {
-  if(!value.trim()){
-    return "Este campo es obligatorio"
+  if (!value.trim()) {
+    return "Este campo es obligatorio";
   }
-  return ""
-}
+  return "";
+};
 
 export const validateShiftDescription = (value) => {
-  if(value.trim().length > 200){
-    return "Como maximo 200 caracteres"
+  if (value.trim().length > 200) {
+    return "Como maximo 200 caracteres";
   }
-  if(regexDescription.test(value)){
-    return "Este campo no permite caracteres especiales. Ej(/, ?, %)"
+  if (regexDescription.test(value)) {
+    return "Este campo no permite caracteres especiales. Ej(/, ?, %)";
   }
-  return ""
-}
+  return "";
+};
 
 export const validateTypeConsult = (value) => {
-  if(!value.trim()){
-    return "Este campo es obligatorio."
+  if (!value.trim()) {
+    return "Este campo es obligatorio.";
   }
-  return ""
-}
+  return "";
+};
 /* Login Validation */
 
 export const validateLogin = (value, setter, error, regex) => {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../Services/authContext/AuthContext";
 import UserCard from "../UserCard/UserCard";
+import UserTable from "../Tables/UserTable";
 
 const AdminUserView = () => {
   const [users, setUsers] = useState([]);
@@ -23,20 +24,7 @@ const AdminUserView = () => {
 
   return (
     <div className="w-100 h-100 py-3">
-      {users.map((el) => (
-        <UserCard
-          key={el.id}
-          firstname={el.firstName}
-          lastname={el.lastName}
-          dni={el.dni}
-          email={el.email}
-          password={el.password}
-          id={el.id}
-          pets={el.pets}
-          isAdmin={!!el.isAdmin}
-          isVeterinarian={!!el.isVeterinarian}
-        />
-      ))}
+      <UserTable data={users} setUsers={setUsers} />
     </div>
   );
 };

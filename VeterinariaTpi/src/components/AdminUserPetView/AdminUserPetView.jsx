@@ -4,6 +4,7 @@ import PetCard from "../PetCard/PetCard";
 import { Col, Container, Row } from "react-bootstrap";
 import { useAdmin } from "../../Services/adminContext/AdminContext";
 import { useAuth } from "../../Services/authContext/AuthContext";
+import PetTable from "../Tables/PetTable";
 
 const AdminUserPetView = () => {
   const { pets, setPets } = useAdmin();
@@ -26,15 +27,7 @@ const AdminUserPetView = () => {
 
   return (
     <div>
-      <Container className="mt-3 mb-4">
-        <Row>
-          {pets.map((el) => (
-            <Col key={el.id} md={4}>
-              <PetCard pet={el} />
-            </Col>
-          ))}
-        </Row>
-      </Container>
+      <PetTable data={pets} />
     </div>
   );
 };

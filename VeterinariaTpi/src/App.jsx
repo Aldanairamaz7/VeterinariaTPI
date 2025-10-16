@@ -18,6 +18,8 @@ import ErrorUnauthorized from "./components/error/ErrorUnauthorized";
 import AdminUserView from "./components/AdminUserView/AdminUserView";
 import AdminUserPetView from "./components/AdminUserPetView/AdminUserPetView";
 import VeterinarianPanel from "./components/VeterinarianPanel/VeterinarianPanel";
+import CreateRole from "./components/CreateRole/CreateRole";
+import AdminPetView from "./components/AdminPetView/AdminPetView";
 
 function App() {
   return (
@@ -28,17 +30,18 @@ function App() {
           <Route index element={<Body />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-
+          {/*<Route path="/createrole" element={<CreateRole />} />*/}
           <Route element={<Protected />}>
             <Route path="/userpanel" element={<UserPanel />} />
             <Route path="/addpets" element={<AddPets />} />
             <Route path="/solicitarturno" element={<RequestShift />} />
-            <Route path="/editarmascota/:petId" element={<EditPet />} />
+            <Route path="/editpet/:petId" element={<EditPet />} />
             <Route path="/editarperfil/:userId" element={<EditProfile />} />
 
             <Route element={<Protected requireAdmin={true} />}>
               <Route path="/adminpanel" element={<AdminPanel />} />
               <Route path="/adminpanel/users" element={<AdminUserView />} />
+              <Route path="/adminpanel/pets" element={<AdminPetView />} />
               <Route
                 path="/adminpanel/users/:id/pets"
                 element={<AdminUserPetView />}
