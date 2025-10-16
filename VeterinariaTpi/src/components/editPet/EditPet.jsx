@@ -23,10 +23,10 @@ const EditPet = () => {
   const [errors, setErrors] = useState({});
   const location = useLocation();
   const navigate = useNavigate();
-  const { pets, setPets } = useAdmin();
   const { user, token, setUser, removePet } = useAuth();
   const adminPerm = user.isAdmin;
   const { petId } = useParams();
+  const [pet, setPet] = useState({});
 
   useEffect(() => {
     if (petId) {
@@ -42,9 +42,11 @@ const EditPet = () => {
           setPetName(data.pet.name || "");
           setPetAge(data.pet.age || "");
           setPetBreed(data.pet.breed || "");
-          setPetImg(data.imageURL || "");
+          setPetImg(data.pet.imageURL || "");
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          navigate("/unauthorized");
+        });
     }
   }, [petId]);
 
@@ -212,14 +214,14 @@ const EditPet = () => {
               </Row>
               <Row>
                 <Col className="d-flex justify-content-center align-items-center gap-3">
-                  <Button variant="primary" type="submit">
-                    Confirmar
-                  </Button>
                   <Button
                     variant="danger"
                     onClick={() => setShowDeleteModal(true)}
                   >
                     Eliminar mascota
+                  </Button>
+                  <Button variant="primary" type="submit">
+                    Confirmar
                   </Button>
                 </Col>
               </Row>

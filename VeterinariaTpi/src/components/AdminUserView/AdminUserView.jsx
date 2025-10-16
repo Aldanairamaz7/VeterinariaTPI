@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../Services/authContext/AuthContext";
 import UserCard from "../UserCard/UserCard";
+import Table from "./Table";
 
 const AdminUserView = () => {
   const [users, setUsers] = useState([]);
@@ -37,6 +38,7 @@ const AdminUserView = () => {
           isVeterinarian={!!el.isVeterinarian}
         />
       ))}
+      <Table data={users} />
     </div>
   );
 };

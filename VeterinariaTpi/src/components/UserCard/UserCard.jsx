@@ -72,7 +72,7 @@ const UserCard = ({
             Email: {email}
           </Card.Subtitle>
         </Card.Body>
-        <div className="d-flex flex-row align-items-center">
+        <div className="d-flex flex-row-reverse align-items-center">
           <Button variant="success" onClick={handleGoUserPets}>
             Ver Mascotas
           </Button>

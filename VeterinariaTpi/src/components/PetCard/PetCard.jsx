@@ -8,9 +8,12 @@ import {
 } from "react-bootstrap";
 import "../PetCard/petCard.css";
 import { useNavigate } from "react-router";
+import { useAuth } from "../../Services/authContext/AuthContext";
 
 function PetCard({ pet }) {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const adminPerm = user.isAdmin;
 
   const handleRequestShiftClick = () => {
     navigate("/solicitarturno");
@@ -42,14 +45,16 @@ function PetCard({ pet }) {
             {pet.age} años
           </CardSubtitle>
           <div className="card-buttons">
-            <Button
-              variant="primary"
-              size="sm"
-              className="me-2"
-              onClick={handleRequestShiftClick}
-            >
-              Solicitar Turno
-            </Button>
+            {!adminPerm && (
+              <Button
+                variant="primary"
+                size="sm"
+                className="me-2"
+                onClick={handleRequestShiftClick}
+              >
+                Solicitar Turno
+              </Button>
+            )}
             <Button variant="secondary" size="sm" onClick={handleEditPet}>
               Editar
             </Button>
