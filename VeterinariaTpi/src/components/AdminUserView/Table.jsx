@@ -9,8 +9,7 @@ import { useAuth } from "../../Services/authContext/AuthContext";
 import "../UserCard/UserCard.css";
 import { useNavigate } from "react-router";
 
-const Table = ({ data }) => {
-  const id = data.id;
+const Table = ({ data, setUsers }) => {
   const columns = [
     {
       accessorKey: "firstName",
@@ -29,6 +28,11 @@ const Table = ({ data }) => {
       header: "Email",
     },
     {
+      accessorFn: (row) => row.roles?.roleSumary ?? "Sin rol",
+      id: "role",
+      header: "Rol",
+    },
+    {
       id: "actions",
       header: "Acciones",
       Cell: ({ row }) => {
@@ -41,11 +45,31 @@ const Table = ({ data }) => {
               gap: "0.5rem",
             }}
           >
-            <Button variant="outlined" onClick={handleGoUserPets}>
+            <Button
+              variant="outlined"
+              color="success"
+              onClick={() => {
+                handleGoUserPets(user.id);
+              }}
+            >
               Ver Mascotas
             </Button>
-            <Button onClick={handleModifyUser}>Modificar usuario</Button>
-            <Button variant="danger" onClick={handleConfirmDelete}>
+            <Button
+              variant="outlined"
+              color="info"
+              onClick={() => {
+                handleModifyUser(user.id);
+              }}
+            >
+              Modificar usuario
+            </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={() => {
+                handleConfirmDelete(user.id);
+              }}
+            >
               Elimitar usuario
             </Button>
           </Box>
@@ -55,10 +79,12 @@ const Table = ({ data }) => {
   ];
 
   const [showModal, setShowModal] = useState(false);
+  const [idUserDelete, setIdUserDelete] = useState(0);
   const { token } = useAuth();
   const navigate = useNavigate();
-  const handleConfirmDelete = () => {
-    setShowModal(!showModal ? true : false);
+  const handleConfirmDelete = (id) => {
+    setIdUserDelete(id);
+    setShowModal(!showModal);
   };
 
   const handleDeleteUser = () => {
@@ -68,39 +94,36 @@ const Table = ({ data }) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ id }),
+      body: JSON.stringify({ idUserDelete }),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data.message))
+      .then((data) => {
+        console.log(data.message);
+        setUsers(data.allUsers);
+        setIdUserDelete(null);
+      })
       .catch((err) => console.log(err));
-    setShowModal();
+    setShowModal(!showModal);
   };
 
-  const handleGoUserPets = () => {
+  const handleGoUserPets = (id) => {
     navigate(`/adminpanel/users/${id}/pets`);
   };
 
-  const handleModifyUser = () => {
-    console.log("isAdmin:", data.isAdmin, typeof data.isAdmin);
-    console.log(
-      "isVeterinarian:",
-      data.isVeterinarian,
-      typeof data.isVeterinarian
-    );
-
+  const handleModifyUser = (id) => {
     navigate(`/editarperfil/${id}`);
   };
   const table = useMaterialReactTable({ columns, data });
   return (
-    <>
+    <div className="m-3">
       <MaterialReactTable table={table} />
       <ConfirmDeleteModal
         show={showModal}
         onClose={handleConfirmDelete}
         onConfirm={handleDeleteUser}
-        petName={data.firstname}
+        petName={data.find((u) => u.id === idUserDelete)?.firstName}
       />
-    </>
+    </div>
   );
 };
 

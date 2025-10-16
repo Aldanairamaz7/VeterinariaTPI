@@ -62,7 +62,7 @@ function UserNavbar() {
               <FontAwesomeIcon icon={faRightFromBracket} className="me-2" />
               Cerrar Sesion
             </Button>
-            {user.isAdmin && (
+            {user.idRole === 3 && (
               <Button
                 variant="outline-light"
                 className="me-2"

@@ -15,7 +15,7 @@ function Protected({ requireAdmin = false }) {
     console.log(user);
     return <Navigate to="/unauthorized" />;
   }
-  if (requireAdmin && !user.isAdmin) {
+  if (requireAdmin && user.idRole < 3) {
     console.log(user);
     return <Navigate to="/unauthorized" />;
   }

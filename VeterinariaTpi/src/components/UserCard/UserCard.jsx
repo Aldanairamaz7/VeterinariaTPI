@@ -5,16 +5,7 @@ import { useAuth } from "../../Services/authContext/AuthContext";
 import "../UserCard/UserCard.css";
 import { useNavigate } from "react-router";
 
-const UserCard = ({
-  firstname,
-  lastname,
-  dni,
-  email,
-  id,
-  pets,
-  isAdmin,
-  isVeterinarian,
-}) => {
+const UserCard = ({ firstname, lastname, dni, email, id, pets, idRole }) => {
   const [showModal, setShowModal] = useState(false);
   const { token } = useAuth();
   const navigate = useNavigate();
@@ -42,9 +33,6 @@ const UserCard = ({
   };
 
   const handleModifyUser = () => {
-    console.log("isAdmin:", isAdmin, typeof isAdmin);
-    console.log("isVeterinarian:", isVeterinarian, typeof isVeterinarian);
-
     navigate(`/editarperfil/${id}`, {
       state: {
         user: {
@@ -53,8 +41,6 @@ const UserCard = ({
           dni,
           email,
           id,
-          isAdmin,
-          isVeterinarian,
         },
       },
     });

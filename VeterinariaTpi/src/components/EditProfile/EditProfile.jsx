@@ -20,6 +20,7 @@ const EditProfile = () => {
   const [dni, setDni] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [idRole, setIdRole] = useState(1);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isVeterinarian, setIsVeterinarian] = useState(false);
   const [errors, setErrors] = useState({});
@@ -28,7 +29,7 @@ const EditProfile = () => {
   const location = useLocation();
   const { user, token, setUser } = useAuth();
 
-  const adminPerm = location.state === null ? false : true;
+  const adminPerm = user.idRole === 3 ? true : false;
 
   const userEdit = !adminPerm ? user : location.state.user;
 
@@ -109,8 +110,7 @@ const EditProfile = () => {
         dni,
         email,
         password,
-        isAdmin,
-        isVeterinarian,
+        idRole,
       }),
     })
       .then((res) => res.json())

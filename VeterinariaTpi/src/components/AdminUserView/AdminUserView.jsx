@@ -24,21 +24,7 @@ const AdminUserView = () => {
 
   return (
     <div className="w-100 h-100 py-3">
-      {users.map((el) => (
-        <UserCard
-          key={el.id}
-          firstname={el.firstName}
-          lastname={el.lastName}
-          dni={el.dni}
-          email={el.email}
-          password={el.password}
-          id={el.id}
-          pets={el.pets}
-          isAdmin={!!el.isAdmin}
-          isVeterinarian={!!el.isVeterinarian}
-        />
-      ))}
-      <Table data={users} />
+      <Table data={users} setUsers={setUsers} />
     </div>
   );
 };

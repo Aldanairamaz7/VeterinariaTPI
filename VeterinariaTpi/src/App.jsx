@@ -18,6 +18,7 @@ import ErrorUnauthorized from "./components/error/ErrorUnauthorized";
 import AdminUserView from "./components/AdminUserView/AdminUserView";
 import AdminUserPetView from "./components/AdminUserPetView/AdminUserPetView";
 import VeterinarianPanel from "./components/VeterinarianPanel/VeterinarianPanel";
+import CreateRole from "./components/CreateRole/CreateRole";
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
           <Route index element={<Body />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-
+          {/*<Route path="/createrole" element={<CreateRole />} />*/}
           <Route element={<Protected />}>
             <Route path="/userpanel" element={<UserPanel />} />
             <Route path="/addpets" element={<AddPets />} />
