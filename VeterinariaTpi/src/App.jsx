@@ -19,6 +19,7 @@ import AdminUserView from "./components/AdminUserView/AdminUserView";
 import AdminUserPetView from "./components/AdminUserPetView/AdminUserPetView";
 import VeterinarianPanel from "./components/VeterinarianPanel/VeterinarianPanel";
 import CreateRole from "./components/CreateRole/CreateRole";
+import AdminPetView from "./components/AdminPetView/AdminPetView";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
             <Route element={<Protected requireAdmin={true} />}>
               <Route path="/adminpanel" element={<AdminPanel />} />
               <Route path="/adminpanel/users" element={<AdminUserView />} />
+              <Route path="/adminpanel/pets" element={<AdminPetView />} />
               <Route
                 path="/adminpanel/users/:id/pets"
                 element={<AdminUserPetView />}

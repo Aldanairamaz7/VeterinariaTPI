@@ -21,10 +21,8 @@ const EditPet = () => {
   const [petImg, setPetImg] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [errors, setErrors] = useState({});
-  const location = useLocation();
   const navigate = useNavigate();
   const { user, token, setUser, removePet } = useAuth();
-  const adminPerm = user.isAdmin;
   const { petId } = useParams();
   const [pet, setPet] = useState({});
 

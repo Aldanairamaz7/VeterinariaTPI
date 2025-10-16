@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../Services/authContext/AuthContext";
 import UserCard from "../UserCard/UserCard";
-import Table from "./Table";
+import UserTable from "../Tables/UserTable";
 
 const AdminUserView = () => {
   const [users, setUsers] = useState([]);
@@ -24,7 +24,7 @@ const AdminUserView = () => {
 
   return (
     <div className="w-100 h-100 py-3">
-      <Table data={users} setUsers={setUsers} />
+      <UserTable data={users} setUsers={setUsers} />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import {
   validateFirstName,
   validateLastName,
@@ -15,63 +15,82 @@ import {
 import { useAuth } from "../../Services/authContext/AuthContext.jsx";
 
 const EditProfile = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [dni, setDni] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [idRole, setIdRole] = useState(1);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isVeterinarian, setIsVeterinarian] = useState(false);
   const [errors, setErrors] = useState({});
-
+  const [userData, setUserData] = useState({
+    firstName: "",
+    lastName: "",
+    dni: "",
+    email: "",
+    password: "",
+    idRole: 1,
+  });
+  const [roles, setRoles] = useState([]);
   const navigate = useNavigate();
-  const location = useLocation();
-  const { user, token, setUser } = useAuth();
 
+  const { user, token, setUser } = useAuth();
+  const { userId } = useParams();
   const adminPerm = user.idRole === 3 ? true : false;
 
-  const userEdit = !adminPerm ? user : location.state.user;
-
   useEffect(() => {
-    if (userEdit) {
-      setFirstName(userEdit.firstName || "");
-      setLastName(userEdit.lastName || "");
-      setDni(userEdit.dni || "");
-      setEmail(userEdit.email || "");
-      setIsAdmin(!!userEdit.isAdmin);
-      setIsVeterinarian(!!userEdit.isVeterinarian);
-    }
-  }, [userEdit]);
+    fetch(`http://localhost:3000/editprofile/${userId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setUserData({
+          firstName: data.user.firstName,
+          lastName: data.user.lastName,
+          dni: data.user.dni,
+          email: data.user.email,
+          password: "",
+          idRole: data.user.idRole,
+        });
+        setRoles(data.roles);
+      })
+      .catch((err) => {
+        console.log(err);
+        navigate("/unauthorized");
+      });
+  }, []);
 
   const handleChangeFirstName = (e) => {
     const value = e.target.value;
-    setFirstName(value);
+    setUserData({ ...userData, firstName: value });
     setErrors({ ...errors, firstName: validateFirstName(value) });
   };
 
   const handleChangeLastName = (e) => {
     const value = e.target.value;
-    setLastName(value);
+    setUserData({ ...userData, lastName: value });
     setErrors({ ...errors, lastName: validateLastName(value) });
   };
 
   const handleChangeDni = (e) => {
     const value = e.target.value;
-    setDni(value);
+    setUserData({ ...userData, dni: value });
     setErrors({ ...errors, dni: validateDni(value) });
   };
 
   const handleChangeEmail = (e) => {
     const value = e.target.value;
-    setEmail(value);
+    setUserData({ ...userData, email: value });
     setErrors({ ...errors, email: validateEmail(value) });
   };
 
   const handleChangePassword = (e) => {
     const value = e.target.value;
-    setPassword(value);
+    setUserData({ ...userData, password: value });
     setErrors({ ...errors, password: validatePassword(value) });
+  };
+
+  const handleChangeIdRole = (e) => {
+    const value = e.target.value;
+    setUserData({ ...userData, idRole: value });
   };
 
   const handleBackClick = () => {
@@ -82,11 +101,11 @@ const EditProfile = () => {
     e.preventDefault();
 
     const formErrors = {
-      firstName: validateFirstName(firstName),
-      lastName: validateLastName(lastName),
-      dni: validateDni(dni),
-      email: validateEmail(email),
-      password: validatePassword(password),
+      firstName: validateFirstName(userData.firstName),
+      lastName: validateLastName(userData.lastName),
+      dni: validateDni(userData.dni),
+      email: validateEmail(userData.email),
+      password: validatePassword(userData.password),
     };
 
     setErrors(formErrors);
@@ -94,23 +113,20 @@ const EditProfile = () => {
     const hasErrors = Object.values(formErrors).some((err) => err !== "");
 
     if (hasErrors) {
+      console.log(formErrors);
+
       errorToast("Hay algunos campos incorrectos, revisalos.");
       return;
     }
 
-    fetch(`http://localhost:3000/editprofile/${userEdit.id}`, {
+    fetch(`http://localhost:3000/editprofile/${userId}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       method: "PUT",
       body: JSON.stringify({
-        firstName,
-        lastName,
-        dni,
-        email,
-        password,
-        idRole,
+        userData,
       }),
     })
       .then((res) => res.json())
@@ -122,16 +138,7 @@ const EditProfile = () => {
       })
       .catch((err) => console.log(err));
 
-    navigate(adminPerm ? "/adminpanel/users" : "/userpanel");
-  };
-
-  const handleChangeSwitch = (permissions) => {
-    if (permissions === "admin") {
-      console.log(isAdmin);
-      setIsAdmin((prev) => !prev);
-    } else {
-      setIsVeterinarian((prev) => !prev);
-    }
+    navigate(-1);
   };
 
   return (
@@ -147,7 +154,7 @@ const EditProfile = () => {
                     type="text"
                     placeholder="Ingrese su nombre"
                     onChange={handleChangeFirstName}
-                    value={firstName}
+                    value={userData.firstName}
                     isInvalid={errors.firstName}
                   />
                   <Form.Control.Feedback type="invalid">
@@ -160,7 +167,7 @@ const EditProfile = () => {
                     type="text"
                     placeholder="Ingrese su apellido"
                     onChange={handleChangeLastName}
-                    value={lastName}
+                    value={userData.lastName}
                     isInvalid={errors.lastName}
                   />
                   <Form.Control.Feedback type="invalid">
@@ -173,7 +180,7 @@ const EditProfile = () => {
                     type="text"
                     placeholder="Ingrese su DNI"
                     onChange={handleChangeDni}
-                    value={dni}
+                    value={userData.dni}
                     isInvalid={errors.dni}
                   />
                   <Form.Control.Feedback type="invalid">
@@ -186,7 +193,7 @@ const EditProfile = () => {
                     type="text"
                     placeholder="Ingrese el email"
                     onChange={handleChangeEmail}
-                    value={email}
+                    value={userData.email}
                     isInvalid={errors.email}
                   />
                   <Form.Control.Feedback type="invalid">
@@ -200,7 +207,7 @@ const EditProfile = () => {
                       type="password"
                       placeholder="Ingrese su contraseña"
                       onChange={handleChangePassword}
-                      value={password}
+                      value={userData.password}
                       isInvalid={errors.password}
                     />
                     <Form.Control.Feedback
@@ -212,25 +219,17 @@ const EditProfile = () => {
                   </Form.Group>
                 ) : (
                   <>
-                    <Form.Group className="mb-1 d-flex justify-content-between">
-                      <Form.Label>¿Es administrador?</Form.Label>
-                      <Form.Check
-                        type="switch"
-                        onChange={() => {
-                          handleChangeSwitch("admin");
-                        }}
-                        checked={isAdmin}
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-1 d-flex justify-content-between">
-                      <Form.Label>¿Es veterinario?</Form.Label>
-                      <Form.Check
-                        type="switch"
-                        onChange={() => {
-                          handleChangeSwitch("veterinario");
-                        }}
-                        checked={isVeterinarian}
-                      />
+                    <Form.Group>
+                      <Form.Label>Rol del usuario</Form.Label>
+                      <Form.Select
+                        key={roles.idRole}
+                        value={userData.idRole}
+                        onChange={handleChangeIdRole}
+                      >
+                        {roles.map((el) => (
+                          <option value={el.idRole}>{el.roleSumary}</option>
+                        ))}
+                      </Form.Select>
                     </Form.Group>
                   </>
                 )}

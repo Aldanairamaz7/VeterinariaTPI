@@ -1,0 +1,13 @@
+.pet-table-image-container {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #f2f2f2;
+}
+
+.pet-table-image {
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
+}

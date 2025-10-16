@@ -5,11 +5,10 @@ import {
 import { Box, Button, Typography } from "@mui/material";
 import ConfirmDeleteModal from "../confirmDeleteModal/ConfirmDeleteModal";
 import { useState } from "react";
-import { useAuth } from "../../Services/authContext/AuthContext";
-import "../UserCard/UserCard.css";
 import { useNavigate } from "react-router";
+import { useAuth } from "../../Services/authContext/AuthContext";
 
-const Table = ({ data, setUsers }) => {
+const UserTable = ({ data, setUsers }) => {
   const columns = [
     {
       accessorKey: "firstName",
@@ -127,4 +126,4 @@ const Table = ({ data, setUsers }) => {
   );
 };
 
-export default Table;
+export default UserTable;

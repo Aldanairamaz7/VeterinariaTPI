@@ -13,7 +13,7 @@ import { useAuth } from "../../Services/authContext/AuthContext";
 function PetCard({ pet }) {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const adminPerm = user.isAdmin;
+  const adminPerm = user.idRole === 3 ? true : false;
 
   const handleRequestShiftClick = () => {
     navigate("/solicitarturno");
@@ -45,16 +45,14 @@ function PetCard({ pet }) {
             {pet.age} años
           </CardSubtitle>
           <div className="card-buttons">
-            {!adminPerm && (
-              <Button
-                variant="primary"
-                size="sm"
-                className="me-2"
-                onClick={handleRequestShiftClick}
-              >
-                Solicitar Turno
-              </Button>
-            )}
+            <Button
+              variant="primary"
+              size="sm"
+              className="me-2"
+              onClick={handleRequestShiftClick}
+            >
+              Solicitar Turno
+            </Button>
             <Button variant="secondary" size="sm" onClick={handleEditPet}>
               Editar
             </Button>
