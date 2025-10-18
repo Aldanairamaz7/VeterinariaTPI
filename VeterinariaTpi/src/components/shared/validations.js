@@ -63,12 +63,11 @@ export const validateBreed = (value) => {
 };
 
 export const validateDateShift = (value) => {
-  if (!value.trim()) {
-    return "Este campo es obligatorio";
-  }
-  return "";
-};
-
+    if (!value) {
+        return "Seleccione una fecha por favor";
+    }
+    return "";
+}
 export const validateShiftDescription = (value) => {
   if (value.trim().length > 200) {
     return "Como maximo 200 caracteres";
@@ -85,6 +84,13 @@ export const validateTypeConsult = (value) => {
   }
   return "";
 };
+export const validateSelectPet = (value) => {
+  if (!value.trim()) {
+    return "este campo es obligatorio";
+  }
+  return "";
+}
+
 /* Login Validation */
 
 export const validateLogin = (value, setter, error, regex) => {
