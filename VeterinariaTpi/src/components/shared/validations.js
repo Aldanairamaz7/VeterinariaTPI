@@ -102,13 +102,20 @@ export const validateSpeciality = (value) => {
   }
   return ""
 }
-
+export const validateSelectPet = (value) => {
+  if(!value.trim()){
+    return "Este campo es obligatorio"
+  }
+  return ""
+}
 export const validateOtherSpeciality = (value) => {
   if(!value.trim()){
     return "Este campo es obligatorio."
   }
   return ""
 }
+
+
 /* Login Validation */
 
 export const validateLogin = (value, setter, error, regex) => {
