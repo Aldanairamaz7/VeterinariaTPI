@@ -7,6 +7,9 @@ import {
   validateDni,
   validateEmail,
   validatePassword,
+  validateEnrollment,
+  validateSpeciality,
+  validateOtherSpeciality
 } from "../shared/validations.js";
 import {
   errorToast,
@@ -23,6 +26,8 @@ const EditProfile = () => {
     email: "",
     password: "",
     idRole: 1,
+    enrollment: "",
+    speciality: ""
   });
   const [roles, setRoles] = useState([]);
   const navigate = useNavigate();
@@ -49,6 +54,8 @@ const EditProfile = () => {
           email: data.user.email,
           password: "",
           idRole: data.user.idRole,
+          enrollment: data.user.veterinarian?.enrollment || "",
+          speciality: data.user.veterinarian?.speciality || ""
         });
         setRoles(data.roles);
       })
@@ -92,6 +99,23 @@ const EditProfile = () => {
     const value = e.target.value;
     setUserData({ ...userData, idRole: value });
   };
+
+  const handleChangeEnrollment = (e) => {
+    const value = e.target.value;
+    setUserData({...userData, enrollment: value})
+    setErrors({...errors, enrollment: validateEnrollment(value)})
+  }
+
+  const handleChangeSpeciality = (e) => {
+    const value = e.target.value;
+    setUserData({...userData, speciality: value});
+    setErrors({...errors, speciality: validateSpeciality(value)})
+  }
+
+  const handleChangeOtherSpeciality = (e) => {
+    const value = e.target.value;
+    setUserData({...userData, speciality: validateOtherSpeciality(value)})
+  }
 
   const handleBackClick = () => {
     navigate(-1);
@@ -231,6 +255,45 @@ const EditProfile = () => {
                         ))}
                       </Form.Select>
                     </Form.Group>
+                  </>
+                )}
+                {Number(userData.idRole) === 2 && (
+                  <>
+                    <Form.Group className="mb-1">
+                      <Form.Label>Matricula *</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Ingrese la matricula profesional"
+                        value={userData.enrollment}
+                        onChange={handleChangeEnrollment}
+                      />
+                    </Form.Group>
+
+                    <Form.Group className="mb-1">
+                      <Form.Label>Especialidad *</Form.Label>
+                      <Form.Select
+                        value={userData.speciality}
+                        onChange={handleChangeSpeciality}
+                      >
+                        <option value="">Seleccione una especialidad</option>
+                        {/* {speciality.map((el) => 
+                          <option  value={el.speciality}>{el.speciality}</option>
+                        )}*/}
+                        <option value="others">Otros</option> 
+                      </Form.Select>
+                    </Form.Group>
+
+                    {userData.speciality === "others" && (
+                      <Form.Group>
+                        <Form.Label>Otra Especialidad *</Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder="Ingrese la especialidad"
+                          value={userData.speciality}
+                          onChange={handleChangeOtherSpeciality}
+                        />
+                      </Form.Group>
+                    )}
                   </>
                 )}
               </Col>
