@@ -9,7 +9,7 @@ import {
   validatePassword,
   validateEnrollment,
   validateSpeciality,
-  validateOtherSpeciality
+  validateOtherSpeciality,
 } from "../shared/validations.js";
 import {
   errorToast,
@@ -27,9 +27,11 @@ const EditProfile = () => {
     password: "",
     idRole: 1,
     enrollment: "",
-    speciality: ""
+    ddSpeciality: -2,
+    speciality: "",
   });
   const [roles, setRoles] = useState([]);
+  const [specialitys, setSpecialitys] = useState([]);
   const navigate = useNavigate();
 
   const { user, token, setUser } = useAuth();
@@ -55,9 +57,10 @@ const EditProfile = () => {
           password: "",
           idRole: data.user.idRole,
           enrollment: data.user.veterinarian?.enrollment || "",
-          speciality: data.user.veterinarian?.speciality || ""
+          ddSpeciality: data.user.veterinarian?.speciality || "",
         });
         setRoles(data.roles);
+        setSpecialitys(data.specialitys);
       })
       .catch((err) => {
         console.log(err);
@@ -102,20 +105,21 @@ const EditProfile = () => {
 
   const handleChangeEnrollment = (e) => {
     const value = e.target.value;
-    setUserData({ ...userData, enrollment: value })
-    setErrors({ ...errors, enrollment: validateEnrollment(value) })
-  }
+    setUserData({ ...userData, enrollment: value });
+    setErrors({ ...errors, enrollment: validateEnrollment(value) });
+  };
 
-  const handleChangeSpeciality = (e) => {
+  const handleChangeDDSpeciality = (e) => {
     const value = e.target.value;
-    setUserData({ ...userData, speciality: value });
-    setErrors({ ...errors, speciality: validateSpeciality(value) })
-  }
+    setUserData({ ...userData, ddSpeciality: value });
+    setErrors({ ...errors, speciality: validateSpeciality(value) });
+  };
 
   const handleChangeOtherSpeciality = (e) => {
     const value = e.target.value;
-    setUserData({ ...userData, speciality: validateOtherSpeciality(value) })
-  }
+    setUserData({ ...userData, speciality: value });
+    //setErrors({ ...errors, speciality: validateOtherSpeciality(value) });
+  };
 
   const handleBackClick = () => {
     navigate(-1);
@@ -272,18 +276,20 @@ const EditProfile = () => {
                     <Form.Group className="mb-1">
                       <Form.Label>Especialidad *</Form.Label>
                       <Form.Select
-                        value={userData.speciality}
-                        onChange={handleChangeSpeciality}
+                        value={userData.ddSpeciality}
+                        onChange={handleChangeDDSpeciality}
                       >
-                        <option value="">Seleccione una especialidad</option>
-                        {/* {speciality.map((el) => 
-                          <option  value={el.speciality}>{el.speciality}</option>
-                        )}*/}
-                        <option value="others">Otros</option>
+                        <option value={-1}>Seleccione una especialidad</option>
+                        {specialitys.map((el) => (
+                          <option value={el.idSpeciality}>
+                            {el.specialityName}
+                          </option>
+                        ))}
+                        <option value={0}>Otros</option>
                       </Form.Select>
                     </Form.Group>
 
-                    {userData.speciality === "others" && (
+                    {Number(userData.ddSpeciality) === 0 && (
                       <Form.Group>
                         <Form.Label>Otra Especialidad *</Form.Label>
                         <Form.Control

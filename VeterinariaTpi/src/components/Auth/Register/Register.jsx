@@ -10,6 +10,7 @@ import {
   regexNames,
   validateLogin,
 } from "../../shared/validations";
+import { errorToast } from "../../shared/notifications/notifications";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -99,12 +100,18 @@ const Register = () => {
         password,
       }),
     })
-      .then((res) => res.json())
+      .then(async (res) => {
+        if (!res.ok) {
+          const errData = await res.json();
+          throw new Error(errData.message || "Algo a salido mal");
+        }
+        return res.json();
+      })
       .then((data) => {
         console.log(data);
         navigate("/login");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => errorToast(err.message));
   };
 
   return (
