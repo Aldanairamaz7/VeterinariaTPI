@@ -10,7 +10,7 @@ function ErrorUnauthorized() {
     }
     return (
         <div className="d-flex flex-column justify-content-center align-items-center w-100 h-100">
-            <h1>No podes entrar, gil.</h1>
+            <h1>No tiene los permisos para acceder.</h1>
             <Button className='w-25 mt-4' onClick={goBack}>Ir al inicio</Button>
         </div>
     )

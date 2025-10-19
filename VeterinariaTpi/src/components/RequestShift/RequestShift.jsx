@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Button, Card, Col, Form, Row } from "react-bootstrap"
 import { useNavigate } from "react-router";
-import { validateFirstName, validateAddPetName, validateTypeConsult, validateDateShift, validateShiftDescription, validateSelectPet } from "../shared/validations";
+import { validateTypeConsult, validateDateShift, validateShiftDescription, validateSelectPet } from "../shared/validations";
 import { errorToast, successToast } from "../shared/notifications/notifications";
 import { useAuth } from "../../Services/authContext/AuthContext";
 
@@ -20,30 +20,30 @@ const RequestShift = () => {
     const handleSelectPet = (e) => {
         const value = e.target.value;
         setSelectPet(value);
-        setErrors({...errors, selectPet: validateSelectPet(value) })
+        setErrors({ ...errors, selectPet: validateSelectPet(value) })
     }
 
     const handleDateShift = (e) => {
         const value = (e.target.value);
         setDateShift(value);
-        setErrors({...errors, dateShift: validateDateShift(value)})
+        setErrors({ ...errors, dateShift: validateDateShift(value) })
     }
 
     const handleTypeRequest = (e) => {
         const value = e.target.value;
         setTypeRequest(value);
-        setErrors({...errors, typeRequest: validateTypeConsult(value)})
+        setErrors({ ...errors, typeRequest: validateTypeConsult(value) })
     }
 
     const handleDescription = (e) => {
         const value = e.target.value;
         setDescription(value);
-        setErrors({...errors, description: validateShiftDescription(value)})
+        setErrors({ ...errors, description: validateShiftDescription(value) })
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         const formErrors = {
             typeRequest: validateTypeConsult(typeRequest),
             dateShift: validateDateShift(dateShift),
@@ -52,12 +52,12 @@ const RequestShift = () => {
         }
 
         setErrors(formErrors);
-         console.log("Errores:", formErrors);
+        console.log("Errores:", formErrors);
 
         const hasErrors = Object.values(formErrors).some((err) => err !== "")
-      
 
-        if(hasErrors){
+
+        if (hasErrors) {
             errorToast("Hay algunos campos incorrectos, revisalos.")
             return;
         }
@@ -114,7 +114,7 @@ const RequestShift = () => {
                     <Card.Body>
                         <Form onSubmit={handleSubmit}>
                             <h1>Solicite un turno:</h1>
-                            <Row> 
+                            <Row>
                                 <Col>
                                     <Form.Group>
                                         <Form.Label>Seleccione su mascota:</Form.Label>
@@ -155,7 +155,7 @@ const RequestShift = () => {
 
                                     <Form.Group>
                                         <Form.Label>Fecha del turno:</Form.Label>
-                                        <Form.Control 
+                                        <Form.Control
                                             type="date"
                                             onChange={handleDateShift}
                                             value={dateShift}
@@ -185,17 +185,17 @@ const RequestShift = () => {
 
                             <Row>
                                 <Col className="d-flex justify-content-center align-items-center gap-3">
-                                    <Button 
-                                        variant="secondary" 
-                                        onClick={handleBackClick} 
+                                    <Button
+                                        variant="secondary"
+                                        onClick={handleBackClick}
                                         className="mt-5"
                                         disabled={loading}
                                     >
                                         Regresar
                                     </Button>
-                                    <Button 
-                                        variant="primary" 
-                                        type="submit" 
+                                    <Button
+                                        variant="primary"
+                                        type="submit"
                                         className="mt-5"
                                         disabled={loading}
                                     >

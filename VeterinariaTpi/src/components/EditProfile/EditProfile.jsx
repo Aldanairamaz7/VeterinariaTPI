@@ -102,19 +102,19 @@ const EditProfile = () => {
 
   const handleChangeEnrollment = (e) => {
     const value = e.target.value;
-    setUserData({...userData, enrollment: value})
-    setErrors({...errors, enrollment: validateEnrollment(value)})
+    setUserData({ ...userData, enrollment: value })
+    setErrors({ ...errors, enrollment: validateEnrollment(value) })
   }
 
   const handleChangeSpeciality = (e) => {
     const value = e.target.value;
-    setUserData({...userData, speciality: value});
-    setErrors({...errors, speciality: validateSpeciality(value)})
+    setUserData({ ...userData, speciality: value });
+    setErrors({ ...errors, speciality: validateSpeciality(value) })
   }
 
   const handleChangeOtherSpeciality = (e) => {
     const value = e.target.value;
-    setUserData({...userData, speciality: validateOtherSpeciality(value)})
+    setUserData({ ...userData, speciality: validateOtherSpeciality(value) })
   }
 
   const handleBackClick = () => {
@@ -279,7 +279,7 @@ const EditProfile = () => {
                         {/* {speciality.map((el) => 
                           <option  value={el.speciality}>{el.speciality}</option>
                         )}*/}
-                        <option value="others">Otros</option> 
+                        <option value="others">Otros</option>
                       </Form.Select>
                     </Form.Group>
 
