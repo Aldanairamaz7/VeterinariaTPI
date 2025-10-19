@@ -39,6 +39,7 @@ function App() {
             <Route path="/editpet/:petId" element={<EditPet />} />
             <Route path="/editarperfil/:userId" element={<EditProfile />} />
             <Route path="/:userId/misturnos" element={<ShiftHistory />} />
+            <Route path="/panelveterinario" element={<VeterinarianPanel/>}/>
 
             <Route element={<Protected requireAdmin={true} />}>
               <Route path="/adminpanel" element={<AdminPanel />} />

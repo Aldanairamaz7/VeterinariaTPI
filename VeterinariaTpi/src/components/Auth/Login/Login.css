@@ -6,6 +6,7 @@
   display: inline;
   font-weight: bold;
   color: rgb(151, 151, 151);
+  cursor: pointer;
 }
 #RegisterLink:hover {
   color: rgb(108, 189, 189);
