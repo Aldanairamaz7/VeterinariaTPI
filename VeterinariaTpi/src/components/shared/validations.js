@@ -10,7 +10,6 @@ const regexBreed = /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,20}$/;
 const regexDescription = /[^a-zA-ZÀ-ÿ0-9\s.,;]/;
 const regexEnrollment = /[^0-9]{4,5}/;
 
-
 export const validateFirstName = (value) => {
   if (!value.trim()) return "Este campo es obligatorio.";
   if (!regexFirstName.test(value))
@@ -65,11 +64,11 @@ export const validateBreed = (value) => {
 };
 
 export const validateDateShift = (value) => {
-    if (!value) {
-        return "Seleccione una fecha por favor";
-    }
-    return "";
-}
+  if (!value) {
+    return "Seleccione una fecha por favor";
+  }
+  return "";
+};
 export const validateShiftDescription = (value) => {
   if (value.trim().length > 200) {
     return "Como maximo 200 caracteres";
@@ -88,33 +87,32 @@ export const validateTypeConsult = (value) => {
 };
 
 export const validateEnrollment = (value) => {
-  if(!value.tirm()){
-    return "Este campo es obligatorio."
+  if (!value.trim()) {
+    return "Este campo es obligatorio.";
   }
-  if(!regexEnrollment.test(value)){
-    return "Solo puede tener numeros y entre 4 a 5 caracteres."
+  if (!regexEnrollment.test(value)) {
+    return "Solo puede tener numeros y entre 4 a 5 caracteres.";
   }
-}
+};
 
 export const validateSpeciality = (value) => {
-  if(!value.trim()){
-    return "Este campo es obligatorio"
+  if (value === -1) {
+    return "Este campo es obligatorio";
   }
-  return ""
-}
+  return "";
+};
 export const validateSelectPet = (value) => {
-  if(!value.trim()){
-    return "Este campo es obligatorio"
+  if (!value.trim()) {
+    return "Este campo es obligatorio";
   }
-  return ""
-}
+  return "";
+};
 export const validateOtherSpeciality = (value) => {
-  if(!value.trim()){
-    return "Este campo es obligatorio."
+  if (!value.trim()) {
+    return "Este campo es obligatorio.";
   }
-  return ""
-}
-
+  return "";
+};
 
 /* Login Validation */
 
