@@ -57,7 +57,8 @@ const EditProfile = () => {
           password: "",
           idRole: data.user.idRole,
           enrollment: data.user.veterinarian?.enrollment || "",
-          ddSpeciality: data.user.veterinarian?.speciality || "",
+          ddSpeciality: data.user.veterinarian?.idSpeciality || ""
+
         });
         setRoles(data.roles);
         setSpecialitys(data.specialitys);
