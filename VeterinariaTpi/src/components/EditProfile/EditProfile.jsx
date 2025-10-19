@@ -27,7 +27,7 @@ const EditProfile = () => {
     password: "",
     idRole: 1,
     enrollment: "",
-    ddSpeciality: -2,
+    ddSpeciality: -1,
     speciality: "",
   });
   const [roles, setRoles] = useState([]);
@@ -57,8 +57,7 @@ const EditProfile = () => {
           password: "",
           idRole: data.user.idRole,
           enrollment: data.user.veterinarian?.enrollment || "",
-          ddSpeciality: data.user.veterinarian?.idSpeciality || ""
-
+          ddSpeciality: data.user.veterinarian?.idSpeciality || -1,
         });
         setRoles(data.roles);
         setSpecialitys(data.specialitys);
@@ -100,7 +99,7 @@ const EditProfile = () => {
   };
 
   const handleChangeIdRole = (e) => {
-    const value = e.target.value;
+    const value = Number(e.target.value);
     setUserData({ ...userData, idRole: value });
   };
 
@@ -111,7 +110,7 @@ const EditProfile = () => {
   };
 
   const handleChangeDDSpeciality = (e) => {
-    const value = e.target.value;
+    const value = Number(e.target.value);
     setUserData({ ...userData, ddSpeciality: value });
     setErrors({ ...errors, speciality: validateSpeciality(value) });
   };
@@ -158,14 +157,19 @@ const EditProfile = () => {
         userData,
       }),
     })
-      .then((res) => res.json())
+      .then(async (res) => {
+        if (!res.ok) {
+          const errData = await res.json();
+          throw new Error(errData.message || "algo salio mal");
+        }
+      })
       .then((data) => {
         if (!adminPerm) {
           setUser(data.user);
         }
         console.log(data), successToast(data.message);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => errorToast(err.message));
 
     navigate(-1);
   };
