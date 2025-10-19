@@ -20,6 +20,7 @@ import AdminUserPetView from "./components/AdminUserPetView/AdminUserPetView";
 import VeterinarianPanel from "./components/VeterinarianPanel/VeterinarianPanel";
 import CreateRole from "./components/CreateRole/CreateRole";
 import AdminPetView from "./components/AdminPetView/AdminPetView";
+import ShiftHistory from "./components/ShiftHistory/ShiftHistory";
 
 function App() {
   return (
@@ -37,6 +38,8 @@ function App() {
             <Route path="/solicitarturno" element={<RequestShift />} />
             <Route path="/editpet/:petId" element={<EditPet />} />
             <Route path="/editarperfil/:userId" element={<EditProfile />} />
+            <Route path="/:userId/misturnos" element={<ShiftHistory />} />
+            <Route path="/panelveterinario" element={<VeterinarianPanel/>}/>
 
             <Route element={<Protected requireAdmin={true} />}>
               <Route path="/adminpanel" element={<AdminPanel />} />

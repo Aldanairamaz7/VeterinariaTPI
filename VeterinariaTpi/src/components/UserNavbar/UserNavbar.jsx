@@ -30,6 +30,14 @@ function UserNavbar() {
   const handleAdminPanel = () => {
     navigate("/adminpanel");
   };
+  const handleVeterinaryPanel = () => {
+    navigate("/panelveterinario");
+  };
+
+  const handleShiftHistory = () => {
+    navigate(`/${user.id}/misturnos`);
+  };
+
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
@@ -39,6 +47,15 @@ function UserNavbar() {
           className="jstify-content-end mb-1 mt-1"
         >
           <Nav className="ms-auto">
+            {user.idRole === 1 && (
+                <Button
+                  variant="outline-light"
+                  className="me-2"
+                  onClick={handleShiftHistory}
+                >
+                  Mis turnos
+                </Button>
+              )}
             <Button
               variant="outline-light"
               className="me-2"
@@ -54,6 +71,7 @@ function UserNavbar() {
               <FontAwesomeIcon icon={faGear} className="me-2" />
               Editar Perfil
             </Button>
+
             <Button
               variant="outline-light"
               className="me-2"
@@ -69,6 +87,15 @@ function UserNavbar() {
                 onClick={handleAdminPanel}
               >
                 Admin
+              </Button>
+            )}
+            {user.idRole === 2 && (
+              <Button
+                variant="outline-light"
+                className="me-2"
+                onClick={handleVeterinaryPanel}
+              >
+                Panel Veterinario
               </Button>
             )}
           </Nav>

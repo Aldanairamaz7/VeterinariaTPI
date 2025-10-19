@@ -10,7 +10,7 @@ import { errorToast, successToast } from "../shared/notifications/notifications"
 import { useNavigate } from "react-router";
 
 
-const VeterinarianPanel = () => {
+const ShiftHistory = () => {
   const { user, token } = useAuth()
   const [shift, setShift] = useState([])
   const [showModal, setShowModal] = useState(false)
@@ -145,4 +145,4 @@ const VeterinarianPanel = () => {
   );
 }
 
-export default VeterinarianPanel;
+export default ShiftHistory;

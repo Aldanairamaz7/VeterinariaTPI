@@ -1,43 +1,33 @@
 import { useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import { data, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import {
-  validateFirstName,
-  validateAddPetName,
   validateTypeConsult,
   validateDateShift,
   validateShiftDescription,
+  validateSelectPet,
 } from "../shared/validations";
-import { errorToast } from "../shared/notifications/notifications";
+import {
+  errorToast,
+  successToast,
+} from "../shared/notifications/notifications";
 import { useAuth } from "../../Services/authContext/AuthContext";
 
 const RequestShift = () => {
-  const [userName, setUserName] = useState("");
-  const [petName, setPetName] = useState("");
   const [typeRequest, setTypeRequest] = useState("");
   const [dateShift, setDateShift] = useState("");
   const [description, setDescription] = useState("");
+  const [selectPet, setSelectPet] = useState("");
   const [errors, setErrors] = useState({});
-  const { token } = useAuth();
-
+  const [loading, setLoading] = useState(false);
+  const { token, user } = useAuth();
+  const pets = user.pets || [];
   const navigate = useNavigate();
-  //mejorar y guardar todos los datos en un objeto.
-  const handleUserName = (e) => {
-    const value = e.target.value;
-    setUserName(value);
-    setErrors({ ...errors, userName: validateFirstName(value) });
-  };
 
-  const handlePetName = (e) => {
+  const handleSelectPet = (e) => {
     const value = e.target.value;
-    setPetName(value);
-    setErrors({ ...errors, petName: validateAddPetName(value) });
-  };
-
-  const handleTypeRequest = (e) => {
-    const value = e.target.value;
-    setTypeRequest(value);
-    setErrors({ ...errors, typeRequest: validateTypeConsult(value) });
+    setSelectPet(value);
+    setErrors({ ...errors, selectPet: validateSelectPet(value) });
   };
 
   const handleDateShift = (e) => {
@@ -46,23 +36,30 @@ const RequestShift = () => {
     setErrors({ ...errors, dateShift: validateDateShift(value) });
   };
 
+  const handleTypeRequest = (e) => {
+    const value = e.target.value;
+    setTypeRequest(value);
+    setErrors({ ...errors, typeRequest: validateTypeConsult(value) });
+  };
+
   const handleDescription = (e) => {
     const value = e.target.value;
     setDescription(value);
     setErrors({ ...errors, description: validateShiftDescription(value) });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const formErrors = {
-      userName: validateFirstName(userName),
-      petName: validateAddPetName(petName),
       typeRequest: validateTypeConsult(typeRequest),
       dateShift: validateDateShift(dateShift),
       description: validateShiftDescription(description),
+      selectPet: validateSelectPet(selectPet),
     };
 
     setErrors(formErrors);
+    console.log("Errores:", formErrors);
 
     const hasErrors = Object.values(formErrors).some((err) => err !== "");
 
@@ -70,103 +67,124 @@ const RequestShift = () => {
       errorToast("Hay algunos campos incorrectos, revisalos.");
       return;
     }
-    fetch("http://localhost:3000/shift", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      method: "POST",
-      body: JSON.stringify({
-        userName,
-        petName,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => console.log(err));
 
-    navigate("/userpanel");
+    setLoading(true);
+
+    try {
+      const selectedPet = pets.find((pet) => pet.name === selectPet);
+      const petId = selectedPet ? selectedPet.id : null;
+
+      const response = await fetch("http://localhost:3000/shift", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        method: "POST",
+        body: JSON.stringify({
+          userId: user.id,
+          dateTime: dateShift,
+          typeConsult: typeRequest,
+          petId: petId,
+          description: description,
+          enrollment: user.name,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        errorToast(data.message || "Error al crear el turno");
+        return;
+      }
+
+      successToast("Turno creado exitosamente");
+      navigate("/userpanel");
+    } catch (err) {
+      console.log(err);
+      errorToast("Error al conectar con el servidor");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleBackClick = () => {
     navigate("/userpanel");
   };
 
+  const today = new Date().toISOString().split("T")[0];
+
   return (
     <>
       <div className="d-flex flex-column justify-content-center align-items-center">
         <Card>
           <Card.Body>
-            <Form>
+            <Form onSubmit={handleSubmit}>
               <h1>Solicite un turno:</h1>
               <Row>
                 <Col>
                   <Form.Group>
-                    <Form.Control
-                      type="text"
-                      placeholder="Ingrese su nombre"
-                      onChange={handleUserName}
-                      value={userName}
-                      isInvalid={errors.userName}
-                    />
+                    <Form.Label>Seleccione su mascota:</Form.Label>
+                    <Form.Select
+                      aria-label="Seleccione su mascota"
+                      onChange={handleSelectPet}
+                      value={selectPet}
+                      isInvalid={!!errors.selectPet}
+                    >
+                      <option value="">Seleccione una mascota</option>
+                      {pets.map((pet) => {
+                        return (
+                          <option key={pet.id} value={pet.name}>
+                            {pet.name}
+                          </option>
+                        );
+                      })}
+                    </Form.Select>
                     <Form.Control.Feedback type="invalid">
-                      {errors.userName}
+                      {errors.selectPet}
                     </Form.Control.Feedback>
                   </Form.Group>
-                  <Form.Group>
-                    <h1>{}</h1>
-                    <Form.Label>Mascota:</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Ingrese el nombre de la mascota"
-                      onChange={handlePetName}
-                      value={petName}
-                      isInvalid={errors.petName}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.petName}
-                    </Form.Control.Feedback>
-                  </Form.Group>
+
                   <Form.Group>
                     <Form.Label>Tipo de consulta:</Form.Label>
                     <Form.Select
                       aria-label="Seleccione el tipo de consulta"
                       onChange={handleTypeRequest}
                       value={typeRequest}
-                      isInvalid={errors.typeRequest}
+                      isInvalid={!!errors.typeRequest}
                     >
-                      <option value="">Seleccione una opcion</option>
-                      <option value="query">Consulta</option>
-                      <option value="check">Control</option>
-                      <option value="surgery">Cirugia</option>
-                      <option value="stylist">Estilista</option>
+                      <option value="">Seleccione una opción</option>
+                      <option value="consulta">Consulta</option>
+                      <option value="control">Control</option>
+                      <option value="cirujia">Cirugía</option>
+                      <option value="estilista">Estilista</option>
                     </Form.Select>
                     <Form.Control.Feedback type="invalid">
                       {errors.typeRequest}
                     </Form.Control.Feedback>
                   </Form.Group>
+
                   <Form.Group>
                     <Form.Label>Fecha del turno:</Form.Label>
                     <Form.Control
                       type="date"
                       onChange={handleDateShift}
                       value={dateShift}
-                      isInvalid={errors.dateShift}
+                      min={today}
+                      isInvalid={!!errors.dateShift}
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.dateShift}
                     </Form.Control.Feedback>
                   </Form.Group>
+
                   <Form.Group>
-                    <Form.Label>Descripcion:</Form.Label>
+                    <Form.Label>Descripción:</Form.Label>
                     <Form.Control
                       as="textarea"
-                      placeholder="Ingrese una descripcion sobre su consulta..."
+                      placeholder="Ingrese una descripción sobre su consulta..."
                       onChange={handleDescription}
                       value={description}
-                      isInvalid={errors.description}
+                      isInvalid={!!errors.description}
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.description}
@@ -174,22 +192,24 @@ const RequestShift = () => {
                   </Form.Group>
                 </Col>
               </Row>
+
               <Row>
                 <Col className="d-flex justify-content-center align-items-center gap-3">
                   <Button
                     variant="secondary"
                     onClick={handleBackClick}
                     className="mt-5"
+                    disabled={loading}
                   >
                     Regresar
                   </Button>
                   <Button
                     variant="primary"
                     type="submit"
-                    onClick={handleSubmit}
                     className="mt-5"
+                    disabled={loading}
                   >
-                    Enviar turno
+                    {loading ? "Enviando..." : "Enviar turno"}
                   </Button>
                 </Col>
               </Row>
