@@ -15,7 +15,6 @@ const ShiftHistory = () => {
   const [shift, setShift] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [shiftToCancel, setShiftToCancel] = useState(null)
-  const navigate = useNavigate()
 
   const handleConfirmCancel = (shift) => {
 
@@ -65,7 +64,6 @@ const ShiftHistory = () => {
         setShift(prev => prev.filter(s => s.id !== shiftToCancel.id));
         setShowModal(false);
         successToast('Turno cancelado exitosamente')
-        navigate('/userpanel')
       })
       .catch(err => {
         errorToast(err)
