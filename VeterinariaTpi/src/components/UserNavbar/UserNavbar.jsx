@@ -14,7 +14,7 @@ import { useAuth } from "../../Services/authContext/AuthContext";
 function UserNavbar() {
   const { userLogout, user } = useAuth();
   const navigate = useNavigate();
-  
+
   const handleAddPetClick = () => {
     navigate("/addpets");
   };
@@ -32,7 +32,7 @@ function UserNavbar() {
   };
 
   const handleShiftHistory = () => {
-    navigate("/misturnos");
+    navigate(`/${user.id}/misturnos`);
   };
 
   return (
@@ -44,7 +44,7 @@ function UserNavbar() {
           className="jstify-content-end mb-1 mt-1"
         >
           <Nav className="ms-auto">
-            <Button 
+            <Button
               variant="outline-light"
               className="me-2"
               onClick={handleShiftHistory}>
@@ -65,7 +65,7 @@ function UserNavbar() {
               <FontAwesomeIcon icon={faGear} className="me-2" />
               Editar Perfil
             </Button>
-            
+
             <Button
               variant="outline-light"
               className="me-2"

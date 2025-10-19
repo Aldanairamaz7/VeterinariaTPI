@@ -38,7 +38,7 @@ function App() {
             <Route path="/solicitarturno" element={<RequestShift />} />
             <Route path="/editpet/:petId" element={<EditPet />} />
             <Route path="/editarperfil/:userId" element={<EditProfile />} />
-            <Route path="/misturnos" element={<ShiftHistory />} />
+            <Route path="/:userId/misturnos" element={<ShiftHistory />} />
 
             <Route element={<Protected requireAdmin={true} />}>
               <Route path="/adminpanel" element={<AdminPanel />} />
