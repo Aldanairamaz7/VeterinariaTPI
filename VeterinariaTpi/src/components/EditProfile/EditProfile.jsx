@@ -71,31 +71,26 @@ const EditProfile = () => {
   const handleChangeFirstName = (e) => {
     const value = e.target.value;
     setUserData({ ...userData, firstName: value });
-    setErrors({ ...errors, firstName: validateFirstName(value) });
   };
 
   const handleChangeLastName = (e) => {
     const value = e.target.value;
     setUserData({ ...userData, lastName: value });
-    setErrors({ ...errors, lastName: validateLastName(value) });
   };
 
   const handleChangeDni = (e) => {
     const value = e.target.value;
     setUserData({ ...userData, dni: value });
-    setErrors({ ...errors, dni: validateDni(value) });
   };
 
   const handleChangeEmail = (e) => {
     const value = e.target.value;
     setUserData({ ...userData, email: value });
-    setErrors({ ...errors, email: validateEmail(value) });
   };
 
   const handleChangePassword = (e) => {
     const value = e.target.value;
     setUserData({ ...userData, password: value });
-    setErrors({ ...errors, password: validatePassword(value) });
   };
 
   const handleChangeIdRole = (e) => {
@@ -106,19 +101,16 @@ const EditProfile = () => {
   const handleChangeEnrollment = (e) => {
     const value = e.target.value;
     setUserData({ ...userData, enrollment: value });
-    setErrors({ ...errors, enrollment: validateEnrollment(value) });
   };
 
   const handleChangeDDSpeciality = (e) => {
     const value = Number(e.target.value);
     setUserData({ ...userData, ddSpeciality: value });
-    setErrors({ ...errors, speciality: validateSpeciality(value) });
   };
 
   const handleChangeOtherSpeciality = (e) => {
     const value = e.target.value;
     setUserData({ ...userData, speciality: value });
-    //setErrors({ ...errors, speciality: validateOtherSpeciality(value) });
   };
 
   const handleBackClick = () => {
@@ -133,7 +125,13 @@ const EditProfile = () => {
       lastName: validateLastName(userData.lastName),
       dni: validateDni(userData.dni),
       email: validateEmail(userData.email),
-      password: validatePassword(userData.password),
+      password: !adminPerm ? validatePassword(userData.password) : "",
+      enrollment: validateEnrollment(userData.enrollment, userData.idRole),
+      ddSpeciality: validateSpeciality(userData.ddSpeciality, userData.idRole),
+      speciality:
+        userData.ddSpeciality === 0
+          ? validateOtherSpeciality(userData.speciality, userData.idRole)
+          : "",
     };
 
     setErrors(formErrors);
@@ -188,7 +186,7 @@ const EditProfile = () => {
                     placeholder="Ingrese su nombre"
                     onChange={handleChangeFirstName}
                     value={userData.firstName}
-                    isInvalid={errors.firstName}
+                    isInvalid={!!errors.firstName}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.firstName}
@@ -201,7 +199,7 @@ const EditProfile = () => {
                     placeholder="Ingrese su apellido"
                     onChange={handleChangeLastName}
                     value={userData.lastName}
-                    isInvalid={errors.lastName}
+                    isInvalid={!!errors.lastName}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.lastName}
@@ -214,7 +212,7 @@ const EditProfile = () => {
                     placeholder="Ingrese su DNI"
                     onChange={handleChangeDni}
                     value={userData.dni}
-                    isInvalid={errors.dni}
+                    isInvalid={!!errors.dni}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.dni}
@@ -227,7 +225,7 @@ const EditProfile = () => {
                     placeholder="Ingrese el email"
                     onChange={handleChangeEmail}
                     value={userData.email}
-                    isInvalid={errors.email}
+                    isInvalid={!!errors.email}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.email}
@@ -241,7 +239,7 @@ const EditProfile = () => {
                       placeholder="Ingrese su contraseña"
                       onChange={handleChangePassword}
                       value={userData.password}
-                      isInvalid={errors.password}
+                      isInvalid={!!errors.password}
                     />
                     <Form.Control.Feedback
                       type="invalid"
@@ -275,14 +273,18 @@ const EditProfile = () => {
                         placeholder="Ingrese la matricula profesional"
                         value={userData.enrollment}
                         onChange={handleChangeEnrollment}
+                        isInvalid={!!errors.enrollment}
                       />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.enrollment}
+                      </Form.Control.Feedback>
                     </Form.Group>
-
                     <Form.Group className="mb-1">
                       <Form.Label>Especialidad *</Form.Label>
                       <Form.Select
                         value={userData.ddSpeciality}
                         onChange={handleChangeDDSpeciality}
+                        isInvalid={!!errors.ddSpeciality}
                       >
                         <option value={-1}>Seleccione una especialidad</option>
                         {specialitys.map((el) => (
@@ -292,6 +294,9 @@ const EditProfile = () => {
                         ))}
                         <option value={0}>Otros</option>
                       </Form.Select>
+                      <Form.Control.Feedback type="invalid">
+                        {errors.ddSpeciality}
+                      </Form.Control.Feedback>
                     </Form.Group>
 
                     {Number(userData.ddSpeciality) === 0 && (
@@ -302,7 +307,11 @@ const EditProfile = () => {
                           placeholder="Ingrese la especialidad"
                           value={userData.speciality}
                           onChange={handleChangeOtherSpeciality}
+                          isInvalid={!!errors.speciality}
                         />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.speciality}
+                        </Form.Control.Feedback>
                       </Form.Group>
                     )}
                   </>
