@@ -6,6 +6,7 @@ import {
   validateDateShift,
   validateShiftDescription,
   validateSelectPet,
+  validateVeterinarian,
 } from "../shared/validations";
 import {
   errorToast,
@@ -14,7 +15,7 @@ import {
 import { useAuth } from "../../Services/authContext/AuthContext";
 
 const RequestShift = () => {
-  const [typeRequest, setTypeRequest] = useState("");
+  const [typeRequest, setTypeRequest] = useState(0);
   const [dateShift, setDateShift] = useState("");
   const [description, setDescription] = useState("");
   const [selectPet, setSelectPet] = useState(0);
@@ -24,7 +25,9 @@ const RequestShift = () => {
   const pets = user.pets || [];
   const navigate = useNavigate();
   const { idPet } = useParams();
-  const [specialities, setEspecialities] = useState([]);
+  const [specialities, setSpecialities] = useState([]);
+  const [veterinarians, setVeterinarians] = useState([]);
+  const [selectVet, setSelVet] = useState(0);
 
   useEffect(() => {
     setSelectPet(idPet);
@@ -37,7 +40,9 @@ const RequestShift = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        setSpecialities(data.specialities);
+        setVeterinarians(data.veterinarians);
+        console.log(data.veterinarians);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -55,7 +60,7 @@ const RequestShift = () => {
   };
 
   const handleTypeRequest = (e) => {
-    const value = e.target.value;
+    const value = Number(e.target.value);
     setTypeRequest(value);
     setErrors({ ...errors, typeRequest: validateTypeConsult(value) });
   };
@@ -65,7 +70,12 @@ const RequestShift = () => {
     setDescription(value);
     setErrors({ ...errors, description: validateShiftDescription(value) });
   };
-  [];
+
+  const handleSelectVeterinarian = (e) => {
+    const value = Number(e.target.value);
+    setSelVet(value);
+    setErrors({ ...errors, selectVeterinarian: validateVeterinarian(value) });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -171,16 +181,53 @@ const RequestShift = () => {
                       value={typeRequest}
                       isInvalid={!!errors.typeRequest}
                     >
-                      <option value="">Seleccione una opción</option>
-                      <option value="consulta">Consulta</option>
-                      <option value="control">Control</option>
-                      <option value="cirujia">Cirugía</option>
-                      <option value="estilista">Estilista</option>
+                      <option key={0} value={0}>
+                        Seleccionar el tipo de consulta
+                      </option>
+                      {specialities.map((spe) => {
+                        return (
+                          <option
+                            key={spe.idSpeciality}
+                            value={spe.idSpeciality}
+                          >
+                            {spe.specialityName}
+                          </option>
+                        );
+                      })}
                     </Form.Select>
                     <Form.Control.Feedback type="invalid">
                       {errors.typeRequest}
                     </Form.Control.Feedback>
                   </Form.Group>
+                  {typeRequest !== 0 && (
+                    <Form.Group>
+                      <Form.Label>Elegir veterinario:</Form.Label>
+                      <Form.Select
+                        aria-label="Seleccione el veterinario"
+                        onChange={handleSelectVeterinarian}
+                        value={selectVet}
+                        isInvalid={!!errors.selectVeterinarian}
+                      >
+                        <option key={0} value={0}>
+                          Seleccionar el veterinario
+                        </option>
+                        {veterinarians.map((vet) => {
+                          return (
+                            <option
+                              key={vet.veterinarian.enrollment}
+                              value={vet.veterinarian.enrollment}
+                            >
+                              {vet.veterinarian.enrollment} - {vet.firstName}{" "}
+                              {vet.lastName}
+                            </option>
+                          );
+                        })}
+                      </Form.Select>
+                      <Form.Control.Feedback type="invalid">
+                        {errors.selectVeterinarian}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  )}
 
                   <Form.Group>
                     <Form.Label>Fecha del turno:</Form.Label>
