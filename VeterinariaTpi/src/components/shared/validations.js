@@ -1,4 +1,4 @@
-const regexFirstName = /^[a-zA-ZÀ-ÿ]+$/;
+const regexFirstName = /^[a-zA-ZÀ-ÿ\s]+$/;
 const regexLastName = /^[a-zA-ZÀ-ÿ\s]+$/;
 const regexDni = /^\d{7,8}$/;
 export const regexNames = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
@@ -8,10 +8,9 @@ const regexPetName = /^[a-zA-ZÀ-ÿ]+$/;
 const regexAge = /^[1-9]\d?$/;
 const regexBreed = /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,20}$/;
 const regexDescription = /[^a-zA-ZÀ-ÿ0-9\s.,;]/;
-const regexEnrollment = /[^0-9]{4,5}/;
+const regexEnrollment = /^[0-9]{4,5}$/;
 
 export const validateFirstName = (value) => {
-  if (!value.trim()) return "Este campo es obligatorio.";
   if (!regexFirstName.test(value))
     return "El nombre solo puede contener letras";
   return "";
@@ -24,21 +23,19 @@ export const validateLastName = (value) => {
 };
 
 export const validateDni = (value) => {
-  if (!value.trim()) return "Este campo es obligatorio.";
+
   if (!regexDni.test(value)) return "El DNI debe tener 7 u 8 números";
   return "";
 };
 
 export const validateEmail = (value) => {
-  if (!value.trim()) return "Este campo es obligatorio.";
+
   if (!regexEmail.test(value)) return "El email no es válido";
   return "";
 };
 
 export const validatePassword = (value) => {
-  if (!value.trim()) {
-    return "";
-  } else if (!regexPassword.test(value))
+  if (!regexPassword.test(value))
     return "La contraseña debe tener:\n entre 7 y 20 caracteres\n al menos una mayúscula y un número";
   return "";
 };
@@ -86,16 +83,25 @@ export const validateTypeConsult = (value) => {
   return "";
 };
 
-export const validateEnrollment = (value) => {
-  if (!value.trim()) {
+export const validateEnrollment = (value, idRole) => {
+  if(idRole !== 2){
+    return ""
+  }
+
+  const stringValue = String(value)
+  if (!stringValue.trim()) {
     return "Este campo es obligatorio.";
   }
-  if (!regexEnrollment.test(value)) {
+  if (!regexEnrollment.test(stringValue)) {
     return "Solo puede tener numeros y entre 4 a 5 caracteres.";
   }
+  return ""
 };
 
-export const validateSpeciality = (value) => {
+export const validateSpeciality = (value, idRole) => {
+  if(idRole !== 2){
+    return ""
+  }
   if (value === -1) {
     return "Este campo es obligatorio";
   }
@@ -110,6 +116,9 @@ export const validateSelectPet = (value) => {
 export const validateOtherSpeciality = (value) => {
   if (!value.trim()) {
     return "Este campo es obligatorio.";
+  }
+  if(!regexFirstName.test(value)){
+    return "Este campo solo admite letras."
   }
   return "";
 };
