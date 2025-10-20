@@ -75,8 +75,15 @@ export const validateShiftDescription = (value) => {
 };
 
 export const validateTypeConsult = (value) => {
-  if (!value.trim()) {
+  if (value === 0) {
     return "Este campo es obligatorio.";
+  }
+  return "";
+};
+
+export const validateVeterinarian = (value) => {
+  if (value === 0) {
+    return "Este campo es obligatorio";
   }
   return "";
 };
