@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import {
   validateTypeConsult,
   validateDateShift,
@@ -17,12 +17,30 @@ const RequestShift = () => {
   const [typeRequest, setTypeRequest] = useState("");
   const [dateShift, setDateShift] = useState("");
   const [description, setDescription] = useState("");
-  const [selectPet, setSelectPet] = useState("");
+  const [selectPet, setSelectPet] = useState(0);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const { token, user } = useAuth();
   const pets = user.pets || [];
   const navigate = useNavigate();
+  const { idPet } = useParams();
+  const [specialities, setEspecialities] = useState([]);
+
+  useEffect(() => {
+    setSelectPet(idPet);
+    fetch("http://localhost:3000/requestshift", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const handleSelectPet = (e) => {
     const value = e.target.value;
@@ -47,6 +65,7 @@ const RequestShift = () => {
     setDescription(value);
     setErrors({ ...errors, description: validateShiftDescription(value) });
   };
+  [];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -130,10 +149,10 @@ const RequestShift = () => {
                       value={selectPet}
                       isInvalid={!!errors.selectPet}
                     >
-                      <option value="">Seleccione una mascota</option>
+                      <option value={0}>Seleccione una mascota</option>
                       {pets.map((pet) => {
                         return (
-                          <option key={pet.id} value={pet.name}>
+                          <option key={pet.id} value={pet.id}>
                             {pet.name}
                           </option>
                         );
