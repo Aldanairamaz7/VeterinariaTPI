@@ -26,6 +26,7 @@ const EditProfile = () => {
     email: "",
     password: "",
     idRole: 1,
+    prevIdRole: 1,
     enrollment: "",
     ddSpeciality: -1,
     speciality: "",
@@ -56,6 +57,7 @@ const EditProfile = () => {
           email: data.user.email,
           password: "",
           idRole: data.user.idRole,
+          prevIdRole: data.user.idRole,
           enrollment: data.user.veterinarian?.enrollment || "",
           ddSpeciality: data.user.veterinarian?.idSpeciality || -1,
         });
@@ -160,12 +162,14 @@ const EditProfile = () => {
           const errData = await res.json();
           throw new Error(errData.message || "algo salio mal");
         }
+        return res.json();
       })
       .then((data) => {
         if (!adminPerm) {
           setUser(data.user);
         }
-        console.log(data), successToast(data.message);
+        console.log(data);
+        successToast(data.message);
       })
       .catch((err) => errorToast(err.message));
 

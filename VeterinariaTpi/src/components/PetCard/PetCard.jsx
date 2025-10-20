@@ -16,7 +16,7 @@ function PetCard({ pet }) {
   const adminPerm = user.idRole === 3 ? true : false;
 
   const handleRequestShiftClick = () => {
-    navigate("/solicitarturno");
+    navigate(`/solicitarturno/${pet.id}`);
   };
 
   const handleEditPet = () => {

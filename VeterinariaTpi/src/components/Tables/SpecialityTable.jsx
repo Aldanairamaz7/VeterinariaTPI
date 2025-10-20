@@ -88,7 +88,7 @@ const SpecialityTable = ({ data, setData }) => {
                 handleConfirmDelete(speciality.idSpeciality);
               }}
             >
-              Elimitar usuario
+              Elimitar especialidad
             </Button>
           </Box>
         );
@@ -107,7 +107,7 @@ const SpecialityTable = ({ data, setData }) => {
   });
   return (
     <div className="w-100 h-100 d-flex justify-content-center align-items-center">
-      <div className="m-3 w-25">
+      <div className="m-3 w-50">
         <MaterialReactTable table={table} />
         <ConfirmDeleteModal
           show={showModal}
