@@ -10,6 +10,11 @@ const AdminFunctions = [
     summaryFunc: "Haz click en el boton para ver todas las mascotas",
     pathFunc: "/pets",
   },
+  {
+    typeFunc: "Ver especialidades",
+    summaryFunc: "Haz click en el boton para ver todas las especialidades",
+    pathFunc: "/specialities",
+  },
 ];
 
 export default AdminFunctions;

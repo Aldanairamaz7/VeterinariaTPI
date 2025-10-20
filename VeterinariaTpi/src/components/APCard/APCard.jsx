@@ -10,7 +10,7 @@ const APCard = ({ typeCard, summaryFunc, pathFunc }) => {
 
   return (
     <>
-      <Card className="w-25 h-50 mx-3 my-4">
+      <Card className="w-10 h-20 mx-3 my-4">
         <Card.Body className="d-flex flex-column justify-content-between">
           <Card.Title className="d-flex justify-content-around">
             {typeCard}

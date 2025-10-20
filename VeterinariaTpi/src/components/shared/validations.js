@@ -23,13 +23,11 @@ export const validateLastName = (value) => {
 };
 
 export const validateDni = (value) => {
-
   if (!regexDni.test(value)) return "El DNI debe tener 7 u 8 números";
   return "";
 };
 
 export const validateEmail = (value) => {
-
   if (!regexEmail.test(value)) return "El email no es válido";
   return "";
 };
@@ -84,23 +82,23 @@ export const validateTypeConsult = (value) => {
 };
 
 export const validateEnrollment = (value, idRole) => {
-  if(idRole !== 2){
-    return ""
+  if (idRole !== 2) {
+    return "";
   }
 
-  const stringValue = String(value)
+  const stringValue = String(value);
   if (!stringValue.trim()) {
     return "Este campo es obligatorio.";
   }
   if (!regexEnrollment.test(stringValue)) {
     return "Solo puede tener numeros y entre 4 a 5 caracteres.";
   }
-  return ""
+  return "";
 };
 
 export const validateSpeciality = (value, idRole) => {
-  if(idRole !== 2){
-    return ""
+  if (idRole !== 2) {
+    return "";
   }
   if (value === -1) {
     return "Este campo es obligatorio";
@@ -113,12 +111,15 @@ export const validateSelectPet = (value) => {
   }
   return "";
 };
-export const validateOtherSpeciality = (value) => {
+export const validateOtherSpeciality = (value, idRole) => {
+  if (idRole !== 2) {
+    return "";
+  }
   if (!value.trim()) {
     return "Este campo es obligatorio.";
   }
-  if(!regexFirstName.test(value)){
-    return "Este campo solo admite letras."
+  if (!regexFirstName.test(value)) {
+    return "Este campo solo admite letras.";
   }
   return "";
 };
