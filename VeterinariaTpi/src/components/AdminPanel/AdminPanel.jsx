@@ -5,7 +5,7 @@ import UserCard from "../UserCard/UserCard.jsx";
 
 const AdminPanel = () => {
   return (
-    <div className="w-100 h-100 d-flex flex-wrap justify-content-around">
+    <div className="w-100 h-100 d-flex flex-wrap justify-content-around align-items-center">
       {AdminFunction.map((el) => (
         <APCard
           typeCard={el.typeFunc}
