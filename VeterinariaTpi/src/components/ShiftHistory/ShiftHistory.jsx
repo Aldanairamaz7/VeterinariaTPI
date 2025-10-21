@@ -6,117 +6,115 @@ import { Button } from "@mui/material";
 import { useAuth } from "../../Services/authContext/AuthContext";
 import { useEffect, useState } from "react";
 import ConfirmDeleteModal from "../confirmDeleteModal/ConfirmDeleteModal";
-import { errorToast, successToast } from "../shared/notifications/notifications";
+import {
+  errorToast,
+  successToast,
+} from "../shared/notifications/notifications";
 import { useNavigate } from "react-router";
-
+import { MRT_Localization_ES } from "material-react-table/locales/es";
 
 const ShiftHistory = () => {
-  const { user, token } = useAuth()
-  const [shift, setShift] = useState([])
-  const [showModal, setShowModal] = useState(false)
-  const [shiftToCancel, setShiftToCancel] = useState(null)
+  const { user, token } = useAuth();
+  const [shift, setShift] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [shiftToCancel, setShiftToCancel] = useState(null);
 
   const handleConfirmCancel = (shift) => {
-
-    setShiftToCancel(shift)
-    setShowModal(!showModal)
-  }
+    setShiftToCancel(shift);
+    setShowModal(!showModal);
+  };
 
   useEffect(() => {
     if (!user) return;
 
     fetch(`http://localhost:3000/${user.id}/misturnos`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     })
-
-      .then(res => res.json())
-      .then(data => {
-        console.log('Datos recibidos:', data);
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Datos recibidos:", data);
         if (Array.isArray(data)) {
           setShift(data);
         } else {
           setShift([]);
         }
-
       })
-      .catch(err => {
-        console.error('Error al obtener turnos', err)
-      })
-  }, [user])
-
-
+      .catch((err) => {
+        console.error("Error al obtener turnos", err);
+      });
+  }, [user]);
 
   const handleDeleteShift = () => {
     fetch(`http://localhost:3000/shifts/${shiftToCancel.id}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then(res => {
+      .then((res) => {
         if (!res.ok) {
-          throw new Error('No se pudo cancelar el turno');
+          throw new Error("No se pudo cancelar el turno");
         }
 
-        setShift(prev => prev.filter(s => s.id !== shiftToCancel.id));
+        setShift((prev) => prev.filter((s) => s.id !== shiftToCancel.id));
         setShowModal(false);
-        successToast('Turno cancelado exitosamente')
+        successToast("Turno cancelado exitosamente");
       })
-      .catch(err => {
-        errorToast(err)
+      .catch((err) => {
+        errorToast(err);
       });
   };
 
-
   const columns = [
     {
-      accessorKey: 'petName',
-      header: 'Mascota',
+      accessorKey: "petName",
+      header: "Mascota",
     },
     {
-      accessorKey: 'breed',
-      header: 'Raza',
+      accessorKey: "breed",
+      header: "Raza",
     },
     {
-      accessorKey: 'dateTime',
-      header: 'Fecha',
+      accessorKey: "dateTime",
+      header: "Fecha",
       Cell: ({ cell }) => {
         const date = new Date(cell.getValue());
-        return date.toLocaleDateString();
+        const options = {
+          timeZone: "America/Argentina/Buenos_Aires",
+        };
+        return date.toLocaleDateString("es-AR", options);
       },
     },
     {
-      accessorKey: 'typeConsult',
-      header: 'Tipo de Consulta',
+      accessorKey: "typeConsult",
+      header: "Tipo de Consulta",
     },
     {
-      accessorKey: 'description',
-      header: 'Descripción',
+      accessorKey: "description",
+      header: "Descripción",
     },
     {
       id: "actions",
       header: "Acciones",
       Cell: ({ row }) => {
-        const shift = row.original
+        const shift = row.original;
 
         return (
-
           <Button
             variant="outlined"
             color="error"
             onClick={() => {
-              handleConfirmCancel(shift)
+              handleConfirmCancel(shift);
             }}
           >
             Cancelar Turno
           </Button>
-
         );
       },
-    }
+    },
   ];
 
   const table = useMaterialReactTable({
@@ -126,8 +124,8 @@ const ShiftHistory = () => {
     enableGlobalFilter: true,
     enablePagination: true,
     enableSorting: true,
+    localization: MRT_Localization_ES,
   });
-
 
   return (
     <div className="m-3">
@@ -141,6 +139,6 @@ const ShiftHistory = () => {
       />
     </div>
   );
-}
+};
 
 export default ShiftHistory;
