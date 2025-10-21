@@ -5,7 +5,7 @@ const APCard = ({ typeCard, summaryFunc, pathFunc }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/adminpanel${pathFunc}`, { replace: true });
+    navigate(`/adminpanel${pathFunc}`);
   };
 
   return (

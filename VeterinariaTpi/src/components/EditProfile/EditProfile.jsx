@@ -127,7 +127,9 @@ const EditProfile = () => {
       lastName: validateLastName(userData.lastName),
       dni: validateDni(userData.dni),
       email: validateEmail(userData.email),
-      password: !adminPerm ? validatePassword(userData.password) : "",
+      password: userData.password
+      ? validatePassword(userData.password)
+      : "",
       enrollment: validateEnrollment(userData.enrollment, userData.idRole),
       ddSpeciality: validateSpeciality(userData.ddSpeciality, userData.idRole),
       speciality:
