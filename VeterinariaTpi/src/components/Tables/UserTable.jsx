@@ -7,6 +7,7 @@ import ConfirmDeleteModal from "../confirmDeleteModal/ConfirmDeleteModal";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../Services/authContext/AuthContext";
+import { MRT_Localization_ES } from "material-react-table/locales/es";
 
 const UserTable = ({ data, setUsers }) => {
   const columns = [
@@ -69,7 +70,7 @@ const UserTable = ({ data, setUsers }) => {
                 handleConfirmDelete(user.id);
               }}
             >
-              Elimitar usuario
+              Eliminar usuario
             </Button>
           </Box>
         );
@@ -98,7 +99,7 @@ const UserTable = ({ data, setUsers }) => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setUsers(data.allUsers);
+        setUsers([...data.allUsers]);
         setIdUserDelete(null);
       })
       .catch((err) => console.log(err));
@@ -112,7 +113,11 @@ const UserTable = ({ data, setUsers }) => {
   const handleModifyUser = (id) => {
     navigate(`/editarperfil/${id}`);
   };
-  const table = useMaterialReactTable({ columns, data });
+  const table = useMaterialReactTable({
+    columns,
+    data,
+    localization: MRT_Localization_ES,
+  });
   return (
     <div className="m-3">
       <MaterialReactTable table={table} />
