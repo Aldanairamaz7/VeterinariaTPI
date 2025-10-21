@@ -15,7 +15,7 @@ import {
 import { useAuth } from "../../Services/authContext/AuthContext";
 
 const RequestShift = () => {
-  const [typeRequest, setTypeRequest] = useState(0);
+  const [typeRequest, setTypeRequest] = useState("");
   const [dateShift, setDateShift] = useState("");
   const [description, setDescription] = useState("");
   const [selectPet, setSelectPet] = useState(0);
@@ -42,13 +42,13 @@ const RequestShift = () => {
       .then((data) => {
         setSpecialities(data.specialities);
         setVeterinarians(data.veterinarians);
-        console.log(data.veterinarians);
       })
       .catch((err) => console.log(err));
   }, []);
+  console.log(veterinarians);
 
   const handleSelectPet = (e) => {
-    const value = e.target.value;
+    const value = Number(e.target.value);
     setSelectPet(value);
     setErrors({ ...errors, selectPet: validateSelectPet(value) });
   };
@@ -60,7 +60,7 @@ const RequestShift = () => {
   };
 
   const handleTypeRequest = (e) => {
-    const value = Number(e.target.value);
+    const value = e.target.value;
     setTypeRequest(value);
     setErrors({ ...errors, typeRequest: validateTypeConsult(value) });
   };
@@ -113,9 +113,9 @@ const RequestShift = () => {
           userId: user.id,
           dateTime: dateShift,
           typeConsult: typeRequest,
-          petId: petId,
+          petId: selectPet,
           description: description,
-          enrollment: 12345,
+          enrollment: selectVet,
         }),
       });
 
@@ -188,7 +188,7 @@ const RequestShift = () => {
                         return (
                           <option
                             key={spe.idSpeciality}
-                            value={spe.idSpeciality}
+                            value={spe.specialityName}
                           >
                             {spe.specialityName}
                           </option>
@@ -217,8 +217,8 @@ const RequestShift = () => {
                               key={vet.veterinarian.enrollment}
                               value={vet.veterinarian.enrollment}
                             >
-                              {vet.veterinarian.enrollment} - {vet.firstName}{" "}
-                              {vet.lastName}
+                              {vet.veterinarian?.enrollment || "sin matricula"}{" "}
+                              - {vet.firstName} {vet.lastName}
                             </option>
                           );
                         })}

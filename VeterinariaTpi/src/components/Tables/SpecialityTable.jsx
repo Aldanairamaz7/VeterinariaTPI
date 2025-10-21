@@ -73,6 +73,16 @@ const SpecialityTable = ({ data, setData }) => {
           >
             <Button
               variant="outlined"
+              color="error"
+              onClick={() => {
+                handleConfirmDelete(speciality.idSpeciality);
+              }}
+            >
+              Eliminar especialidad
+            </Button>
+
+            <Button
+              variant="outlined"
               color="info"
               size="sm"
               onClick={() => {
@@ -80,16 +90,6 @@ const SpecialityTable = ({ data, setData }) => {
               }}
             >
               Editar
-            </Button>
-
-            <Button
-              variant="outlined"
-              color="error"
-              onClick={() => {
-                handleConfirmDelete(speciality.idSpeciality);
-              }}
-            >
-              Elimitar especialidad
             </Button>
           </Box>
         );
