@@ -3,7 +3,7 @@ import { AuthContext } from "./AuthContext";
 
 export const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState(null);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
 
   const userLogin = async (email, password) => {

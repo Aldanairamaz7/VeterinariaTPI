@@ -33,17 +33,7 @@ const UserCard = ({ firstname, lastname, dni, email, id, pets, idRole }) => {
   };
 
   const handleModifyUser = () => {
-    navigate(`/editarperfil/${id}`, {
-      state: {
-        user: {
-          firstName: firstname,
-          lastName: lastname,
-          dni,
-          email,
-          id,
-        },
-      },
-    });
+    navigate(`/editarperfil/${id}`);
   };
   return (
     <>

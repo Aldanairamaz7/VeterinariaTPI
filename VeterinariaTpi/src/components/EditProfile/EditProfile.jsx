@@ -165,7 +165,7 @@ const EditProfile = () => {
         return res.json();
       })
       .then((data) => {
-        if (!adminPerm) {
+        if (data.user.id === user.id) {
           setUser(data.user);
         }
         console.log(data);
