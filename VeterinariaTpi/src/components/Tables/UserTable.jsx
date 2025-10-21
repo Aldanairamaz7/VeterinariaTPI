@@ -27,7 +27,7 @@ const UserTable = ({ data, setUsers }) => {
       header: "Email",
     },
     {
-      accessorFn: (row) => row.roles?.roleSumary ?? "Sin rol",
+      accessorFn: (row) => row.roles?.roleSumary || "sin rol",
       id: "role",
       header: "Rol",
     },
@@ -97,7 +97,7 @@ const UserTable = ({ data, setUsers }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.message);
+        console.log(data);
         setUsers(data.allUsers);
         setIdUserDelete(null);
       })
