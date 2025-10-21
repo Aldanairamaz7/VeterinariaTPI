@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import SpecialityTable from "../Tables/SpecialityTable";
 import { useAuth } from "../../Services/authContext/AuthContext";
+import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router";
 
 const AdminSpeView = () => {
   const [specialities, setSpecialities] = useState([]);
   const { token } = useAuth();
+  const navigate = useNavigate();
   useEffect(() => {
     fetch("http://localhost:3000/adminpanel/specialities", {
       headers: {
@@ -17,10 +20,21 @@ const AdminSpeView = () => {
       .then((data) => setSpecialities(data.specialities))
       .catch((err) => console.log(err));
   }, []);
+
+  const handleBack = () => {
+    navigate(-1)
+  }
   return (
-    <>
-      <SpecialityTable data={specialities} setData={setSpecialities} />
-    </>
+    <div>
+      <div className="m-3">
+        <Button variant="secondary" onClick={handleBack}>
+          Regresar
+        </Button>
+      </div>
+      <div>
+        <SpecialityTable data={specialities} setData={setSpecialities} />
+      </div>
+    </div>
   );
 };
 

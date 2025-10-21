@@ -51,28 +51,16 @@ const EditPet = () => {
   const handleNameInput = (e) => {
     const value = e.target.value;
     setPetName(value);
-    setErrors({
-      ...errors,
-      petName: validateAddPetName(value),
-    });
   };
 
   const handleAgeInput = (e) => {
     const value = e.target.value;
     setPetAge(value);
-    setErrors({
-      ...errors,
-      petAge: validatePetAge(value),
-    });
-  };
+    };
 
   const handleBreedInput = (e) => {
     const value = e.target.value;
     setPetBreed(value);
-    setErrors({
-      ...errors,
-      petBreed: validateBreed(value),
-    });
   };
 
   const handlePetImg = (e) => {
@@ -88,7 +76,7 @@ const EditPet = () => {
       navigate(-1);
     } catch (err) {
       console.log(err);
-      errorToast("Nose pudo eliminar la mascota");
+      errorToast("No se pudo eliminar la mascota");
     }
   };
 
