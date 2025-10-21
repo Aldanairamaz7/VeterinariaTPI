@@ -235,7 +235,7 @@ const EditProfile = () => {
                     {errors.email}
                   </Form.Control.Feedback>
                 </Form.Group>
-                {!adminPerm ? (
+                {Number(user.id) === Number(userId) && (
                   <Form.Group className="mb-1">
                     <Form.Label>Contraseña *</Form.Label>
                     <Form.Control
@@ -252,7 +252,8 @@ const EditProfile = () => {
                       {errors.password}
                     </Form.Control.Feedback>
                   </Form.Group>
-                ) : (
+                )}
+                {adminPerm && (
                   <>
                     <Form.Group>
                       <Form.Label>Rol del usuario</Form.Label>

@@ -5,6 +5,7 @@ import {
 import { Box, Button, Typography } from "@mui/material";
 import "../Tables/PetTable.css";
 import { useNavigate } from "react-router";
+import { MRT_Localization_ES } from "material-react-table/locales/es";
 
 const PetTable = ({ data, adminPanel = false }) => {
   const navigate = useNavigate();
@@ -101,6 +102,7 @@ const PetTable = ({ data, adminPanel = false }) => {
         fontSize: "1.1rem", // o '16px', '18px', etc.
       },
     },
+    localization: MRT_Localization_ES,
   });
   return (
     <div className="m-3">

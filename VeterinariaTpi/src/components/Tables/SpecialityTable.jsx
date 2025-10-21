@@ -12,6 +12,7 @@ import {
   successToast,
 } from "../shared/notifications/notifications";
 import { useAuth } from "../../Services/authContext/AuthContext";
+import { MRT_Localization_ES } from "material-react-table/locales/es";
 
 const SpecialityTable = ({ data, setData }) => {
   const { token } = useAuth();
@@ -104,6 +105,7 @@ const SpecialityTable = ({ data, setData }) => {
         fontSize: "1.1rem",
       },
     },
+    localization: MRT_Localization_ES,
   });
   return (
     <div className="w-100 h-100 d-flex justify-content-center align-items-center">
