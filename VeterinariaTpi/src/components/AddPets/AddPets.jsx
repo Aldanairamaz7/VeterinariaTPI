@@ -39,7 +39,6 @@ export const AddPets = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setTypePet(data.typePet || []);
         setBreed(data.breed || []);
       })
@@ -76,13 +75,13 @@ export const AddPets = () => {
   const handleBreed = (e) => {
     const value = Number(e.target.value);
     setBreedSelect(value);
-    setErrors({...errors, breed: validateBreed(value)});
+    setErrors({ ...errors, breed: validateBreed(value) });
   };
   const handleOtherBreed = (e) => {
-    const value = (e.target.value);
+    const value = e.target.value;
     setOtherBreed(value);
-    setErrors({...errors, otherBreed: validateOtherBreed});
-  }
+    setErrors({ ...errors, otherBreed: validateOtherBreed });
+  };
 
   const handleBreedInput = (e) => {
     const value = e.target.value;
@@ -187,7 +186,7 @@ export const AddPets = () => {
                     <option value={-1}>Seleccione la especie</option>
                     {typePet.map((el) => {
                       return (
-                        <option key={el.idType} value={el.Type}>
+                        <option key={el.idType} value={el.idType}>
                           {el.typePetName}
                         </option>
                       );
@@ -211,41 +210,44 @@ export const AddPets = () => {
                     </Form.Control.Feedback>
                   </Form.Group>
                 )}
-                <Form.Group className="mb-5">
-                  <Form.Label>Raza: </Form.Label>
-                  <Form.Select
-                    aria-label="Seleccione raza"
-                    onChange={handleBreed}
-                    value={breedSelect}
-                    isInvalid={errors.breedSelect}
-                  >
-                    <option value={-1}>Seleccione la raza</option>
-                    {breed.map((el) => {
-                      return (
-                        <option key={el.idBreed} value={el.idBreed}>
-                          {el.nameBreed}
-                        </option>
-                      )
-                    })}
-                    <option value={0}>Otra</option>
-                  </Form.Select>
-                  <Form.Control.Feedback type=""> </Form.Control.Feedback>
-                </Form.Group>
-                     {breedSelect === 0 && (
+                {typePetSelect > 0 && (
                   <Form.Group className="mb-5">
-                    <Form.Label> Especifique la raza:</Form.Label>
-                    <Form.Control
-                      type="text"
-                      aria-label="especifique la raza"
-                      onChange={handleOtherBreed}
-                      value={otherBreed}
-                      isInvalid={errors.otherBreed}
-                    ></Form.Control>
-                    <Form.Control.Feedback type="invalid">
-                      {errors.otherBreed}
-                    </Form.Control.Feedback>
+                    <Form.Label>Raza: </Form.Label>
+                    <Form.Select
+                      aria-label="Seleccione raza"
+                      onChange={handleBreed}
+                      value={breedSelect}
+                      isInvalid={errors.breedSelect}
+                    >
+                      <option value={-1}>Seleccione la raza</option>
+                      {breed.map((el) => {
+                        return (
+                          <option key={el.idBreed} value={el.idBreed}>
+                            {el.nameBreed}
+                          </option>
+                        );
+                      })}
+                      <option value={0}>Otra</option>
+                    </Form.Select>
+                    <Form.Control.Feedback type=""> </Form.Control.Feedback>
                   </Form.Group>
                 )}
+                {breedSelect === 0 ||
+                  (typePetSelect === 0 && (
+                    <Form.Group className="mb-5">
+                      <Form.Label> Especifique la raza:</Form.Label>
+                      <Form.Control
+                        type="text"
+                        aria-label="especifique la raza"
+                        onChange={handleOtherBreed}
+                        value={otherBreed}
+                        isInvalid={errors.otherBreed}
+                      ></Form.Control>
+                      <Form.Control.Feedback type="invalid">
+                        {errors.otherBreed}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  ))}
                 <Form.Group>
                   <Form.Label>Imagen:</Form.Label>
                   <Form.Control
