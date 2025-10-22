@@ -50,14 +50,23 @@ export const validatePetAge = (value) => {
     return "La edad no puede ser 0 o menos.\n Debe contener como maximo 2 caracteres.";
   return "";
 };
+export const validateTypePet = (value) => {
+  if(!value) return "seleccione el tipo de mascota";
+  return "";
+}
 
 export const validateBreed = (value) => {
   if (!value) return "La raza es obligatoria.";
-  if (!regexBreed.test(value))
-    return "Solo puede contener letras.\n Debe contener entre 2 y 20 caracteres";
   return "";
 };
-
+export const validateOtherBreed = (value) => {
+  if (!value) return "especifique la raza";
+  return "";
+};
+export const validateOtherType = (value) => {
+  if (!value) return "especifique su especie";
+  return "";
+};
 export const validateDateShift = (value) => {
   if (!value) {
     return "Seleccione una fecha por favor";
