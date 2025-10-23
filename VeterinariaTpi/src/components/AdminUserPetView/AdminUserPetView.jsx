@@ -8,6 +8,7 @@ import PetTable from "../Tables/PetTable";
 const AdminUserPetView = () => {
   const { pets, setPets } = useAdmin();
   const { id } = useParams();
+  const [owner, setOwner] = useState(null)
   const { user, token } = useAuth();
   const navigate = useNavigate();
 
@@ -20,7 +21,10 @@ const AdminUserPetView = () => {
       },
     })
       .then((res) => res.json())
-      .then((data) => setPets([...data.pets]))
+      .then((data) => {
+        setPets([...data.pets])
+        setOwner(data.user || null)
+      })
       .catch((err) => console.log(err));
   }, []);
 
@@ -31,9 +35,14 @@ const AdminUserPetView = () => {
   return (
     <div>
       <div className="m-3">
-        <Button variant="secondary" onClick={handleBack}>
+        <Button variant="secondary" className="m-1" onClick={handleBack}>
           Regresar
         </Button>
+        {owner ? (
+          <h1>Mascotas de: {owner.firstName} {owner.lastName}</h1>
+        ) : (
+          <h1>Cargando datos del usuario...</h1>
+        )}
       </div>
       <div>
         <PetTable data={pets} />

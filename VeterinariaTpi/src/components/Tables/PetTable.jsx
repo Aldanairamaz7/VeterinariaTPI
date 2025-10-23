@@ -2,7 +2,7 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import "../Tables/PetTable.css";
 import { useNavigate } from "react-router";
 import { MRT_Localization_ES } from "material-react-table/locales/es";
