@@ -99,7 +99,7 @@ const PetTable = ({ data, adminPanel = false }) => {
     data,
     muiTableBodyCellProps: {
       sx: {
-        fontSize: "1.1rem", // o '16px', '18px', etc.
+        fontSize: "1.1rem",
       },
     },
     localization: MRT_Localization_ES,

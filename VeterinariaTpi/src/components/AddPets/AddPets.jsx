@@ -8,6 +8,7 @@ import {
   validateTypePet,
   validateOtherType,
   validateOtherBreed,
+  validateImageURL,
 } from "../shared/validations.js";
 import { errorToast } from "../shared/notifications/notifications.js";
 import { useAuth } from "../../Services/authContext/AuthContext.jsx";
@@ -48,48 +49,27 @@ export const AddPets = () => {
   const handleNameInput = (e) => {
     const value = e.target.value;
     setPetName(value);
-    setErrors({
-      ...errors,
-      petName: validateAddPetName(value),
-    });
   };
 
   const handleAgeInput = (e) => {
     const value = e.target.value;
     setPetAge(value);
-    setErrors({
-      ...errors,
-      petAge: validatePetAge(value),
-    });
   };
   const handleTypePetsSelect = (e) => {
     const value = Number(e.target.value);
     setTypePetSelect(value);
-    setErrors({ ...errors, typePet: validateTypePet(value) });
   };
   const handleOtherType = (e) => {
     const value = e.target.value;
     setOtherType(value);
-    setErrors({ ...errors, otherType: validateOtherType(value) });
   };
   const handleBreed = (e) => {
     const value = Number(e.target.value);
     setBreedSelect(value);
-    setErrors({ ...errors, breed: validateBreed(value) });
   };
   const handleOtherBreed = (e) => {
     const value = e.target.value;
     setOtherBreed(value);
-    setErrors({ ...errors, otherBreed: validateOtherBreed });
-  };
-
-  const handleBreedInput = (e) => {
-    const value = e.target.value;
-    setPetBreed(value);
-    setErrors({
-      ...errors,
-      petBreed: validateBreed(value),
-    });
   };
 
   const handleImageURLInput = (e) => {
@@ -107,23 +87,30 @@ export const AddPets = () => {
     const formErrors = {
       petName: validateAddPetName(petName),
       petAge: validatePetAge(petAge),
-      petBreed: validateBreed(petBreed),
+      imageURL: validateImageURL(petImageURL),
+      typePetSelect: validateTypePet(typePetSelect),
+      otherType: validateOtherType(otherType, typePetSelect),
+      breedSelect: validateBreed(breedSelect),
+      otherBreed: validateOtherBreed(otherBreed),
     };
 
     setErrors(formErrors);
 
     const hasErrors = Object.values(formErrors).some((err) => err !== "");
+    console.log(formErrors);
 
     if (hasErrors) {
       errorToast("Hay algunos campos incorrectos, revisalos.");
       return;
     }
-
     const petData = {
       name: petName,
       age: parseInt(petAge),
-      breed: petBreed,
       imageURL: petImageURL,
+      typePetSelect,
+      otherType,
+      breedSelect,
+      otherBreed,
     };
 
     try {
@@ -153,7 +140,7 @@ export const AddPets = () => {
                     placeholder="Ingrese el nombre"
                     onChange={handleNameInput}
                     value={petName}
-                    isInvalid={errors.petName}
+                    isInvalid={!!errors.petName}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.petName}
@@ -166,7 +153,7 @@ export const AddPets = () => {
                     placeholder="Ingrese su edad"
                     onChange={handleAgeInput}
                     value={petAge}
-                    isInvalid={errors.petAge}
+                    isInvalid={!!errors.petAge}
                   />
                   <Form.Control.Feedback
                     type="invalid"
@@ -181,7 +168,7 @@ export const AddPets = () => {
                     aria-label="Seleccione tipo de mascota"
                     onChange={handleTypePetsSelect}
                     value={typePetSelect}
-                    isInvalid={errors.typePetSelect}
+                    isInvalid={!!errors.typePetSelect}
                   >
                     <option value={-1}>Seleccione la especie</option>
                     {typePet.map((el) => {
@@ -193,7 +180,9 @@ export const AddPets = () => {
                     })}
                     <option value={0}>Otra</option>
                   </Form.Select>
-                  <Form.Control.Feedback type=""> </Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.typePetSelect}
+                  </Form.Control.Feedback>
                 </Form.Group>
                 {typePetSelect === 0 && (
                   <Form.Group className="mb-5">
@@ -203,51 +192,50 @@ export const AddPets = () => {
                       aria-label="especifique la especie"
                       onChange={handleOtherType}
                       value={otherType}
-                      isInvalid={errors.otherType}
+                      isInvalid={!!errors.otherType}
                     ></Form.Control>
                     <Form.Control.Feedback type="invalid">
                       {errors.petName}
                     </Form.Control.Feedback>
                   </Form.Group>
                 )}
-                {typePetSelect > 0 && (
+                <Form.Group className="mb-5">
+                  <Form.Label>Raza: </Form.Label>
+                  <Form.Select
+                    aria-label="Seleccione raza"
+                    onChange={handleBreed}
+                    value={breedSelect}
+                    isInvalid={!!errors.breedSelect}
+                  >
+                    <option value={-1}>Seleccione la raza</option>
+                    {breed.map((el) => {
+                      return (
+                        <option key={el.idBreed} value={el.idBreed}>
+                          {el.nameBreed}
+                        </option>
+                      );
+                    })}
+                    <option value={0}>Otra</option>
+                  </Form.Select>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.breedSelect}
+                  </Form.Control.Feedback>
+                </Form.Group>
+                {breedSelect === 0 && (
                   <Form.Group className="mb-5">
-                    <Form.Label>Raza: </Form.Label>
-                    <Form.Select
-                      aria-label="Seleccione raza"
-                      onChange={handleBreed}
-                      value={breedSelect}
-                      isInvalid={errors.breedSelect}
-                    >
-                      <option value={-1}>Seleccione la raza</option>
-                      {breed.map((el) => {
-                        return (
-                          <option key={el.idBreed} value={el.idBreed}>
-                            {el.nameBreed}
-                          </option>
-                        );
-                      })}
-                      <option value={0}>Otra</option>
-                    </Form.Select>
-                    <Form.Control.Feedback type=""> </Form.Control.Feedback>
+                    <Form.Label> Especifique la raza:</Form.Label>
+                    <Form.Control
+                      type="text"
+                      aria-label="especifique la raza"
+                      onChange={handleOtherBreed}
+                      value={otherBreed}
+                      isInvalid={!!errors.otherBreed}
+                    ></Form.Control>
+                    <Form.Control.Feedback type="invalid">
+                      {errors.otherBreed}
+                    </Form.Control.Feedback>
                   </Form.Group>
                 )}
-                {breedSelect === 0 ||
-                  (typePetSelect === 0 && (
-                    <Form.Group className="mb-5">
-                      <Form.Label> Especifique la raza:</Form.Label>
-                      <Form.Control
-                        type="text"
-                        aria-label="especifique la raza"
-                        onChange={handleOtherBreed}
-                        value={otherBreed}
-                        isInvalid={errors.otherBreed}
-                      ></Form.Control>
-                      <Form.Control.Feedback type="invalid">
-                        {errors.otherBreed}
-                      </Form.Control.Feedback>
-                    </Form.Group>
-                  ))}
                 <Form.Group>
                   <Form.Label>Imagen:</Form.Label>
                   <Form.Control
@@ -255,7 +243,11 @@ export const AddPets = () => {
                     placeholder="Ingresar URL.."
                     onChange={handleImageURLInput}
                     value={petImageURL}
+                    isInvalid={!!errors.imageURL}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.imageURL}
+                  </Form.Control.Feedback>
                 </Form.Group>
               </Col>
             </Row>
