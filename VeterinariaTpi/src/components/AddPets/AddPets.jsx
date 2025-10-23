@@ -8,7 +8,7 @@ import {
   validateTypePet,
   validateOtherType,
   validateOtherBreed,
-  validateImageURL
+  validateImageURL,
 } from "../shared/validations.js";
 import { errorToast } from "../shared/notifications/notifications.js";
 import { useAuth } from "../../Services/authContext/AuthContext.jsx";
@@ -40,7 +40,6 @@ export const AddPets = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setTypePet(data.typePet || []);
         setBreed(data.breed || []);
       })
@@ -50,7 +49,6 @@ export const AddPets = () => {
   const handleNameInput = (e) => {
     const value = e.target.value;
     setPetName(value);
-
   };
 
   const handleAgeInput = (e) => {
@@ -70,9 +68,9 @@ export const AddPets = () => {
     setBreedSelect(value);
   };
   const handleOtherBreed = (e) => {
-    const value = (e.target.value);
+    const value = e.target.value;
     setOtherBreed(value);
-  }
+  };
 
   const handleImageURLInput = (e) => {
     const value = e.target.value;
@@ -93,14 +91,14 @@ export const AddPets = () => {
       typePetSelect: validateTypePet(typePetSelect),
       otherType: validateOtherType(otherType, typePetSelect),
       breedSelect: validateBreed(breedSelect),
-      otherBreed: validateOtherBreed(otherBreed)
+      otherBreed: validateOtherBreed(otherBreed, breedSelect),
     };
 
     setErrors(formErrors);
-    
+
     const hasErrors = Object.values(formErrors).some((err) => err !== "");
-    console.log(formErrors)
-    
+    console.log(formErrors);
+
     if (hasErrors) {
       errorToast("Hay algunos campos incorrectos, revisalos.");
       return;
@@ -112,9 +110,9 @@ export const AddPets = () => {
       typePetSelect,
       otherType,
       breedSelect,
-      otherBreed
+      otherBreed,
     };
-    
+
     try {
       await addPet(petData);
       setPetName("");
@@ -123,7 +121,7 @@ export const AddPets = () => {
       setPetImageURL("");
       navigate("/userpanel");
     } catch (err) {
-      errorToast(err.message || "No se pudo agregar mascota.");
+      errorToast(err.message);
     }
   };
 
@@ -210,18 +208,22 @@ export const AddPets = () => {
                     isInvalid={!!errors.breedSelect}
                   >
                     <option value={-1}>Seleccione la raza</option>
-                    {breed.map((el) => {
-                      return (
-                        <option key={el.idBreed} value={el.idBreed}>
-                          {el.nameBreed}
-                        </option>
-                      )
-                    })}
+                    {breed
+                      .filter((el) => el.idTypePet === typePetSelect)
+                      .map((el) => {
+                        return (
+                          <option key={el.idBreed} value={el.idBreed}>
+                            {el.nameBreed}
+                          </option>
+                        );
+                      })}
                     <option value={0}>Otra</option>
                   </Form.Select>
-                  <Form.Control.Feedback type="invalid">{errors.breedSelect}</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.breedSelect}
+                  </Form.Control.Feedback>
                 </Form.Group>
-                     {breedSelect === 0 && (
+                {breedSelect === 0 && (
                   <Form.Group className="mb-5">
                     <Form.Label> Especifique la raza:</Form.Label>
                     <Form.Control
@@ -246,8 +248,8 @@ export const AddPets = () => {
                     isInvalid={!!errors.imageURL}
                   />
                   <Form.Control.Feedback type="invalid">
-                      {errors.imageURL}
-                    </Form.Control.Feedback>
+                    {errors.imageURL}
+                  </Form.Control.Feedback>
                 </Form.Group>
               </Col>
             </Row>

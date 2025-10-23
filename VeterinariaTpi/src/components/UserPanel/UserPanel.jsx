@@ -2,9 +2,10 @@ import { Col, Container, Row } from "react-bootstrap";
 import PetCard from "../PetCard/PetCard";
 import UserNavbar from "../UserNavbar/UserNavbar";
 import { useAuth } from "../../Services/authContext/AuthContext";
+import { useEffect, useState } from "react";
 
-function UserPanel() {
-  const { user } = useAuth();
+const UserPanel = () => {
+  const { user, token } = useAuth();
   const pets = user.pets || [];
 
   return (
@@ -26,6 +27,6 @@ function UserPanel() {
       </Container>
     </div>
   );
-}
+};
 
 export default UserPanel;

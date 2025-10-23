@@ -11,7 +11,7 @@ import {
 import { useNavigate } from "react-router";
 import { useAuth } from "../../Services/authContext/AuthContext";
 
-function UserNavbar() {
+const UserNavbar = () => {
   const { userLogout, user } = useAuth();
   const navigate = useNavigate();
 
@@ -48,14 +48,14 @@ function UserNavbar() {
         >
           <Nav className="ms-auto">
             {user.idRole === 1 && (
-                <Button
-                  variant="outline-light"
-                  className="me-2"
-                  onClick={handleShiftHistory}
-                >
-                  Mis turnos
-                </Button>
-              )}
+              <Button
+                variant="outline-light"
+                className="me-2"
+                onClick={handleShiftHistory}
+              >
+                Mis turnos
+              </Button>
+            )}
             <Button
               variant="outline-light"
               className="me-2"
@@ -103,6 +103,6 @@ function UserNavbar() {
       </Container>
     </Navbar>
   );
-}
+};
 
 export default UserNavbar;

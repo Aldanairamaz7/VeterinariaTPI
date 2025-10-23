@@ -127,9 +127,7 @@ const EditProfile = () => {
       lastName: validateLastName(userData.lastName),
       dni: validateDni(userData.dni),
       email: validateEmail(userData.email),
-      password: userData.password
-      ? validatePassword(userData.password)
-      : "",
+      password: userData.password ? validatePassword(userData.password) : "",
       enrollment: validateEnrollment(userData.enrollment, userData.idRole),
       ddSpeciality: validateSpeciality(userData.ddSpeciality, userData.idRole),
       speciality:
@@ -167,12 +165,17 @@ const EditProfile = () => {
         return res.json();
       })
       .then((data) => {
+        console.log("hola xd", data);
+
         if (data.user.id === user.id) {
           setUser(data.user);
         }
         successToast(data.message);
       })
-      .catch((err) => errorToast(err.message));
+      .catch((err) => {
+        errorToast(err.message);
+        console.log(err);
+      });
 
     navigate(-1);
   };

@@ -10,7 +10,10 @@ import {
   regexNames,
   validateLogin,
 } from "../../shared/validations";
-import { errorToast } from "../../shared/notifications/notifications";
+import {
+  errorToast,
+  successToast,
+} from "../../shared/notifications/notifications";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -108,7 +111,7 @@ const Register = () => {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
+        successToast(data.message);
         navigate("/login");
       })
       .catch((err) => errorToast(err.message));
