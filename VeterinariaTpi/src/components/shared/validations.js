@@ -53,12 +53,16 @@ export const validatePetAge = (value) => {
   return "";
 };
 export const validateTypePet = (value) => {
-  if (value === -1) return "seleccione el tipo de mascota";
+  if (value === -1) {
+    return "seleccione el tipo de mascota";
+  }
   return "";
 };
 
 export const validateBreed = (value) => {
-  if (value === -1) return "La raza es obligatoria.";
+  if (value === -1) {
+    return "La raza es obligatoria.";
+  }
   return "";
 };
 

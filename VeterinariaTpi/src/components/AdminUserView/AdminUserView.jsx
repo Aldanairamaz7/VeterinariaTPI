@@ -30,16 +30,16 @@ const AdminUserView = () => {
   }
 
   return (
-    <>
-    <div className="m-3">
-      <Button variant="secondary" onClick={handleBack}>
-        Regresar
-      </Button>
+    <div>
+      <div className="m-3">
+        <Button variant="secondary" onClick={handleBack}>
+          Regresar
+        </Button>
+      </div>
+      <div className="w-100 h-100 py-3">
+        <UserTable data={users} setUsers={setUsers} />
+      </div>
     </div>
-    <div className="w-100 h-100 py-3">
-      <UserTable data={users} setUsers={setUsers} />
-    </div>
-    </>
   );
 };
 
