@@ -9,6 +9,7 @@ const regexAge = /^[1-9]\d?$/;
 const regexBreed = /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,20}$/;
 const regexDescription = /[^a-zA-ZÀ-ÿ0-9\s.,;]/;
 const regexEnrollment = /^[0-9]{4,5}$/;
+const regexImageURL = /(http|https|ftp|ftps):\/\/[a-zA-Z0-9\-.]+\.[a-zA-Z](\/\S*)?\.(png|jpg|jpeg)$/
 
 export const validateFirstName = (value) => {
   if (!regexFirstName.test(value))
@@ -51,19 +52,33 @@ export const validatePetAge = (value) => {
   return "";
 };
 export const validateTypePet = (value) => {
-  if(!value) return "seleccione el tipo de mascota";
+  if(value === -1) return "seleccione el tipo de mascota";
   return "";
 }
 
 export const validateBreed = (value) => {
-  if (!value) return "La raza es obligatoria.";
+  if (value === -1) return "La raza es obligatoria.";
   return "";
 };
 export const validateOtherBreed = (value) => {
   if (!value) return "especifique la raza";
   return "";
 };
-export const validateOtherType = (value) => {
+
+export const validateImageURL = (value) => {
+  if(!value.trim()){
+    return ""
+  }
+  if(!regexImageURL.test(value)) {
+    return "Debe ser una URL valida (Ej. .jpg, .png, .jpeg)"
+    }
+  return ""
+}
+
+export const validateOtherType = (value, valueSelect) => {
+  if(valueSelect !== 0 ){
+    return ""
+  }
   if (!value) return "especifique su especie";
   return "";
 };
@@ -119,14 +134,17 @@ export const validateSpeciality = (value, idRole) => {
   if (value === -1) {
     return "Este campo es obligatorio";
   }
+
   return "";
 };
+
 export const validateSelectPet = (value) => {
   if (!value.trim()) {
     return "Este campo es obligatorio";
   }
   return "";
 };
+
 export const validateOtherSpeciality = (value, idRole) => {
   if (idRole !== 2) {
     return "";
