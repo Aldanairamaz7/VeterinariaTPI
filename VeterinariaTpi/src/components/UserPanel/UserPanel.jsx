@@ -2,9 +2,10 @@ import { Col, Container, Row } from "react-bootstrap";
 import PetCard from "../PetCard/PetCard";
 import UserNavbar from "../UserNavbar/UserNavbar";
 import { useAuth } from "../../Services/authContext/AuthContext";
+import { useEffect, useState } from "react";
 
 const UserPanel = () => {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const pets = user.pets || [];
 
   return (

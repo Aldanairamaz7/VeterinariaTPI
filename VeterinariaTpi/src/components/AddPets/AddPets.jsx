@@ -91,7 +91,7 @@ export const AddPets = () => {
       typePetSelect: validateTypePet(typePetSelect),
       otherType: validateOtherType(otherType, typePetSelect),
       breedSelect: validateBreed(breedSelect),
-      otherBreed: validateOtherBreed(otherBreed),
+      otherBreed: validateOtherBreed(otherBreed, breedSelect),
     };
 
     setErrors(formErrors);
@@ -121,7 +121,7 @@ export const AddPets = () => {
       setPetImageURL("");
       navigate("/userpanel");
     } catch (err) {
-      errorToast(err.message || "No se pudo agregar mascota.");
+      errorToast(err.message);
     }
   };
 
@@ -208,13 +208,15 @@ export const AddPets = () => {
                     isInvalid={!!errors.breedSelect}
                   >
                     <option value={-1}>Seleccione la raza</option>
-                    {breed.map((el) => {
-                      return (
-                        <option key={el.idBreed} value={el.idBreed}>
-                          {el.nameBreed}
-                        </option>
-                      );
-                    })}
+                    {breed
+                      .filter((el) => el.idTypePet === typePetSelect)
+                      .map((el) => {
+                        return (
+                          <option key={el.idBreed} value={el.idBreed}>
+                            {el.nameBreed}
+                          </option>
+                        );
+                      })}
                     <option value={0}>Otra</option>
                   </Form.Select>
                   <Form.Control.Feedback type="invalid">

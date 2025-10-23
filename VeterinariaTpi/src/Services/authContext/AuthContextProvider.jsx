@@ -69,15 +69,16 @@ export const AuthContextProvider = ({ children }) => {
         },
         body: JSON.stringify(petData),
       });
-      const pet = await res.json();
-      if (!res.ok) throw new Error(pet.message);
+      const { newPet } = await res.json();
+
+      if (!res.ok) throw new Error(newPet.message);
 
       setUser((prev) => ({
         ...prev,
-        pets: [...(prev.pets || []), pet],
+        pets: [...(prev.pets || []), newPet],
       }));
     } catch (err) {
-      console.log("Error al agregar mascota", err.message);
+      console.log(err.message);
     }
   };
 
