@@ -170,7 +170,6 @@ const EditProfile = () => {
         if (data.user.id === user.id) {
           setUser(data.user);
         }
-        console.log(data);
         successToast(data.message);
       })
       .catch((err) => errorToast(err.message));

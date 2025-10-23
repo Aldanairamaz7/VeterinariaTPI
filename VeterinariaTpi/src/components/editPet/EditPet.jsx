@@ -5,6 +5,7 @@ import {
   validateAddPetName,
   validatePetAge,
   validateBreed,
+  validateImageURL
 } from "../shared/validations.js";
 import {
   errorToast,
@@ -91,6 +92,7 @@ const EditPet = () => {
       petName: validateAddPetName(petName),
       petAge: validatePetAge(petAge),
       petBreed: validateBreed(petBreed),
+      imageURL: validateImageURL(imageURL)
     };
 
     setErrors(formErrors);
@@ -146,7 +148,7 @@ const EditPet = () => {
                       type="text"
                       placeholder="Ingrese el nombre"
                       onChange={handleNameInput}
-                      value={petName}
+                      value={!!petName}
                       isInvalid={errors.petName}
                     />
                     <Form.Control.Feedback type="invalid">
@@ -160,7 +162,7 @@ const EditPet = () => {
                       type="number"
                       placeholder="Ingrese la edad"
                       onChange={handleAgeInput}
-                      value={petAge}
+                      value={!!petAge}
                       isInvalid={errors.petAge}
                     />
                     <Form.Control.Feedback
@@ -176,7 +178,7 @@ const EditPet = () => {
                       type="text"
                       placeholder="Ingrese la raza"
                       onChange={handleBreedInput}
-                      value={petBreed}
+                      value={!!petBreed}
                       isInvalid={errors.petBreed}
                     />
                     <Form.Control.Feedback
@@ -193,7 +195,7 @@ const EditPet = () => {
                       type="text"
                       placeholder="Ingrese una url"
                       onChange={handlePetImg}
-                      value={petImg}
+                      value={!!petImg}
                     />
                   </Form.Group>
                 </Col>
