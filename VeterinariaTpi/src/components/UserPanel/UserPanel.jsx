@@ -3,7 +3,7 @@ import PetCard from "../PetCard/PetCard";
 import UserNavbar from "../UserNavbar/UserNavbar";
 import { useAuth } from "../../Services/authContext/AuthContext";
 
-function UserPanel() {
+const UserPanel = () => {
   const { user } = useAuth();
   const pets = user.pets || [];
 
@@ -26,6 +26,6 @@ function UserPanel() {
       </Container>
     </div>
   );
-}
+};
 
 export default UserPanel;

@@ -2,7 +2,7 @@ import { useAuth } from "../../Services/authContext/AuthContext";
 import { isTokenValid } from "./Protected.helpers.js";
 import { Navigate, Outlet } from "react-router";
 
-function Protected({ requireAdmin = false }) {
+const Protected = ({ requireAdmin = false }) => {
   const { token, user, loading } = useAuth();
 
   if (loading) return <div>Cargando...</div>;
@@ -21,6 +21,6 @@ function Protected({ requireAdmin = false }) {
   }
 
   return <Outlet />;
-}
+};
 
 export default Protected;

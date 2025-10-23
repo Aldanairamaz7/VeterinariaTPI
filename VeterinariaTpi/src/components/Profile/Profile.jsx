@@ -6,7 +6,7 @@ import { useAuth } from "../../Services/authContext/AuthContext";
 import { useNavigate } from "react-router";
 import "../Profile/profile.css";
 
-function Profile() {
+const Profile = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const handleGoToUserPanel = () => {
@@ -22,6 +22,6 @@ function Profile() {
       </Button>
     </>
   );
-}
+};
 
 export default Profile;
