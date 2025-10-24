@@ -36,7 +36,7 @@ const AdminPetView = () => {
         </Button>
       </div>
       <div>
-      <PetTable data={pets} adminPanel={true} />
+        <PetTable data={pets} adminPanel={true} />
       </div>
     </div>
   );

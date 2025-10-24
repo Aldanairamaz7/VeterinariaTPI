@@ -16,7 +16,7 @@ import { useAuth } from "../../Services/authContext/AuthContext.jsx";
 export const AddPets = () => {
   const [petName, setPetName] = useState("");
   const [petAge, setPetAge] = useState("");
-  const [petBreed, setPetBreed] = useState("");
+  /* const [petBreed, setPetBreed] = useState(""); */
   const [petImageURL, setPetImageURL] = useState("");
   const [errors, setErrors] = useState({});
   const [typePet, setTypePet] = useState([]);
@@ -117,7 +117,7 @@ export const AddPets = () => {
       await addPet(petData);
       setPetName("");
       setPetAge("");
-      setPetBreed("");
+      /* setPetBreed(""); */
       setPetImageURL("");
       navigate("/userpanel");
     } catch (err) {
