@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, Col, Form, Row, Button } from "react-bootstrap";
+import { Card, Col, Form, Row, Button, FormLabel } from "react-bootstrap";
 import { useLocation, useNavigate, useParams } from "react-router";
 import {
   validateAddPetName,
@@ -26,6 +26,7 @@ const EditPet = () => {
   const { user, token, setUser, removePet } = useAuth();
   const { petId } = useParams();
   const [pet, setPet] = useState({});
+  console.log(user);
 
   useEffect(() => {
     if (petId) {
@@ -57,7 +58,7 @@ const EditPet = () => {
   const handleAgeInput = (e) => {
     const value = e.target.value;
     setPetAge(value);
-    };
+  };
 
   const handleBreedInput = (e) => {
     const value = e.target.value;

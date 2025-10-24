@@ -6,11 +6,11 @@ export const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const regexPassword = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{7,20}$/;
 const regexPetName = /^[a-zA-ZÀ-ÿ]+$/;
 const regexAge = /^[1-9]\d?$/;
-const regexBreed = /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,20}$/;
+/* const regexBreed = /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,20}$/; */
 const regexDescription = /[^a-zA-ZÀ-ÿ0-9\s.,;]/;
 const regexEnrollment = /^[0-9]{4,5}$/;
 const regexImageURL =
-  /(http|https|ftp|ftps):\/\/[a-zA-Z0-9\-.]+\.[a-zA-Z](\/\S*)?\.(png|jpg|jpeg)$/;
+  /^(https?|ftps?):\/\/[^\s]+\.(png|jpe?g)$/i;
 
 export const validateFirstName = (value) => {
   if (!regexFirstName.test(value))

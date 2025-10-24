@@ -39,9 +39,10 @@ const PetCard = ({ pet }) => {
       <CardBody>
         <CardTitle>{pet.name}</CardTitle>
         <div className="pet-info-hidden">
-          <CardSubtitle className="mb-2 text-muted">{pet.breed}</CardSubtitle>
+          <CardSubtitle className="mb-2 text-muted"> Especie: {pet.typePetData?.typePetName}</CardSubtitle>
+          <CardSubtitle className="mb-2 text-muted"> Raza: {pet.breedData?.nameBreed}</CardSubtitle>
           <CardSubtitle className="mb-2 text-muted">
-            {pet.age} años
+            Edad: {pet.age} años
           </CardSubtitle>
           <div className="card-buttons">
             <Button
