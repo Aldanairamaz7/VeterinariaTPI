@@ -86,11 +86,8 @@ const ShiftHistory = () => {
       accessorKey: "dateTime",
       header: "Fecha",
       Cell: ({ cell }) => {
-        const date = new Date(cell.getValue());
-        const options = {
-          timeZone: "America/Argentina/Buenos_Aires",
-        };
-        return date.toLocaleDateString("es-AR", options);
+        const [year, month, day] = cell.getValue().split("-");
+        return `${day}/${month}/${year}`
       },
     },
     {
