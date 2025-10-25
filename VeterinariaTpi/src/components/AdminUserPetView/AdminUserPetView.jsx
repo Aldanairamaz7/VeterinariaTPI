@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { Button } from "react-bootstrap";
 import { useAdmin } from "../../Services/adminContext/AdminContext";
 import { useAuth } from "../../Services/authContext/AuthContext";
 import PetTable from "../Tables/PetTable";
+import { successToast } from "../shared/notifications/notifications";
 
 const AdminUserPetView = () => {
   const { pets, setPets } = useAdmin();
@@ -11,8 +12,13 @@ const AdminUserPetView = () => {
   const [owner, setOwner] = useState(null)
   const { user, token } = useAuth();
   const navigate = useNavigate();
-
+  const fetched = useRef(false)
+  
   useEffect(() => {
+    if(fetched.current) return;
+    fetched.current = true;
+    
+    
     fetch(`http://localhost:3000/adminpanel/users/${id}/pets`, {
       method: "GET",
       headers: {
@@ -24,6 +30,7 @@ const AdminUserPetView = () => {
       .then((data) => {
         setPets([...data.pets])
         setOwner(data.user || null)
+        successToast(data.message)
       })
       .catch((err) => console.log(err));
   }, []);
