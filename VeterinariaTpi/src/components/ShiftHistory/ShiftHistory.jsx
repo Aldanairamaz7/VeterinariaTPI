@@ -18,6 +18,7 @@ const ShiftHistory = () => {
   const [showModal, setShowModal] = useState(false);
   const [shiftToCancel, setShiftToCancel] = useState(null);
 
+
   const handleConfirmCancel = (shift) => {
     setShiftToCancel(shift);
     setShowModal(!showModal);
