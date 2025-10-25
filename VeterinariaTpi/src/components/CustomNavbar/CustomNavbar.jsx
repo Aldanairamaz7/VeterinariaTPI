@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import vetIcon from "../../assets/logo.jpg";
 import "../CustomNavbar/customNavbar.css";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import ContactModal from "../ContactModal/ContactModal";
 import { useAuth } from "../../Services/authContext/AuthContext";
 import Profile from "../Profile/Profile";
@@ -18,6 +18,7 @@ import Profile from "../Profile/Profile";
 const CustomNavbar = () => {
   const [showContact, setShowContact] = useState(false);
   const { token } = useAuth();
+  const location = useLocation();
 
   const openContact = () => setShowContact(true);
   const closeContact = () => setShowContact(false);
@@ -59,7 +60,9 @@ const CustomNavbar = () => {
           ) : (
             <Nav className="ms-auto">
               <Button onClick={handleGoToRoot}>Inicio</Button>
-              <Button onClick={HandleScrollToServices}>Servicios</Button>
+              {location.pathname === "/" && (
+                <Button onClick={HandleScrollToServices}>Servicios</Button>
+              )}
               <Button onClick={openContact}>Contacto</Button>
               <Button onClick={handleLogin}>Iniciar Sesion</Button>
             </Nav>

@@ -10,13 +10,15 @@ import {
   validateOtherBreed,
   validateImageURL,
 } from "../shared/validations.js";
-import { errorToast } from "../shared/notifications/notifications.js";
+import {
+  errorToast,
+  successToast,
+} from "../shared/notifications/notifications.js";
 import { useAuth } from "../../Services/authContext/AuthContext.jsx";
 
 export const AddPets = () => {
   const [petName, setPetName] = useState("");
   const [petAge, setPetAge] = useState("");
-  /* const [petBreed, setPetBreed] = useState(""); */
   const [petImageURL, setPetImageURL] = useState("");
   const [errors, setErrors] = useState({});
   const [typePet, setTypePet] = useState([]);
@@ -117,7 +119,6 @@ export const AddPets = () => {
       await addPet(petData);
       setPetName("");
       setPetAge("");
-      /* setPetBreed(""); */
       setPetImageURL("");
       navigate("/userpanel");
     } catch (err) {
