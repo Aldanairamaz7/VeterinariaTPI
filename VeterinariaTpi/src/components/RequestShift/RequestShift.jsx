@@ -45,7 +45,6 @@ const RequestShift = () => {
       })
       .catch((err) => console.log(err));
   }, []);
-  console.log(veterinarians);
 
   const handleSelectPet = (e) => {
     const value = Number(e.target.value);
@@ -88,7 +87,6 @@ const RequestShift = () => {
     };
 
     setErrors(formErrors);
-    console.log("Errores:", formErrors);
 
     const hasErrors = Object.values(formErrors).some((err) => err !== "");
 
@@ -141,6 +139,9 @@ const RequestShift = () => {
   };
 
   const today = new Date().toISOString().split("T")[0];
+  const maxDate = new Date();
+  maxDate.setMonth(maxDate.getMonth() + 2);
+  const maxDateString = maxDate.toISOString().split("T")[0];
 
   return (
     <>
@@ -236,6 +237,7 @@ const RequestShift = () => {
                       onChange={handleDateShift}
                       value={dateShift}
                       min={today}
+                      max={maxDateString}
                       isInvalid={!!errors.dateShift}
                     />
                     <Form.Control.Feedback type="invalid">
