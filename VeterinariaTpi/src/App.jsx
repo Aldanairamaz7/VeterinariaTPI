@@ -60,7 +60,7 @@ function App() {
                 element={<EditSpeciality />}
               />
             </Route>
-            <Route path="/veterinarian" element={<VeterinarianPanel />} />
+            <Route path="/veterinarian/:userId/shifts" element={<VeterinarianPanel />} />
           </Route>
           <Route path="*" element={<ErrorNotFound />} />
           <Route path="/unauthorized" element={<ErrorUnauthorized />} />

@@ -31,7 +31,7 @@ const UserNavbar = () => {
     navigate("/adminpanel");
   };
   const handleVeterinaryPanel = () => {
-    navigate("/panelveterinario");
+    navigate(`/veterinarian/${user.id}/shifts`);
   };
 
   const handleShiftHistory = () => {
