@@ -1,14 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PetTable from "../Tables/PetTable";
 import { useAuth } from "../../Services/authContext/AuthContext";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
+import { successToast } from "../shared/notifications/notifications";
 
 const AdminPetView = () => {
   const [pets, setPets] = useState([]);
   const { token } = useAuth();
   const navigate = useNavigate();
+  const fetched = useRef(false);
+
   useEffect(() => {
+    
+    if(fetched.current) return;
+    fetched.current = true;
+
     fetch("http://localhost:3000/adminpanel/pets", {
       headers: {
         "Content-Type": "application/json",
@@ -19,7 +26,7 @@ const AdminPetView = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-
+        successToast(data.message) 
         setPets(data.pets);
       });
   }, []);

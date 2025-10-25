@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../Services/authContext/AuthContext";
 import UserCard from "../UserCard/UserCard";
 import UserTable from "../Tables/UserTable";
@@ -9,8 +9,12 @@ const AdminUserView = () => {
   const [users, setUsers] = useState([]);
   const { token } = useAuth();
   const navigate = useNavigate();
+  const fetched = useRef(false);
 
   useEffect(() => {
+    if(fetched.current) return;
+    fetched.current = true;
+    
     fetch("http://localhost:3000/adminpanel/users", {
       headers: {
         "Content-Type": "application/json",
