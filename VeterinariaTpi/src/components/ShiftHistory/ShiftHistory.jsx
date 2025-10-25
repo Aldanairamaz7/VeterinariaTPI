@@ -48,8 +48,8 @@ const ShiftHistory = () => {
   }, [user]);
 
   const handleDeleteShift = () => {
-    fetch(`http://localhost:3000/shifts/${shiftToCancel.id}`, {
-      method: "DELETE",
+    fetch(`http://localhost:3000/shifts/${shiftToCancel.id}/${user.id}`, {
+      method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -59,7 +59,12 @@ const ShiftHistory = () => {
           throw new Error("No se pudo cancelar el turno");
         }
 
-        setShift((prev) => prev.filter((s) => s.id !== shiftToCancel.id));
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+
+        setShift(data.formatedShift);
         setShowModal(false);
         successToast("Turno cancelado exitosamente");
       })
@@ -70,7 +75,7 @@ const ShiftHistory = () => {
 
   const columns = [
     {
-      accessorKey: "petName",
+      accessorKey: "name",
       header: "Mascota",
     },
     {
@@ -97,10 +102,18 @@ const ShiftHistory = () => {
       header: "Descripción",
     },
     {
+      accessorKey: "state",
+      header: "Estado",
+    },
+    {
       id: "actions",
       header: "Acciones",
       Cell: ({ row }) => {
         const shift = row.original;
+
+        if (shift.state === "Cancelado" || shift.state === "Atendido") {
+          return null;
+        }
 
         return (
           <Button

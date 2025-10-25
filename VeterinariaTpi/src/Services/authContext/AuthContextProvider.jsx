@@ -98,6 +98,7 @@ export const AuthContextProvider = ({ children }) => {
       const data = await res.json();
 
       setUser(data.user);
+      console.log(data.shift);
     } catch (err) {
       console.log("Error al eliminar mascota", err.message);
     }

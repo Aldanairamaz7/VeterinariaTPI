@@ -54,11 +54,13 @@ const EditPet = () => {
         .then((data) => {
           setPet({
             id: Number(petId),
-            petName: data.pet.name,
-            petAge: data.pet.age,
-            typePet: Number(data.pet.typePet),
-            breed: Number(data.pet.breed),
-            imageURL: data.pet.imageURL,
+            petName: data.pet.name ?? "",
+            petAge: data.pet.age ?? 0,
+            typePet: Number(data.pet.typePet) ?? 0,
+            otherTypePet: "",
+            breed: Number(data.pet.breed) ?? 0,
+            otherBreed: "",
+            imageURL: data.pet.imageURL ?? "",
           });
           setAllTypePet(data.allTypePet || []);
           setAllBreed(data.allBreed || []);
@@ -168,7 +170,10 @@ const EditPet = () => {
         successToast(data.message);
         navigate(-1);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        errorToast(err);
+      });
   };
 
   return (
