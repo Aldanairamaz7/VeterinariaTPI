@@ -5,7 +5,10 @@ import {
   validateAddPetName,
   validatePetAge,
   validateBreed,
-  validateImageURL
+  validateImageURL,
+  validateTypePet,
+  validateOtherType,
+  validateOtherBreed,
 } from "../shared/validations.js";
 import {
   errorToast,
@@ -25,8 +28,18 @@ const EditPet = () => {
   const navigate = useNavigate();
   const { user, token, setUser, removePet } = useAuth();
   const { petId } = useParams();
-  const [pet, setPet] = useState({});
-  console.log(user);
+  const [allTypePet, setAllTypePet] = useState([]);
+  const [allBreed, setAllBreed] = useState([]);
+  const [pet, setPet] = useState({
+    id: 0,
+    petName: "",
+    petAge: 0,
+    typePet: -1,
+    otherTypePet: "",
+    breed: -1,
+    otherBreed: "",
+    imageURL: "",
+  });
 
   useEffect(() => {
     if (petId) {
@@ -39,10 +52,18 @@ const EditPet = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          setPetName(data.pet.name || "");
-          setPetAge(data.pet.age || "");
-          setPetBreed(data.pet.breed || "");
-          setPetImg(data.pet.imageURL || "");
+          setPet({
+            id: Number(petId),
+            petName: data.pet.name ?? "",
+            petAge: data.pet.age ?? 0,
+            typePet: Number(data.pet.typePet) ?? 0,
+            otherTypePet: "",
+            breed: Number(data.pet.breed) ?? 0,
+            otherBreed: "",
+            imageURL: data.pet.imageURL ?? "",
+          });
+          setAllTypePet(data.allTypePet || []);
+          setAllBreed(data.allBreed || []);
         })
         .catch((err) => {
           navigate("/unauthorized");
@@ -52,22 +73,42 @@ const EditPet = () => {
 
   const handleNameInput = (e) => {
     const value = e.target.value;
-    setPetName(value);
+    setPet((prev) => ({ ...prev, petName: value }));
   };
 
   const handleAgeInput = (e) => {
     const value = e.target.value;
-    setPetAge(value);
+    setPet((prev) => ({ ...prev, petAge: value }));
+  };
+  const handleTypePetSelect = (e) => {
+    const value = Number(e.target.value);
+    setPet((prev) => ({
+      ...prev,
+      typePet: value,
+      otherTypePet: "",
+      otherBreed: "",
+    }));
+    if (value === 0) setPet((prev) => ({ ...prev, breed: value }));
+    else setPet((prev) => ({ ...prev, breed: -1 }));
   };
 
-  const handleBreedInput = (e) => {
+  const handleOtherTypePetInput = (e) => {
     const value = e.target.value;
-    setPetBreed(value);
+    setPet((prev) => ({ ...prev, otherTypePet: value }));
+  };
+
+  const handleBreedSelect = (e) => {
+    const value = Number(e.target.value);
+    setPet((prev) => ({ ...prev, breed: value }));
+  };
+  const handleOtherBreedInput = (e) => {
+    const value = e.target.value;
+    setPet((prev) => ({ ...prev, otherBreed: value }));
   };
 
   const handlePetImg = (e) => {
     const value = e.target.value;
-    setPetImg(value);
+    setPet((prev) => ({ ...prev, imageURL: value }));
   };
 
   const handleDeletePet = async () => {
@@ -88,12 +129,15 @@ const EditPet = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(pet);
 
     const formErrors = {
-      petName: validateAddPetName(petName),
-      petAge: validatePetAge(petAge),
-      petBreed: validateBreed(petBreed),
-      imageURL: validateImageURL(petImg)
+      petName: validateAddPetName(pet.petName),
+      petAge: validatePetAge(pet.petAge),
+      typePet: validateTypePet(pet.typePet),
+      otherTypePet: validateOtherType(pet.otherTypePet, pet.typePet),
+      breed: validateBreed(pet.breed),
+      otherBreed: validateOtherBreed(pet.otherBreed, pet.breed),
     };
 
     setErrors(formErrors);
@@ -111,22 +155,25 @@ const EditPet = () => {
         Authorization: `Bearer ${token}`,
       },
       method: "PUT",
-      body: JSON.stringify({
-        id: petId,
-        name: petName,
-        age: petAge,
-        breed: petBreed,
-        imageURL: petImg,
-      }),
+      body: JSON.stringify({ pet }),
     })
-      .then((res) => res.json())
+      .then(async (res) => {
+        if (!res.ok) {
+          const errData = await res.json();
+          throw new Error(errData.message || "Algo a salido mal");
+        }
+        return res.json();
+      })
       .then((data) => {
         setUser(data.user);
         console.log(data);
         successToast(data.message);
         navigate(-1);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        errorToast(err);
+      });
   };
 
   return (
@@ -149,7 +196,7 @@ const EditPet = () => {
                       type="text"
                       placeholder="Ingrese el nombre"
                       onChange={handleNameInput}
-                      value={petName}
+                      value={pet.petName}
                       isInvalid={!!errors.petName}
                     />
                     <Form.Control.Feedback type="invalid">
@@ -163,7 +210,7 @@ const EditPet = () => {
                       type="number"
                       placeholder="Ingrese la edad"
                       onChange={handleAgeInput}
-                      value={petAge}
+                      value={pet.petAge}
                       isInvalid={!!errors.petAge}
                     />
                     <Form.Control.Feedback
@@ -174,21 +221,92 @@ const EditPet = () => {
                     </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group className="mb-5">
-                    <Form.Label>Raza:</Form.Label>
-                    <Form.Control
+                    <Form.Label>Especie:</Form.Label>
+                    <Form.Select
                       type="text"
                       placeholder="Ingrese la raza"
-                      onChange={handleBreedInput}
-                      value={petBreed}
-                      isInvalid={!!errors.petBreed}
-                    />
+                      onChange={handleTypePetSelect}
+                      value={pet.typePet}
+                      isInvalid={!!errors.typePet}
+                    >
+                      <option value={-1}>Seleccione una especie</option>
+                      {allTypePet.map((el) => {
+                        return (
+                          <option key={el.idType} value={el.idType}>
+                            {el.typePetName}
+                          </option>
+                        );
+                      })}
+                      <option value={0}>Otra</option>
+                    </Form.Select>
                     <Form.Control.Feedback
                       type="invalid"
                       style={{ whiteSpace: "pre-line" }}
                     >
-                      {errors.petBreed}
+                      {errors.typePet}
                     </Form.Control.Feedback>
                   </Form.Group>
+
+                  {pet.typePet === 0 && (
+                    <Form.Group className="mb-5">
+                      <Form.Label>Otra especie:</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Ingrese la especie"
+                        onChange={handleOtherTypePetInput}
+                        value={pet.otherTypePet}
+                        isInvalid={!!errors.otherTypePet}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.otherTypePet}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  )}
+
+                  <Form.Group className="mb-5">
+                    <Form.Label>Raza:</Form.Label>
+                    <Form.Select
+                      type="text"
+                      placeholder="Ingrese la raza"
+                      onChange={handleBreedSelect}
+                      value={pet.breed}
+                      isInvalid={!!errors.breed}
+                    >
+                      <option value={-1}>Seleccione una raza</option>
+                      {allBreed
+                        .filter((el) => el.idTypePet === pet.typePet)
+                        .map((el) => {
+                          return (
+                            <option key={el.idBreed} value={el.idBreed}>
+                              {el.nameBreed}
+                            </option>
+                          );
+                        })}
+                      <option value={0}>Otra</option>
+                    </Form.Select>
+                    <Form.Control.Feedback
+                      type="invalid"
+                      style={{ whiteSpace: "pre-line" }}
+                    >
+                      {errors.breed}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+
+                  {pet.breed === 0 && (
+                    <Form.Group className="mb-5">
+                      <Form.Label>Otra raza:</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Ingrese la raza"
+                        onChange={handleOtherBreedInput}
+                        value={pet.otherBreed}
+                        isInvalid={!!errors.otherBreed}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.otherBreed}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  )}
 
                   <Form.Group className="mb-5">
                     <Form.Label>Imagen: </Form.Label>
@@ -196,7 +314,7 @@ const EditPet = () => {
                       type="text"
                       placeholder="Ingrese una url"
                       onChange={handlePetImg}
-                      value={petImg}
+                      value={pet.imageURL}
                     />
                   </Form.Group>
                 </Col>

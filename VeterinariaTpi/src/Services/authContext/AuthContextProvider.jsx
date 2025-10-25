@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
+import { successToast } from "../../components/shared/notifications/notifications";
 
 export const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState(null);
@@ -69,7 +70,7 @@ export const AuthContextProvider = ({ children }) => {
         },
         body: JSON.stringify(petData),
       });
-      const { newPet } = await res.json();
+      const { message, newPet } = await res.json();
 
       if (!res.ok) throw new Error(newPet.message);
 
@@ -77,6 +78,7 @@ export const AuthContextProvider = ({ children }) => {
         ...prev,
         pets: [...(prev.pets || []), newPet],
       }));
+      successToast(message);
     } catch (err) {
       console.log(err.message);
     }
@@ -96,6 +98,7 @@ export const AuthContextProvider = ({ children }) => {
       const data = await res.json();
 
       setUser(data.user);
+      console.log(data.shift);
     } catch (err) {
       console.log("Error al eliminar mascota", err.message);
     }
