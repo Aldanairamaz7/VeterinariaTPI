@@ -99,8 +99,20 @@ const ShiftHistory = () => {
       header: "Descripción",
     },
     {
-      accessorKey: "state",
       header: "Estado",
+      accessorKey: "state",
+      Cell: ({ cell }) => {
+        const value = cell.getValue();
+        const color =
+          value === "Pendiente"
+            ? "orange"
+            : value === "Completado"
+            ? "green"
+            : value === "Cancelado"
+            ? "red"
+            : "grey";
+        return <span style={{ color, fontWeight: "bold" }}>{value}</span>;
+      },
     },
     {
       id: "actions",
