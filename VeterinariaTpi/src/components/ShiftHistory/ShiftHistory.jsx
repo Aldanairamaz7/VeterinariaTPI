@@ -10,7 +10,6 @@ import {
   errorToast,
   successToast,
 } from "../shared/notifications/notifications";
-import { useNavigate } from "react-router";
 import { MRT_Localization_ES } from "material-react-table/locales/es";
 
 const ShiftHistory = () => {
