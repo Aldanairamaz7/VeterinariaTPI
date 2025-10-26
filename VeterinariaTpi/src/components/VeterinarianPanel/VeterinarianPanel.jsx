@@ -7,7 +7,6 @@ import {
   errorToast,
   successToast,
 } from "../shared/notifications/notifications";
-import { data } from "react-router";
 
 const VeterinarianPanel = () => {
   const [shifts, setShifts] = useState([]);
@@ -15,16 +14,21 @@ const VeterinarianPanel = () => {
   const [error, setError] = useState("");
   const { token, user } = useAuth();
   const [showModal, setShowModal] = useState(false);
-  const [shiftToCancel, setShiftToCancel] = useState(null);
+  const [shiftToCancel, setShiftToCancel] = useState(0);
+  const [ enrollment, setEnrollment ] = useState(0)
 
-  const handleConfirmCancel = (shift) => {
+  const handleConfirmCancel = (shift, enrollment) => {
+    console.log(shift, enrollment);
+    
     setShiftToCancel(shift);
+    setEnrollment(enrollment)
     setShowModal(true);
   };
 
   const handleCancelShift = async () => {
-    fetch(`http://localhost:3000/shifts/${shiftToCancel.id}`, {
-      method: "DELETE",
+    debugger;
+    fetch(`http://localhost:3000/shifts/${shiftToCancel}/${enrollment}`, {
+      method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -141,7 +145,8 @@ const VeterinarianPanel = () => {
             variant="outlined"
             color="error"
             onClick={() => {
-              handleConfirmCancel(shift);
+              handleConfirmCancel(shift.id, shift.enrollment);
+              handleCancelShift()
             }}
           >
             Cancelar Turno
