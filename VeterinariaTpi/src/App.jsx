@@ -14,7 +14,7 @@ import EditProfile from "./components/EditProfile/EditProfile";
 import AdminPanel from "./components/AdminPanel/AdminPanel";
 import Protected from "./components/protected/Protected";
 import ErrorNotFound from "./components/error/ErrorNotFound";
-import ErrorUnauthorized from "./components/error/ErrorUnauthorized";
+import ErrorForbidden from "./components/error/ErrorForbidden";
 import AdminUserView from "./components/AdminUserView/AdminUserView";
 import AdminUserPetView from "./components/AdminUserPetView/AdminUserPetView";
 import VeterinarianPanel from "./components/VeterinarianPanel/VeterinarianPanel";
@@ -63,7 +63,7 @@ function App() {
             <Route path="/veterinarian/:userId/shifts" element={<VeterinarianPanel />} />
           </Route>
           <Route path="*" element={<ErrorNotFound />} />
-          <Route path="/unauthorized" element={<ErrorUnauthorized />} />
+          <Route path="/unauthorized" element={<ErrorForbidden />} />
         </Routes>
         <ToastContainer />
         <Footer />
