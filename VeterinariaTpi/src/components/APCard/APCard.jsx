@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router";
 
 const APCard = ({ typeCard, summaryFunc, pathFunc }) => {

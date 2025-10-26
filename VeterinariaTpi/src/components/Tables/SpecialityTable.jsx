@@ -6,7 +6,7 @@ import { Box, Button, Typography } from "@mui/material";
 import "../Tables/PetTable.css";
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import ConfirmDeleteModal from "../confirmDeleteModal/ConfirmDeleteModal";
+import ConfirmDeleteModal from "../Modals/ConfirmDeleteModal";
 import {
   errorToast,
   successToast,

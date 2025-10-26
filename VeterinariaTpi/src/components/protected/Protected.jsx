@@ -12,11 +12,9 @@ const Protected = ({ requireAdmin = false }) => {
   }
 
   if (!user) {
-    console.log(user);
     return <Navigate to="/unauthorized" />;
   }
   if (requireAdmin && user.idRole < 3) {
-    console.log(user);
     return <Navigate to="/unauthorized" />;
   }
 

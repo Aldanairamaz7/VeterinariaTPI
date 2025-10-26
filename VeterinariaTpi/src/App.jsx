@@ -18,7 +18,6 @@ import ErrorForbidden from "./components/error/ErrorForbidden";
 import AdminUserView from "./components/AdminUserView/AdminUserView";
 import AdminUserPetView from "./components/AdminUserPetView/AdminUserPetView";
 import VeterinarianPanel from "./components/VeterinarianPanel/VeterinarianPanel";
-import CreateRole from "./components/CreateRole/CreateRole";
 import AdminPetView from "./components/AdminPetView/AdminPetView";
 import ShiftHistory from "./components/ShiftHistory/ShiftHistory";
 import AdminSpeView from "./components/AdminSpeView/AdminSpeView";
@@ -33,7 +32,6 @@ function App() {
           <Route index element={<Body />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          {/*<Route path="/createrole" element={<CreateRole />} />*/}
           <Route element={<Protected />}>
             <Route path="/userpanel" element={<UserPanel />} />
             <Route path="/addpets" element={<AddPets />} />

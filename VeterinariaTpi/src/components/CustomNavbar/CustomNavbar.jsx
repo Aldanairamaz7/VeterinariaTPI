@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Container,
   Navbar,
@@ -11,7 +11,7 @@ import {
 import vetIcon from "../../assets/logo.jpg";
 import "../CustomNavbar/customNavbar.css";
 import { useNavigate, useLocation } from "react-router";
-import ContactModal from "../ContactModal/ContactModal";
+import ContactModal from "../Modals/ContactModal";
 import { useAuth } from "../../Services/authContext/AuthContext";
 import Profile from "../Profile/Profile";
 
