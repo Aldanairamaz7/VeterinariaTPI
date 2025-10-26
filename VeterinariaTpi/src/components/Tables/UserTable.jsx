@@ -89,7 +89,7 @@ const UserTable = ({ data, setUsers }) => {
 
   const handleDeleteUser = () => {
     fetch("http://localhost:3000/users", {
-      method: "DELETE",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

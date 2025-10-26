@@ -9,8 +9,7 @@ const regexAge = /^[1-9]\d?$/;
 /* const regexBreed = /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,20}$/; */
 const regexDescription = /[^a-zA-ZÀ-ÿ0-9\s.,;]/;
 const regexEnrollment = /^[0-9]{4,5}$/;
-const regexImageURL =
-  /^(https?|ftps?):\/\/[^\s]+\.(png|jpe?g)$/i;
+const regexImageURL = /^(https?|ftps?):\/\/[^\s]+\.(png|jpe?g)$/i;
 
 export const validateFirstName = (value) => {
   if (!regexFirstName.test(value))
@@ -150,7 +149,7 @@ export const validateOtherSpeciality = (value, idRole) => {
   if (idRole !== 2) {
     return "";
   }
-  if (!value.trim()) {
+  if (!value) {
     return "Este campo es obligatorio.";
   }
   if (!regexFirstName.test(value)) {

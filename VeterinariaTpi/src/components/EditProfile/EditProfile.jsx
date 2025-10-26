@@ -28,6 +28,7 @@ const EditProfile = () => {
     idRole: 1,
     prevIdRole: 1,
     enrollment: "",
+    hasEnrollment: false,
     ddSpeciality: -1,
     speciality: "",
   });
@@ -50,6 +51,9 @@ const EditProfile = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+
+        const hasEnrollment = !!data.user.veterinarian?.enrollment;
+
         setUserData({
           firstName: data.user.firstName,
           lastName: data.user.lastName,
@@ -60,6 +64,7 @@ const EditProfile = () => {
           prevIdRole: data.user.idRole,
           enrollment: data.user.veterinarian?.enrollment || "",
           ddSpeciality: data.user.veterinarian?.idSpeciality || -1,
+          hasEnrollment,
         });
         setRoles(data.roles);
         setSpecialitys(data.specialitys);
@@ -283,6 +288,7 @@ const EditProfile = () => {
                         value={userData.enrollment}
                         onChange={handleChangeEnrollment}
                         isInvalid={!!errors.enrollment}
+                        disabled={userData.hasEnrollment}
                       />
                       <Form.Control.Feedback type="invalid">
                         {errors.enrollment}

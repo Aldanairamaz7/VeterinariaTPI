@@ -1,4 +1,10 @@
-import { faGear, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import {
+  faGear,
+  faRightFromBracket,
+  faUserTie,
+  faPaw,
+  faCalendarDays,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
@@ -47,12 +53,13 @@ const UserNavbar = () => {
           className="jstify-content-end mb-1 mt-1"
         >
           <Nav className="ms-auto">
-            {user.idRole === 1 && (
+            {user.idRole !== 2 && (
               <Button
                 variant="outline-light"
                 className="me-2"
                 onClick={handleShiftHistory}
               >
+                <FontAwesomeIcon icon={faCalendarDays} />
                 Mis turnos
               </Button>
             )}
@@ -61,6 +68,7 @@ const UserNavbar = () => {
               className="me-2"
               onClick={handleAddPetClick}
             >
+              <FontAwesomeIcon icon={faPaw} />
               Agregar mascota
             </Button>
             <Button
@@ -72,21 +80,14 @@ const UserNavbar = () => {
               Editar Perfil
             </Button>
 
-            <Button
-              variant="outline-light"
-              className="me-2"
-              onClick={handleLogout}
-            >
-              <FontAwesomeIcon icon={faRightFromBracket} className="me-2" />
-              Cerrar Sesion
-            </Button>
             {user.idRole === 3 && (
               <Button
                 variant="outline-light"
                 className="me-2"
                 onClick={handleAdminPanel}
               >
-                Admin
+                <FontAwesomeIcon icon={faUserTie} />
+                Panel de administrador
               </Button>
             )}
             {user.idRole === 2 && (
@@ -98,6 +99,14 @@ const UserNavbar = () => {
                 Panel Veterinario
               </Button>
             )}
+            <Button
+              variant="outline-light"
+              className="me-2"
+              onClick={handleLogout}
+            >
+              <FontAwesomeIcon icon={faRightFromBracket} className="me-2" />
+              Cerrar Sesion
+            </Button>
           </Nav>
         </NavbarCollapse>
       </Container>
