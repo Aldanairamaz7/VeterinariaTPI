@@ -73,7 +73,7 @@ const RequestShift = () => {
   const handleSelectVeterinarian = (e) => {
     const value = Number(e.target.value);
     setSelVet(value);
-    setErrors({ ...errors, selectVeterinarian: validateVeterinarian(value) });
+    setErrors({ ...errors, selectVet: validateVeterinarian(value) });
   };
 
   const handleSubmit = async (e) => {
@@ -84,6 +84,7 @@ const RequestShift = () => {
       dateShift: validateDateShift(dateShift),
       description: validateShiftDescription(description),
       selectPet: validateSelectPet(selectPet),
+      selectVet: validateVeterinarian(selectVet),
     };
 
     setErrors(formErrors);
