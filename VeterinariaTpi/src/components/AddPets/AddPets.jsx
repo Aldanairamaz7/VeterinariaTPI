@@ -99,7 +99,6 @@ export const AddPets = () => {
     setErrors(formErrors);
 
     const hasErrors = Object.values(formErrors).some((err) => err !== "");
-    console.log(formErrors);
 
     if (hasErrors) {
       errorToast("Hay algunos campos incorrectos, revisalos.");
