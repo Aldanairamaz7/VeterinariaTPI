@@ -29,27 +29,34 @@ const SpecialityTable = ({ data, setData }) => {
     setShowModal(!showModal);
   };
 
-  const handleDeleteSpeciality = () => {
-    fetch(
-      `http://localhost:3000/adminpanel/specialities/${specialityIdDelete}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+ const handleDeleteSpeciality = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:3000/adminpanel/specialities/${specialityIdDelete}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const resData = await res.json();
+
+      if (!res.ok) {
+        errorToast(resData.message);
+        setShowModal(false);
+        setSpecialityIdDelete(0);
+        return;
       }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data.specialities);
-        successToast(data.message);
-        setShowModal(!showModal);
-      })
-      .catch((err) => {
-        errorToast(err.message);
-        console.log(err);
-      });
+      setData(resData.specialities)
+
+      setShowModal(false);
+      setSpecialityIdDelete(0);
+      successToast("Especialidad eliminada exitosamente");
+    } catch (err) {
+      errorToast("Error al eliminar la especialidad");
+    }
   };
 
   const columns = [

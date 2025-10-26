@@ -48,7 +48,7 @@ const CreateRole = () => {
             onChange={handleChangeValue}
           />
         </Form.Group>
-        <Button type="submit">envir rol</Button>
+        <Button type="submit">enviar rol</Button>
         <Button onClick={handleDeleteRol}>borrar rol</Button>
       </Form>
     </div>
