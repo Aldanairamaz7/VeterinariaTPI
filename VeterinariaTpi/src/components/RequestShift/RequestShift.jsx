@@ -128,7 +128,6 @@ const RequestShift = () => {
       successToast("Turno creado exitosamente");
       navigate("/userpanel");
     } catch (err) {
-      console.log(err);
       errorToast("Error al conectar con el servidor");
     } finally {
       setLoading(false);

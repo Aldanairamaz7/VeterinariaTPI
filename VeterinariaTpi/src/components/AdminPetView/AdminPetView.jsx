@@ -25,7 +25,7 @@ const AdminPetView = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+
         successToast(data.message) 
         setPets(data.pets);
       });

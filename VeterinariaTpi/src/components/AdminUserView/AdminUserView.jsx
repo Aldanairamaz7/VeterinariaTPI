@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../Services/authContext/AuthContext";
-import UserCard from "../UserCard/UserCard";
 import UserTable from "../Tables/UserTable";
 import { useNavigate } from "react-router";
 import { Button } from "react-bootstrap";
@@ -23,7 +22,7 @@ const AdminUserView = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+
         setUsers([...data]);
       })
       .catch((err) => console.log(err));

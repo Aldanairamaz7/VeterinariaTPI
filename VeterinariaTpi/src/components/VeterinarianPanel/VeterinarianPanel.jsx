@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../Services/authContext/AuthContext";
 import { MaterialReactTable } from "material-react-table";
-import ConfirmDeleteModal from "../confirmDeleteModal/ConfirmDeleteModal";
+import ConfirmDeleteModal from "../Modals/ConfirmDeleteModal";
 import { Button } from "@mui/material";
 import {
   errorToast,
@@ -18,7 +18,6 @@ const VeterinarianPanel = () => {
   const [ enrollment, setEnrollment ] = useState(0)
 
   const handleConfirmCancel = (shift, enrollment) => {
-    console.log(shift, enrollment);
     
     setShiftToCancel(shift);
     setEnrollment(enrollment)
@@ -26,7 +25,6 @@ const VeterinarianPanel = () => {
   };
 
   const handleCancelShift = async () => {
-    debugger;
     fetch(`http://localhost:3000/shifts/${shiftToCancel}/${enrollment}`, {
       method: "PUT",
       headers: {
@@ -41,7 +39,6 @@ const VeterinarianPanel = () => {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
 
         setShowModal(false);
         setShiftToCancel(null);
@@ -70,7 +67,7 @@ const VeterinarianPanel = () => {
         const data = await res.json();
         setShifts(data.shiftList || []);
       } catch (err) {
-        console.error(err);
+    
         setError("No se pudieron cargar los turnos");
       } finally {
         setLoading(false);

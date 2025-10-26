@@ -3,7 +3,7 @@ import {
   useMaterialReactTable,
 } from "material-react-table";
 import { Box, Button, Typography } from "@mui/material";
-import ConfirmDeleteModal from "../confirmDeleteModal/ConfirmDeleteModal";
+import ConfirmDeleteModal from "../Modals/ConfirmDeleteModal";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../Services/authContext/AuthContext";
@@ -98,7 +98,6 @@ const UserTable = ({ data, setUsers }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setUsers([...data.allUsers]);
         setIdUserDelete(null);
       })

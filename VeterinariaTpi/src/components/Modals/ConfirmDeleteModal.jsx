@@ -8,16 +8,18 @@ const ConfirmDeleteModal = ({ show, onClose, onConfirm, petName }) => {
                 <Modal.Title>Confirmar eliminacion</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                {!petName ? <p> ¿Estás seguro que queres cancelar turno? </p> :    
                 <p>
                     ¿Estás seguro de que querés eliminar a {petName}?
-                </p>
+                </p>}
             </Modal.Body>
             <Modal.Footer>
                 <Button variant='secondary' onClick={onClose}>
                     Cancelar
                 </Button>
+                
                 <Button variant='danger' onClick={onConfirm}>
-                    Si, eliminar
+                    {!petName ? "Si, cancelar" : "Si, eliminar"}
                 </Button>
             </Modal.Footer>
         </Modal>

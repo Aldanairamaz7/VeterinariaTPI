@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
-import { successToast } from "../../components/shared/notifications/notifications";
+import { errorToast, successToast } from "../../components/shared/notifications/notifications";
 
 export const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState(null);
@@ -81,7 +81,7 @@ export const AuthContextProvider = ({ children }) => {
       }));
       successToast(message);
     } catch (err) {
-      console.log(err.message);
+      errorToast(message);
     }
   };
 
@@ -99,9 +99,8 @@ export const AuthContextProvider = ({ children }) => {
       const data = await res.json();
 
       setUser(data.user);
-      console.log(data.shift);
     } catch (err) {
-      console.log("Error al eliminar mascota", err.message);
+      errorToast(message);
     }
   };
 
