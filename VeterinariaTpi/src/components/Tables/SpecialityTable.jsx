@@ -29,7 +29,7 @@ const SpecialityTable = ({ data, setData }) => {
     setShowModal(!showModal);
   };
 
- const handleDeleteSpeciality = async () => {
+  const handleDeleteSpeciality = async () => {
     try {
       const res = await fetch(
         `http://localhost:3000/adminpanel/specialities/${specialityIdDelete}`,
@@ -55,6 +55,8 @@ const SpecialityTable = ({ data, setData }) => {
       setSpecialityIdDelete(0);
       successToast("Especialidad eliminada exitosamente");
     } catch (err) {
+      console.log(err); //al no usar err tira error, eliminar despues
+
       errorToast("Error al eliminar la especialidad");
     }
   };

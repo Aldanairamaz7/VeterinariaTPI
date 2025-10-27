@@ -26,28 +26,32 @@ const PetTable = ({ data, adminPanel = false }) => {
       header: "Edad",
     },
     {
-      accessorKey: "breed",
-      header: "Raza",
+      id: 'breedName',
+      header: 'Raza',
+      Cell: ({ row }) => {
+        const pet = row.original;
+        return <p> {pet.breedData.nameBreed}</p>
+      }
     },
     ...(adminPanel
       ? [
-          {
-            id: "user",
-            header: "Dueño",
-            Cell: ({ row }) => {
-              const pet = row.original;
-              return <p>{pet.user.firstName + " " + pet.user.lastName}</p>;
-            },
+        {
+          id: "user",
+          header: "Dueño",
+          Cell: ({ row }) => {
+            const pet = row.original;
+            return <p>{pet.user.firstName + " " + pet.user.lastName}</p>;
           },
-          {
-            id: "dni",
-            header: "Dni dueño",
-            Cell: ({ row }) => {
-              const pet = row.original;
-              return <p>{pet.user.dni}</p>;
-            },
+        },
+        {
+          id: "dni",
+          header: "Dni dueño",
+          Cell: ({ row }) => {
+            const pet = row.original;
+            return <p>{pet.user.dni}</p>;
           },
-        ]
+        },
+      ]
       : []),
 
     {
