@@ -99,7 +99,7 @@ const ShiftHistory = () => {
     },
     {
       accessorKey: "vetName",
-      header: "Veterianrio",
+      header: "Veterinario",
     },
     {
       header: "Estado",
