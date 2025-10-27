@@ -22,6 +22,8 @@ import AdminPetView from "./components/AdminPetView/AdminPetView";
 import ShiftHistory from "./components/ShiftHistory/ShiftHistory";
 import AdminSpeView from "./components/AdminSpeView/AdminSpeView";
 import EditSpeciality from "./components/EditSpeciality/EditSpeciality";
+import AdminBreedView from "./components/AdminBreedView/AdminBreedView";
+import AdminPetTypeView from "./components/AdminPetTypeView/AdminPetTypeView";
 
 function App() {
   return (
@@ -56,6 +58,14 @@ function App() {
               <Route
                 path="/editspeciality/:idSpe"
                 element={<EditSpeciality />}
+              />
+              <Route
+                path="/adminpanel/breed"
+                element={<AdminBreedView />}
+              />
+              <Route
+                path="/adminpanel/typePet"
+                element={<AdminPetTypeView />}
               />
             </Route>
             <Route path="/veterinarian/:userId/shifts" element={<VeterinarianPanel />} />
