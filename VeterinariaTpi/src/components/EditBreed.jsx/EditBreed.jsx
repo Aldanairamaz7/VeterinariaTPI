@@ -6,23 +6,20 @@ import {
   errorToast,
   successToast,
 } from "../shared/notifications/notifications";
-import {
-  validateEditOther,
-  validateOtherSpeciality,
-} from "../shared/validations";
+import { validateEditOther, validateOtherType } from "../shared/validations";
 
-const EditSpeciality = () => {
-  const { idSpe } = useParams();
+const EditBreed = () => {
+  const { idBreed } = useParams();
   const { token } = useAuth();
   const navigate = useNavigate();
-  const [speciality, setSpeciality] = useState({
-    idSpeciality: 0,
-    specialityName: "",
+  const [breed, setBreed] = useState({
+    idBreed: 0,
+    nameBreed: "",
+    idTypePet: 0,
   });
   const [errorState, setError] = useState("");
-
   useEffect(() => {
-    fetch(`http://localhost:3000/editspeciality/${idSpe}`, {
+    fetch(`http://localhost:3000/editbreed/${idBreed}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -31,9 +28,10 @@ const EditSpeciality = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setSpeciality({
-          idSpeciality: data.speciality.idSpeciality,
-          specialityName: data.speciality.specialityName,
+        setBreed({
+          idBreed: data.breed.idBreed,
+          nameBreed: data.breed.nameBreed,
+          idTypePet: data.breed.idTypePet,
         });
       })
       .catch((err) => {
@@ -42,7 +40,7 @@ const EditSpeciality = () => {
   }, []);
 
   const handleChangeInput = (e) => {
-    setSpeciality((prev) => ({ ...prev, specialityName: e.target.value }));
+    setBreed((prev) => ({ ...prev, nameBreed: e.target.value }));
   };
 
   const handleBackClick = () => {
@@ -51,16 +49,16 @@ const EditSpeciality = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const error = validateEditOther(speciality.specialityName);
+    const error = validateEditOther(breed.nameBreed);
     setError(error);
 
     if (error === "") {
-      fetch(`http://localhost:3000/editspeciality/${idSpe}`, {
+      fetch(`http://localhost:3000/editbreed/${idBreed}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ speciality }),
+        body: JSON.stringify({ breed }),
         method: "PUT",
       })
         .then(async (res) => {
@@ -86,11 +84,11 @@ const EditSpeciality = () => {
           <Form onSubmit={handleSubmit}>
             <Row className="mb-2">
               <Form.Group>
-                <Form.Label>Nombre de la especialidad:</Form.Label>
+                <Form.Label>Nombre de la raza:</Form.Label>
                 <Form.Control
-                  value={speciality.specialityName}
+                  value={breed.nameBreed}
                   type="text"
-                  placeholder="especialidad"
+                  placeholder="raza"
                   onChange={handleChangeInput}
                   isInvalid={!!errorState}
                 />
@@ -116,4 +114,4 @@ const EditSpeciality = () => {
   );
 };
 
-export default EditSpeciality;
+export default EditBreed;

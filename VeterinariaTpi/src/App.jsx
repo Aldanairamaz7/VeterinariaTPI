@@ -24,6 +24,8 @@ import AdminSpeView from "./components/AdminSpeView/AdminSpeView";
 import EditSpeciality from "./components/EditSpeciality/EditSpeciality";
 import AdminBreedView from "./components/AdminBreedView/AdminBreedView";
 import AdminPetTypeView from "./components/AdminPetTypeView/AdminPetTypeView";
+import EditTypePet from "./components/EditPetType/EditPetType";
+import EditBreed from "./components/EditBreed.jsx/EditBreed";
 
 function App() {
   return (
@@ -59,16 +61,18 @@ function App() {
                 path="/editspeciality/:idSpe"
                 element={<EditSpeciality />}
               />
-              <Route
-                path="/adminpanel/breed"
-                element={<AdminBreedView />}
-              />
+              <Route path="/adminpanel/breed" element={<AdminBreedView />} />
               <Route
                 path="/adminpanel/typePet"
                 element={<AdminPetTypeView />}
               />
+              <Route path="/edittype/:idType" element={<EditTypePet />} />
+              <Route path="/editbreed/:idBreed" element={<EditBreed />} />
             </Route>
-            <Route path="/veterinarian/:userId/shifts" element={<VeterinarianPanel />} />
+            <Route
+              path="/veterinarian/:userId/shifts"
+              element={<VeterinarianPanel />}
+            />
           </Route>
           <Route path="*" element={<ErrorNotFound />} />
           <Route path="/unauthorized" element={<ErrorForbidden />} />

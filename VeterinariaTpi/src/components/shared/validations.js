@@ -1,6 +1,7 @@
 const regexFirstName = /^[a-zA-ZÀ-ÿ\s]+$/;
 const regexLastName = /^[a-zA-ZÀ-ÿ\s]+$/;
 const regexDni = /^\d{7,8}$/;
+const regexOther = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
 export const regexNames = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
 export const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const regexPassword = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{7,20}$/;
@@ -78,13 +79,27 @@ export const validateImageURL = (value) => {
 export const validateOtherBreed = (value, valueSelect) => {
   if (valueSelect !== 0 && valueSelect !== -1) return "";
   if (!value) return "especifique la raza";
+  if (!regexOther.test(value))
+    return "La raza solo puede tener letras y espacios entre las palabras";
   return "";
 };
 export const validateOtherType = (value, valueSelect) => {
   if (valueSelect !== 0 && valueSelect !== -1) return "";
   if (!value) return "especifique su especie";
+  if (!regexOther.test(value))
+    return "La especie solo puede tener letras y espacios entre las palabras";
   return "";
 };
+
+export const validateEditOther = (value) => {
+  if (!value) return "";
+  if (!regexOther.test(value))
+    return "Este campo solo se permiten letras y espacios entre palabras";
+  if (value.length < 3 || value.length > 20)
+    return "Se permiten entre [3-20] caracteres";
+  return "";
+};
+
 export const validateDateShift = (value) => {
   if (!value) {
     return "Seleccione una fecha por favor";

@@ -40,12 +40,10 @@ const RequestShift = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.specialities);
-
         setSpecialities(data.specialities);
         setVeterinarians(data.veterinarians);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => errorToast("Error al obtener los turnos"));
   }, []);
 
   const handleSelectPet = (e) => {
@@ -263,6 +261,7 @@ const RequestShift = () => {
                       onChange={handleDescription}
                       value={description}
                       isInvalid={!!errors.description}
+                      maxLength={100}
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.description}
