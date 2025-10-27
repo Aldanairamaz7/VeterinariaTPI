@@ -50,7 +50,7 @@ const EditProfile = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+
 
         const hasEnrollment = !!data.user.veterinarian?.enrollment;
 
@@ -70,7 +70,6 @@ const EditProfile = () => {
         setSpecialitys(data.specialitys);
       })
       .catch((err) => {
-        console.log(err);
         navigate("/unauthorized");
       });
   }, []);
@@ -146,7 +145,6 @@ const EditProfile = () => {
     const hasErrors = Object.values(formErrors).some((err) => err !== "");
 
     if (hasErrors) {
-      console.log(formErrors);
 
       errorToast("Hay algunos campos incorrectos, revisalos.");
       return;
@@ -170,7 +168,6 @@ const EditProfile = () => {
         return res.json();
       })
       .then((data) => {
-        console.log("hola xd", data);
 
         if (data.user.id === user.id) {
           setUser(data.user);
@@ -179,7 +176,6 @@ const EditProfile = () => {
       })
       .catch((err) => {
         errorToast(err.message);
-        console.log(err);
       });
 
     navigate(-1);

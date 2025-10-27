@@ -5,7 +5,7 @@ import {
 import { Button } from "@mui/material";
 import { useAuth } from "../../Services/authContext/AuthContext";
 import { useEffect, useState } from "react";
-import ConfirmDeleteModal from "../confirmDeleteModal/ConfirmDeleteModal";
+import ConfirmDeleteModal from "../Modals/ConfirmDeleteModal";
 import {
   errorToast,
   successToast,
@@ -35,7 +35,6 @@ const ShiftHistory = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("Datos recibidos:", data);
         if (Array.isArray(data)) {
           setShift(data);
         } else {
@@ -62,7 +61,6 @@ const ShiftHistory = () => {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
 
         setShift(data.formatedShift);
         setShowModal(false);

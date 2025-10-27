@@ -14,7 +14,7 @@ import {
   errorToast,
   successToast,
 } from "../shared/notifications/notifications.js";
-import ConfirmDeleteModal from "../confirmDeleteModal/ConfirmDeleteModal.jsx";
+import ConfirmDeleteModal from "../Modals/ConfirmDeleteModal.jsx";
 import { useAuth } from "../../Services/authContext/AuthContext.jsx";
 import { useAdmin } from "../../Services/adminContext/AdminContext.jsx";
 
@@ -118,7 +118,6 @@ const EditPet = () => {
       setShowDeleteModal(false);
       navigate(-1);
     } catch (err) {
-      console.log(err);
       errorToast("No se pudo eliminar la mascota");
     }
   };
@@ -129,7 +128,6 @@ const EditPet = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(pet);
 
     const formErrors = {
       petName: validateAddPetName(pet.petName),
@@ -166,12 +164,10 @@ const EditPet = () => {
       })
       .then((data) => {
         setUser(data.user);
-        console.log(data);
         successToast(data.message);
         navigate(-1);
       })
       .catch((err) => {
-        console.log(err);
         errorToast(err);
       });
   };
@@ -340,7 +336,7 @@ const EditPet = () => {
         show={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
         onConfirm={handleDeletePet}
-        petName={petName}
+        petName={pet.petName}
       />
     </div>
   );

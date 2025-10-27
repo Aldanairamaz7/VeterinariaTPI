@@ -1,6 +1,5 @@
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
 import { Button } from "react-bootstrap";
 import { useAuth } from "../../Services/authContext/AuthContext";
 import { useNavigate } from "react-router";

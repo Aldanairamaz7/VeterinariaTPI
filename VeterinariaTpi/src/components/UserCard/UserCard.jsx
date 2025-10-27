@@ -1,5 +1,5 @@
 import { Button, Card } from "react-bootstrap";
-import ConfirmDeleteModal from "../confirmDeleteModal/ConfirmDeleteModal";
+import ConfirmDeleteModal from "../Modals/ConfirmDeleteModal";
 import { useState } from "react";
 import { useAuth } from "../../Services/authContext/AuthContext";
 import "../UserCard/UserCard.css";
