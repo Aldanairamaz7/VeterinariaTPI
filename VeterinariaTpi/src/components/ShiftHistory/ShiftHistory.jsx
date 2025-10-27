@@ -11,14 +11,15 @@ import {
   successToast,
 } from "../shared/notifications/notifications";
 import { MRT_Localization_ES } from "material-react-table/locales/es";
-
+import { useNavigate } from "react-router";
+import { red } from "@mui/material/colors";
 const ShiftHistory = () => {
   const { user, token } = useAuth();
   const [shift, setShift] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [shiftToCancel, setShiftToCancel] = useState(null);
   const [action, setAction] = useState("");
-
+  const navigate = useNavigate();
   const handleConfirmCancel = (shift) => {
     setShiftToCancel(shift);
     setShowModal(!showModal);
@@ -70,6 +71,10 @@ const ShiftHistory = () => {
       .catch((err) => {
         errorToast(err);
       });
+  };
+
+  const handleBackClick = () => {
+    navigate(-1);
   };
 
   const columns = [
@@ -154,15 +159,24 @@ const ShiftHistory = () => {
   });
 
   return (
-    <div className="m-3">
-      <h3>Historial de Turnos</h3>
-      <MaterialReactTable table={table} />
-      <ConfirmDeleteModal
-        show={showModal}
-        onClose={handleConfirmCancel}
-        onConfirm={handleDeleteShift}
-        petName={shiftToCancel?.petName}
-      />
+    <div>
+        
+      <div className="m-3">
+        <Button variant="contained" onClick={handleBackClick} className="m-2"
+        sx={{
+           background: "#535353ff"
+        }}>
+          Regresar
+        </Button>
+        <h3>Historial de Turnos</h3>
+        <MaterialReactTable table={table} />
+        <ConfirmDeleteModal
+          show={showModal}
+          onClose={handleConfirmCancel}
+          onConfirm={handleDeleteShift}
+          petName={shiftToCancel?.petName}
+        />
+      </div>
     </div>
   );
 };
