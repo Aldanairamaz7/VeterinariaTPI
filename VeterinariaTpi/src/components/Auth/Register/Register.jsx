@@ -243,7 +243,13 @@ const Register = () => {
                   <p>
                     {errors.passwordError === 2 && (
                       <span className="text-danger">
-                        -Su contraseña no es valida
+                        -Su contraseña debe tener entre [7-20] caracteres
+                      </span>
+                    )}
+                    {errors.passwordError === 3 && (
+                      <span className="text-danger">
+                        -Su contraseña debe contener una mayuscula, una
+                        minuscula y un numero
                       </span>
                     )}
                   </p>

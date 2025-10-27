@@ -60,6 +60,11 @@ export const AddPets = () => {
   const handleTypePetsSelect = (e) => {
     const value = Number(e.target.value);
     setTypePetSelect(value);
+    if (value !== 0) {
+      setOtherType("");
+      setBreedSelect(-1);
+      setOtherBreed("");
+    }
   };
   const handleOtherType = (e) => {
     const value = e.target.value;
@@ -68,6 +73,9 @@ export const AddPets = () => {
   const handleBreed = (e) => {
     const value = Number(e.target.value);
     setBreedSelect(value);
+    if (value !== 0) {
+      setOtherBreed("");
+    }
   };
   const handleOtherBreed = (e) => {
     const value = e.target.value;
@@ -189,13 +197,13 @@ export const AddPets = () => {
                     <Form.Label> Especifique la especie:</Form.Label>
                     <Form.Control
                       type="text"
-                      aria-label="especifique la especie"
+                      placeholder="especifique la especie"
                       onChange={handleOtherType}
                       value={otherType}
                       isInvalid={!!errors.otherType}
                     ></Form.Control>
                     <Form.Control.Feedback type="invalid">
-                      {errors.petName}
+                      {errors.otherType}
                     </Form.Control.Feedback>
                   </Form.Group>
                 )}
@@ -228,7 +236,7 @@ export const AddPets = () => {
                     <Form.Label> Especifique la raza:</Form.Label>
                     <Form.Control
                       type="text"
-                      aria-label="especifique la raza"
+                      placeholder="especifique la raza"
                       onChange={handleOtherBreed}
                       value={otherBreed}
                       isInvalid={!!errors.otherBreed}

@@ -98,6 +98,10 @@ const ShiftHistory = () => {
       header: "Descripción",
     },
     {
+      accessorKey: "vetName",
+      header: "Veterianrio",
+    },
+    {
       header: "Estado",
       accessorKey: "state",
       Cell: ({ cell }) => {
