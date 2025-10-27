@@ -15,7 +15,7 @@ import {
 import { useAuth } from "../../Services/authContext/AuthContext";
 
 const RequestShift = () => {
-  const [typeRequest, setTypeRequest] = useState("");
+  const [typeRequest, setTypeRequest] = useState(-1);
   const [dateShift, setDateShift] = useState("");
   const [description, setDescription] = useState("");
   const [selectPet, setSelectPet] = useState(0);
@@ -40,6 +40,8 @@ const RequestShift = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data.veterinarians);
+
         setSpecialities(data.specialities);
         setVeterinarians(data.veterinarians);
       })
@@ -59,7 +61,7 @@ const RequestShift = () => {
   };
 
   const handleTypeRequest = (e) => {
-    const value = e.target.value;
+    const value = Number(e.target.value);
     setTypeRequest(value);
     setErrors({ ...errors, typeRequest: validateTypeConsult(value) });
   };
@@ -101,6 +103,7 @@ const RequestShift = () => {
     try {
       const selectedPet = pets.find((pet) => pet.name === selectPet);
       const petId = selectedPet ? selectedPet.id : null;
+      const type = specialities.find((el) => el.idSpeciality === typeRequest);
 
       const response = await fetch("http://localhost:3000/shift", {
         headers: {
@@ -111,7 +114,7 @@ const RequestShift = () => {
         body: JSON.stringify({
           userId: user.id,
           dateTime: dateShift,
-          typeConsult: typeRequest,
+          typeConsult: type.specialityName,
           petId: selectPet,
           description: description,
           enrollment: selectVet,
@@ -189,7 +192,7 @@ const RequestShift = () => {
                         return (
                           <option
                             key={spe.idSpeciality}
-                            value={spe.specialityName}
+                            value={spe.idSpeciality}
                           >
                             {spe.specialityName}
                           </option>
@@ -212,17 +215,23 @@ const RequestShift = () => {
                         <option key={0} value={0}>
                           Seleccionar el veterinario
                         </option>
-                        {veterinarians.map((vet) => {
-                          return (
-                            <option
-                              key={vet.veterinarian.enrollment}
-                              value={vet.veterinarian.enrollment}
-                            >
-                              {vet.veterinarian?.enrollment || "sin matricula"}{" "}
-                              - {vet.firstName} {vet.lastName}
-                            </option>
-                          );
-                        })}
+                        {veterinarians
+                          .filter(
+                            (vet) =>
+                              vet.veterinarian.idSpeciality === typeRequest
+                          )
+                          .map((vet) => {
+                            return (
+                              <option
+                                key={vet.veterinarian.enrollment}
+                                value={vet.veterinarian.enrollment}
+                              >
+                                {vet.veterinarian?.enrollment ||
+                                  "sin matricula"}{" "}
+                                - {vet.firstName} {vet.lastName}
+                              </option>
+                            );
+                          })}
                       </Form.Select>
                       <Form.Control.Feedback type="invalid">
                         {errors.selectVeterinarian}

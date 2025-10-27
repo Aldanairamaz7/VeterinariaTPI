@@ -15,12 +15,11 @@ const VeterinarianPanel = () => {
   const { token, user } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [shiftToCancel, setShiftToCancel] = useState(0);
-  const [ enrollment, setEnrollment ] = useState(0)
+  const [enrollment, setEnrollment] = useState(0);
 
   const handleConfirmCancel = (shift, enrollment) => {
-    
     setShiftToCancel(shift);
-    setEnrollment(enrollment)
+    setEnrollment(enrollment);
     setShowModal(true);
   };
 
@@ -39,7 +38,7 @@ const VeterinarianPanel = () => {
         return res.json();
       })
       .then((data) => {
-
+        setShifts(data.formatedShift);
         setShowModal(false);
         setShiftToCancel(null);
         successToast("Turno cancelado exitosamente");
@@ -66,8 +65,8 @@ const VeterinarianPanel = () => {
         if (!res.ok) throw new Error("Error al obtener los turnos");
         const data = await res.json();
         setShifts(data.shiftList || []);
+        setEnrollment(data.veterinarian.enrollment);
       } catch (err) {
-    
         setError("No se pudieron cargar los turnos");
       } finally {
         setLoading(false);
@@ -78,12 +77,12 @@ const VeterinarianPanel = () => {
   }, [token, user.id]);
 
   const columns = [
-        {
+    {
       accessorKey: "dateTime",
       header: "Fecha",
       Cell: ({ cell }) => {
         const [year, month, day] = cell.getValue().split("-");
-        return `${day}/${month}/${year}`
+        return `${day}/${month}/${year}`;
       },
     },
     {
@@ -138,16 +137,33 @@ const VeterinarianPanel = () => {
         }
 
         return (
-          <Button
-            variant="outlined"
-            color="error"
-            onClick={() => {
-              handleConfirmCancel(shift.id, shift.enrollment);
-              handleCancelShift()
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "0.5rem",
             }}
           >
-            Cancelar Turno
-          </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={() => {
+                handleConfirmCancel(shift.id, shift.enrollment);
+              }}
+            >
+              Cancelar Turno
+            </Button>
+            <Button
+              variant="outlined"
+              color="success"
+              onClick={() => {
+                handleConfirmCancel(shift.id, shift.enrollment);
+                handleCancelShift();
+              }}
+            >
+              Finalizar Turno
+            </Button>
+          </Box>
         );
       },
     },
@@ -176,7 +192,9 @@ const VeterinarianPanel = () => {
       )}
       <ConfirmDeleteModal
         show={showModal}
-        onClose={handleConfirmCancel}
+        onClose={() => {
+          setShowModal(false);
+        }}
         onConfirm={handleCancelShift}
         petName={shiftToCancel?.petName}
       />

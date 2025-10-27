@@ -140,7 +140,7 @@ export const validateSpeciality = (value, idRole) => {
   return "";
 };
 export const validateSelectPet = (value) => {
-  if (!value.trim()) {
+  if (!value) {
     return "Este campo es obligatorio";
   }
   return "";
