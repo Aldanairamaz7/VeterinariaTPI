@@ -40,7 +40,7 @@ const RequestShift = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.veterinarians);
+        console.log(data.specialities);
 
         setSpecialities(data.specialities);
         setVeterinarians(data.veterinarians);
@@ -218,7 +218,8 @@ const RequestShift = () => {
                         {veterinarians
                           .filter(
                             (vet) =>
-                              vet.veterinarian.idSpeciality === typeRequest
+                              vet.veterinarian.idSpeciality === typeRequest &&
+                              vet.isActive
                           )
                           .map((vet) => {
                             return (

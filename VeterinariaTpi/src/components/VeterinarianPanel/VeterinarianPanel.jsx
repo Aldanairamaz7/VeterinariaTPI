@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../Services/authContext/AuthContext";
 import { MaterialReactTable } from "material-react-table";
 import ConfirmDeleteModal from "../Modals/ConfirmDeleteModal";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import {
   errorToast,
   successToast,
 } from "../shared/notifications/notifications";
+import FinishShiftModal from "../Modals/FinishShiftModal";
+import { MRT_Localization_ES } from "material-react-table/locales/es";
 
 const VeterinarianPanel = () => {
   const [shifts, setShifts] = useState([]);
@@ -14,34 +16,42 @@ const VeterinarianPanel = () => {
   const [error, setError] = useState("");
   const { token, user } = useAuth();
   const [showModal, setShowModal] = useState(false);
+  const [showFinishModal, setShowFinishModal] = useState(false);
   const [shiftToCancel, setShiftToCancel] = useState(0);
   const [enrollment, setEnrollment] = useState(0);
+  const [action, setAction] = useState("");
 
-  const handleConfirmCancel = (shift, enrollment) => {
+  const handleConfirmCancel = (shift, enrollment, act, setter) => {
     setShiftToCancel(shift);
     setEnrollment(enrollment);
-    setShowModal(true);
+    setter(true);
+    setAction(act);
   };
 
   const handleCancelShift = async () => {
     fetch(`http://localhost:3000/shifts/${shiftToCancel}/${enrollment}`, {
       method: "PUT",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify({ action }),
     })
       .then((res) => {
         if (!res.ok) {
-          throw new Error("No se pudo cancelar el turno");
+          throw new Error(`No se pudo ${action} el turno`);
         }
 
         return res.json();
       })
       .then((data) => {
+        console.log(data.formatedShift);
+
         setShifts(data.formatedShift);
         setShowModal(false);
+        setShowFinishModal(false);
         setShiftToCancel(null);
-        successToast("Turno cancelado exitosamente");
+        successToast(`Turno ${action} exitosamente`);
       })
       .catch((err) => {
         errorToast(err);
@@ -114,8 +124,8 @@ const VeterinarianPanel = () => {
         const color =
           value === "Pendiente"
             ? "orange"
-            : value === "Completado"
-            ? "green"
+            : value === "Atendido"
+            ? "#81C784"
             : value === "Cancelado"
             ? "red"
             : "grey";
@@ -148,7 +158,12 @@ const VeterinarianPanel = () => {
               variant="outlined"
               color="error"
               onClick={() => {
-                handleConfirmCancel(shift.id, shift.enrollment);
+                handleConfirmCancel(
+                  shift.id,
+                  enrollment,
+                  "Cancelado",
+                  setShowModal
+                );
               }}
             >
               Cancelar Turno
@@ -157,8 +172,12 @@ const VeterinarianPanel = () => {
               variant="outlined"
               color="success"
               onClick={() => {
-                handleConfirmCancel(shift.id, shift.enrollment);
-                handleCancelShift();
+                handleConfirmCancel(
+                  shift.id,
+                  enrollment,
+                  "Atendido",
+                  setShowFinishModal
+                );
               }}
             >
               Finalizar Turno
@@ -184,19 +203,26 @@ const VeterinarianPanel = () => {
           data={shifts}
           enableSorting
           enablePagination
+          localization={MRT_Localization_ES}
           state={{ isLoading: loading }}
           muiTablePaperProps={{
             sx: { p: 2, boxShadow: 2, borderRadius: "10px" },
           }}
         />
       )}
+      <FinishShiftModal
+        show={showFinishModal}
+        onClose={() => {
+          setShowFinishModal(false);
+        }}
+        onConfirm={handleCancelShift}
+      />
       <ConfirmDeleteModal
         show={showModal}
         onClose={() => {
           setShowModal(false);
         }}
         onConfirm={handleCancelShift}
-        petName={shiftToCancel?.petName}
       />
     </div>
   );

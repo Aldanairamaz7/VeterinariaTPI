@@ -17,7 +17,7 @@ const ShiftHistory = () => {
   const [shift, setShift] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [shiftToCancel, setShiftToCancel] = useState(null);
-
+  const [action, setAction] = useState("");
 
   const handleConfirmCancel = (shift) => {
     setShiftToCancel(shift);
@@ -50,8 +50,10 @@ const ShiftHistory = () => {
     fetch(`http://localhost:3000/shifts/${shiftToCancel.id}/${user.id}`, {
       method: "PUT",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify({ action }),
     })
       .then((res) => {
         if (!res.ok) {
@@ -61,7 +63,6 @@ const ShiftHistory = () => {
         return res.json();
       })
       .then((data) => {
-
         setShift(data.formatedShift);
         setShowModal(false);
         successToast("Turno cancelado exitosamente");
@@ -85,7 +86,7 @@ const ShiftHistory = () => {
       header: "Fecha",
       Cell: ({ cell }) => {
         const [year, month, day] = cell.getValue().split("-");
-        return `${day}/${month}/${year}`
+        return `${day}/${month}/${year}`;
       },
     },
     {
@@ -104,8 +105,8 @@ const ShiftHistory = () => {
         const color =
           value === "Pendiente"
             ? "orange"
-            : value === "Completado"
-            ? "green"
+            : value === "Atendido"
+            ? "#81C784"
             : value === "Cancelado"
             ? "red"
             : "grey";
@@ -128,6 +129,7 @@ const ShiftHistory = () => {
             color="error"
             onClick={() => {
               handleConfirmCancel(shift);
+              setAction("Cancelado");
             }}
           >
             Cancelar Turno
